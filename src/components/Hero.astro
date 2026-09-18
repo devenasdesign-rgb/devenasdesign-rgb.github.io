@@ -189,6 +189,7 @@ const { hero, lang } = Astro.props;
   }
 
   .hero__avatar {
+    visibility: hidden;
     position: absolute;
     /* left/top are computed in JS to center this on the wordmark's "A" */
     top: 0;
@@ -552,6 +553,7 @@ const { hero, lang } = Astro.props;
     const top = centerY - cardH / 2 - cardH * 0.06;
     avatar.style.left = `${Math.min(Math.max(left, overhangX), pinRect.width - cardW - overhangX)}px`;
     avatar.style.top = `${Math.max(top, overhangY)}px`;
+    avatar.style.visibility = 'visible';
   };
 
   if (wordmark && wordmarkRow) {
@@ -571,8 +573,9 @@ const { hero, lang } = Astro.props;
       positionAvatar();
     };
 
-    fit();
-    document.fonts?.ready.then(fit).catch(() => {});
+    // CSS already sets the final size; refine only once the real font is ready (no double jump).
+    if (document.fonts?.ready) document.fonts.ready.then(fit).catch(fit);
+    else fit();
 
     let resizeTimer = 0;
     window.addEventListener('resize', () => {
