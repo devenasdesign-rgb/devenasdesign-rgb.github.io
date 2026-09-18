@@ -33,6 +33,7 @@ const taskCopy = ru ? {
     <p class="brief__alternative"><a href={contacts.telegram} target="_blank" rel="noopener noreferrer">{ru ? 'Можно без брифа — напишите мне в Telegram ↗' : 'Prefer a quick chat? Message me on Telegram ↗'}</a></p>
     <div class="brief__tabs mono" data-brief-tabs>{text.tabs.map((tab, index) => <span class:list={{ 'is-active': index === 0 }}>{tab}</span>)}</div>
     <form data-brief-form novalidate>
+      <input class="brief__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <section class="brief__step is-active" data-brief-step>
         <label class="mono">{text.service}<select name="service" required><option value="">{text.serviceHint}</option>{text.services.map((service) => <option>{service}</option>)}</select></label>
         <label class="mono">{text.niche}<select name="niche" required><option value="">{text.nicheHint}</option>{text.niches.map((niche) => <option>{niche}</option>)}</select></label>
@@ -48,7 +49,7 @@ const taskCopy = ru ? {
         <label class="mono">{text.name}<input required name="name" autocomplete="name" maxlength="100" placeholder={text.nameHint} /></label>
         <label class="mono">{text.contact}<input required name="contact" maxlength="150" placeholder={text.contactHint} /></label>
         <label class="mono">{text.task}<textarea name="task" maxlength="1200" placeholder={text.taskHint}></textarea></label>
-        <p class="brief__note">{ru ? 'Следующий шаг — проверить сообщение и отправить его мне в Telegram. До этого ответы остаются только на этой странице.' : 'Next, review your message and send it to me on Telegram. Until then, your answers stay on this page only.'}</p>
+        <p class="brief__note" data-note-live>{ru ? 'Следующий шаг — проверить сообщение и отправить его мне в Telegram. До этого ответы остаются только на этой странице.' : 'Next, review your message and send it to me on Telegram. Until then, your answers stay on this page only.'}</p>
       </section>
       <div class="brief__controls"><button type="button" class="brief__back mono" data-brief-prev hidden>{text.prev}</button><span class="mono" data-brief-progress aria-live="polite">01 / 03</span><button type="button" class="btn btn-primary hard-shadow-lime" data-brief-next>{text.next}</button><button type="submit" class="btn btn-primary hard-shadow-lime" data-brief-send hidden>{ru ? 'Проверить бриф →' : 'Review brief →'}</button></div>
     </form>
@@ -58,11 +59,13 @@ const taskCopy = ru ? {
       <h2 id="task-brief-title">{taskCopy.title.split('\n').map((line) => <>{line}<br /></>)}</h2>
       <p>{taskCopy.intro}</p>
       <form data-task-form>
+      <input class="brief__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <label class="mono">{taskCopy.type}<select name="service" required><option value="">{taskCopy.typeHint}</option>{taskCopy.types.map((type) => <option>{type}</option>)}</select></label>
         <label class="mono">{taskCopy.comment}<textarea name="task" required maxlength="1200" placeholder={taskCopy.commentHint}></textarea></label>
         <label class="mono">{taskCopy.contact}<input name="contact" required maxlength="150" placeholder={taskCopy.contactHint} /></label>
-        <p class="brief__note">{ru ? 'Соберём сообщение, которое вы сможете отправить мне в Telegram.' : 'We’ll prepare a message for you to send to me on Telegram.'}</p>
-        <div class="brief__task-actions"><button type="submit" class="btn btn-primary hard-shadow-lime">{ru ? 'Проверить запрос →' : 'Review request →'}</button><a class="brief__alternative" href={contacts.telegram} target="_blank" rel="noopener noreferrer">{taskCopy.telegram}</a></div>
+        <p class="brief__note" data-note-live>{ru ? 'Соберём сообщение, которое вы сможете отправить мне в Telegram.' : 'We’ll prepare a message for you to send to me on Telegram.'}</p>
+        <p class="brief__note brief__error" data-brief-error role="alert" hidden></p>
+        <div class="brief__task-actions"><button type="submit" class="btn btn-primary hard-shadow-lime" data-task-send>{ru ? 'Проверить запрос →' : 'Review request →'}</button><a class="brief__alternative" href={contacts.telegram} target="_blank" rel="noopener noreferrer">{taskCopy.telegram}</a></div>
       </form>
     </div>
     <section class="brief__handoff" data-brief-handoff hidden aria-labelledby="handoff-title">
@@ -74,6 +77,17 @@ const taskCopy = ru ? {
       <p class="brief__note">{ru ? 'Если текст не появился в чате, скопируйте его и вставьте вручную.' : 'If the draft does not appear in the chat, copy it and paste it manually.'}</p>
       <div class="brief__secondary"><button type="button" class="mono" data-brief-copy>{ru ? 'Скопировать текст' : 'Copy message'}</button><button type="button" class="mono" data-brief-edit>{ru ? '← Изменить ответы' : '← Edit answers'}</button></div>
       <p class="brief__note" data-copy-status role="status"></p>
+    </section>
+    <section class="brief__done" data-brief-done hidden aria-labelledby="done-title">
+      <span class="mono brief__label">{ru ? '✓ ПОЛУЧИЛА' : '✓ RECEIVED'}</span>
+      <h2 id="done-title" tabindex="-1">{ru ? 'Бриф у меня!' : 'Got your brief!'}</h2>
+      <p>{ru ? 'Изучу задачу и пришлю расчёт в течение дня.' : 'I’ll review your task and send a quote within a day.'}</p>
+      <dl class="brief__next mono">
+        <div><dt>{ru ? 'ЧТО ДАЛЬШЕ' : 'WHAT’S NEXT'}</dt><dd>{ru ? 'Расчёт и варианты — в выбранный мессенджер' : 'A quote and options, in your chosen messenger'}</dd></div>
+        <div><dt>{ru ? 'КОГДА' : 'WHEN'}</dt><dd>{ru ? 'В будни с 08:00 до 19:00' : 'Weekdays, 08:00–19:00'}</dd></div>
+        <div><dt>{ru ? 'СРОЧНО?' : 'URGENT?'}</dt><dd><a href={contacts.telegram} target="_blank" rel="noopener noreferrer">{ru ? 'Напишите в Telegram ↗' : 'Message me on Telegram ↗'}</a></dd></div>
+      </dl>
+      <button type="button" class="btn btn-primary hard-shadow-lime" data-close-brief>{ru ? '← ВЕРНУТЬСЯ НА САЙТ' : '← BACK TO THE SITE'}</button>
     </section>
   </div>
 </dialog>
@@ -123,10 +137,15 @@ const taskCopy = ru ? {
     .brief__step { gap: 10px; }
     .brief input, .brief textarea, .brief select { padding: 6px 0; }
   }
+
+  .brief__hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+  .brief__error{color:var(--tomato)!important}
+  .brief__done{display:flex;flex-direction:column;gap:20px}.brief__done h2{margin:0}.brief__done>.btn{align-self:flex-start}
+  .brief__next{margin:8px 0;border-top:1px solid var(--line)}.brief__next div{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px}.brief__next dt{color:var(--muted)}.brief__next dd{margin:0;text-align:right;max-width:26ch}.brief__next a{color:var(--lime)}
 </style>
 
 <script>
-  import { contacts } from '../data/proof';
+  import { contacts, briefApi } from '../data/proof';
   const modal = document.querySelector<HTMLDialogElement>('[data-brief-modal]');
   const siteBrief = modal?.querySelector<HTMLElement>('[data-site-brief]');
   const taskBrief = modal?.querySelector<HTMLElement>('[data-task-brief]');
@@ -139,6 +158,7 @@ const taskCopy = ru ? {
   const progress = modal?.querySelector<HTMLElement>('[data-brief-progress]');
   const taskForm = modal?.querySelector<HTMLFormElement>('[data-task-form]');
   const handoff = modal?.querySelector<HTMLElement>('[data-brief-handoff]');
+  const done = modal?.querySelector<HTMLElement>('[data-brief-done]');
   const messageField = modal?.querySelector<HTMLTextAreaElement>('[data-brief-message]');
   const telegramLink = modal?.querySelector<HTMLAnchorElement>('[data-brief-telegram]');
   const copyStatus = modal?.querySelector<HTMLElement>('[data-copy-status]');
@@ -170,7 +190,7 @@ const taskCopy = ru ? {
   const open = (button: HTMLElement, kind: 'site' | 'task') => {
     if (!modal || !siteBrief || !taskBrief || !handoff) return;
     mode = kind; trigger = button;
-    siteBrief.hidden = kind !== 'site'; taskBrief.hidden = kind !== 'task'; handoff.hidden = true;
+    siteBrief.hidden = kind !== 'site'; taskBrief.hidden = kind !== 'task'; handoff.hidden = true; if (done) done.hidden = true;
     modal.setAttribute('aria-labelledby', kind === 'site' ? 'brief-title' : 'task-brief-title');
     if (kind === 'site') {
       caseName = button.dataset.case ?? '';
@@ -198,7 +218,7 @@ const taskCopy = ru ? {
   previous?.addEventListener('click', () => showStep(Math.max(currentStep - 1, 0), true));
   const prepareMessage = (source: HTMLFormElement) => {
     if (!handoff || !siteBrief || !taskBrief || !messageField || !telegramLink) return;
-    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]'));
+    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')).filter((field) => field.name !== 'website');
     const lines = fields.filter((field) => field.value.trim()).map((field) => {
       const label = field.closest('label')?.firstChild?.textContent?.replace(/\s*\*$/, '').trim() ?? field.name;
       return `${label}: ${field.value.trim()}`;
@@ -214,14 +234,59 @@ const taskCopy = ru ? {
     modal?.scrollTo({ top: 0 });
     modal?.querySelector<HTMLElement>('#handoff-title')?.focus();
   };
+  const errorLines = modal ? Array.from(modal.querySelectorAll<HTMLElement>('[data-brief-error]')) : [];
+  const setError = (message = '') => errorLines.forEach((line) => { line.textContent = message; line.hidden = !message; });
+  const showDone = () => {
+    if (!done || !siteBrief || !taskBrief || !handoff) return;
+    siteBrief.hidden = true; taskBrief.hidden = true; handoff.hidden = true; done.hidden = false;
+    form?.reset(); taskForm?.reset(); showStep(0);
+    modal?.setAttribute('aria-labelledby', 'done-title');
+    modal?.scrollTo({ top: 0 });
+    modal?.querySelector<HTMLElement>('#done-title')?.focus();
+  };
+  // With briefApi set, the brief goes straight to Telegram through the serverless function;
+  // if that fails (or briefApi is empty) we fall back to the prepared Telegram message.
+  const deliver = async (source: HTMLFormElement, button: HTMLButtonElement | null) => {
+    if (!briefApi) { prepareMessage(source); return; }
+    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]'))
+      .filter((field) => field.name !== 'website' && field.value.trim())
+      .map((field) => ({ label: field.closest('label')?.firstChild?.textContent?.replace(/\s*\*$/, '').trim() ?? field.name, value: field.value.trim() }));
+    const honeypot = (source.elements.namedItem('website') as HTMLInputElement | null)?.value ?? '';
+    const originalLabel = button?.textContent ?? '';
+    setError();
+    if (button) { button.disabled = true; button.textContent = ru ? 'Отправляю…' : 'Sending…'; }
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 15000);
+    let ok = false;
+    try {
+      const response = await fetch(briefApi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind: mode, lang: ru ? 'ru' : 'en', source: caseName, fields, website: honeypot }),
+        signal: controller.signal,
+      });
+      ok = response.ok && (await response.json()).ok === true;
+    } catch { ok = false; }
+    window.clearTimeout(timer);
+    if (button) { button.disabled = false; button.textContent = originalLabel; }
+    if (ok) { showDone(); return; }
+    prepareMessage(source);
+    if (copyStatus) copyStatus.textContent = ru ? 'Не удалось отправить автоматически. Отправьте это сообщение мне в Telegram — так заявка точно дойдёт.' : 'Automatic sending failed. Please send this message to me on Telegram so your request reaches me.';
+  };
+  if (briefApi) {
+    if (send) send.textContent = ru ? 'Отправить бриф →' : 'Send brief →';
+    const taskSend = modal?.querySelector<HTMLButtonElement>('[data-task-send]');
+    if (taskSend) taskSend.textContent = ru ? 'Отправить запрос →' : 'Send request →';
+    modal?.querySelectorAll<HTMLElement>('[data-note-live]').forEach((note) => { note.textContent = ru ? 'Нажмите «Отправить» — заявка сразу придёт мне в Telegram.' : 'Press “Send” and your request goes straight to my Telegram.'; });
+  }
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (currentStep < steps.length - 1) { if (validStep()) showStep(currentStep + 1, true); return; }
     const invalidIndex = steps.findIndex((step) => step.querySelector(':invalid'));
     if (invalidIndex >= 0) { showStep(invalidIndex); validStep(); return; }
-    prepareMessage(form);
+    deliver(form, send ?? null);
   });
-  taskForm?.addEventListener('submit', (event) => { event.preventDefault(); if (taskForm.reportValidity()) prepareMessage(taskForm); });
+  taskForm?.addEventListener('submit', (event) => { event.preventDefault(); if (taskForm.reportValidity()) deliver(taskForm, taskForm.querySelector<HTMLButtonElement>('[data-task-send]')); });
   modal?.querySelector('[data-brief-edit]')?.addEventListener('click', () => {
     if (!siteBrief || !taskBrief || !handoff) return;
     handoff.hidden = true; siteBrief.hidden = mode !== 'site'; taskBrief.hidden = mode !== 'task';

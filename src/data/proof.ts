@@ -1,5 +1,8 @@
 // Project facts and approved quotations from DEVENAS_BRIEF_1.md.
 // Keep concepts separate from published client work; no performance claims are inferred.
+// Адрес функции приёма брифа (Vercel). Пока пусто — форма работает через «Открыть Telegram».
+export const briefApi = '';
+
 export const contacts = {
   telegram: 'https://t.me/devenas',
   vk: 'https://vk.com/devenas.design',
