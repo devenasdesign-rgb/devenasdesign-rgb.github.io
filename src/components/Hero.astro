@@ -1,0 +1,574 @@
+---
+import type { Locale } from '../lib/i18n';
+import ProjectImage from './ProjectImage.astro';
+
+interface Props {
+  lang: Locale;
+  hero: {
+    wordmark: string;
+    caption: string;
+    avatarSticker: string;
+    slogan: { line1: string; line2: string; line3: string };
+    primaryButton: string;
+    secondaryButton: string;
+    subheading: string;
+    stats: { value: string; label: string }[];
+    featured: { label: string; index: string; name: string; meta: string };
+    marquee: string;
+    buildStages: string[];
+  };
+}
+
+const { hero, lang } = Astro.props;
+---
+
+<section class="hero" data-hero data-stage="3">
+  <div class="hero__pin" data-hero-pin data-stages={JSON.stringify(hero.buildStages)}>
+    <div class="hero__gridlines" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+
+    <p class="hero__stage-label mono" data-build-label>{hero.buildStages[3]}</p>
+
+    <div class="hero__wordmark-row">
+      <h1 class="hero__wordmark" data-wordmark>
+        {
+          hero.wordmark.toUpperCase() === 'DEVENAS' ? (
+            <>
+              {'DEVEN'}
+              <span data-letter-a>A</span>
+              {'S'}
+            </>
+          ) : (
+            hero.wordmark
+          )
+        }
+      </h1>
+      <p class="hero__caption mono">{hero.caption}</p>
+    </div>
+
+    <div class="hero__avatar mono" data-avatar>
+      <img class="hero__avatar-box" src="/assets/avatar.jpg" alt="" aria-hidden="true" />
+      <span>{hero.avatarSticker}</span>
+    </div>
+
+    <div class="hero__columns">
+      <div class="hero__col hero__col--01">
+        <span class="mono hero__col-index">(01)</span>
+        <p class="hero__slogan">
+          {hero.slogan.line1}<br />
+          <span class="hero__marker" data-marker>{hero.slogan.line2}</span><br />
+          {hero.slogan.line3}
+        </p>
+        <div class="hero__buttons">
+          <button class="btn btn-primary hero__btn-primary hard-shadow-lime" type="button" data-open-brief>
+            {hero.primaryButton}
+          </button>
+          <a class="btn btn-secondary" href="#work">{hero.secondaryButton}</a>
+        </div>
+        <p class="hero__reassurance mono">{lang === 'ru' ? 'Формат, сроки и стоимость — после короткого брифа. Договор и чек.' : 'A format, timeline and quote after a short brief. Contract and receipt.'}</p>
+      </div>
+
+      <div class="hero__col hero__col--02">
+        <span class="mono hero__col-index">(02)</span>
+        <p class="hero__subheading">{hero.subheading}</p>
+        <ul class="hero__stats">
+          {
+            hero.stats.map((stat) => (
+              <li>
+                <span class="hero__stat-value" data-stat={stat.value}>
+                  {stat.value}
+                </span>
+                <span class="mono hero__stat-label">{stat.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <a class="hero__col hero__col--03" href={`/${lang}/cases/perfectmatch/`} aria-label={lang === 'ru' ? 'Посмотреть кейс PerfectMatch' : 'View the PerfectMatch case study'}>
+        <span class="mono hero__col-index">{hero.featured.label} {hero.featured.index}</span>
+        <div class="hero__featured-preview" data-featured aria-hidden="true">
+          <ProjectImage src="/assets/cases/perfectmatch/dekstop.png" alt="" sizes="(max-width: 899px) 100vw, 33vw" />
+        </div>
+        <p class="hero__featured-name">{hero.featured.name}</p>
+        <p class="mono hero__featured-meta">{hero.featured.meta} ↗</p>
+      </a>
+    </div>
+
+    <div class="hero__marquee" data-marquee aria-hidden="true">
+      <div class="hero__marquee-track">
+        <span>{hero.marquee} ✺ {hero.marquee} ✺ </span>
+        <span>{hero.marquee} ✺ {hero.marquee} ✺ </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero__reassurance{font-size:10px;line-height:1.7;max-width:54ch;color:var(--muted-strong);margin-top:20px}.hero__col--03:hover .hero__featured-name{color:var(--lime)}
+  .hero {
+    position: relative;
+  }
+
+  .hero__pin {
+    position: relative;
+    min-height: calc(100vh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 32px;
+    padding-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .hero__gridlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero__gridlines span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .hero__gridlines span:nth-child(1) {
+    left: 25%;
+  }
+  .hero__gridlines span:nth-child(2) {
+    left: 50%;
+  }
+  .hero__gridlines span:nth-child(3) {
+    left: 75%;
+  }
+
+  .hero__stage-label {
+    position: absolute;
+    top: 12px;
+    right: var(--gutter);
+    font-size: 11px;
+    color: var(--lime);
+    z-index: 2;
+  }
+
+  .hero__wordmark-row {
+    position: relative;
+  }
+
+  .hero__wordmark {
+    display: block;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(56px, 16.5vw, 236px);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--ink);
+    text-stroke: 1.5px var(--ink);
+    margin: 0;
+    transform-origin: left top;
+    transition:
+      color var(--dur-slow) var(--ease-out),
+      -webkit-text-stroke-color var(--dur-slow) var(--ease-out);
+  }
+
+  .hero__caption {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    padding: 0 var(--gutter);
+  }
+
+  .hero__avatar {
+    position: absolute;
+    /* left/top are computed in JS to center this on the wordmark's "A" */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 9px 12px;
+    background: var(--ink);
+    color: var(--dark);
+    box-shadow: 9px 9px 0 0 var(--tomato);
+    font-size: 11px;
+    transform: rotate(-7deg);
+    opacity: 0;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+    z-index: 3;
+  }
+
+  .hero__avatar-box {
+    /* A smaller card keeps its rotated corners visible and leaves the A readable behind it. */
+    width: clamp(118px, 13.5vw, 228px);
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--lime);
+    border: 0;
+  }
+
+  .hero__avatar > span {
+    align-self: flex-start;
+    letter-spacing: 0.02em;
+  }
+
+  .hero__columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--line);
+    margin-top: 32px;
+  }
+
+  .hero__col {
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero__col-index {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .hero__slogan {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(26px, 2.85vw, 42px);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  .hero__marker {
+    background: transparent;
+    padding: 2px 8px 2px 0;
+    display: inline-block;
+    border-bottom: 2px solid var(--ink);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .hero__subheading {
+    color: var(--muted-strong);
+    font-size: 17px;
+    line-height: 1.4;
+    max-width: 30ch;
+    margin-bottom: 28px;
+  }
+
+  .hero__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero__btn-primary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    box-shadow: none;
+    transition:
+      background var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .hero__stats {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__stats li {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .hero__stat-value {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(36px, 4.4vw, 64px);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero__stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    padding-bottom: 8px;
+    text-align: right;
+  }
+
+  .hero__featured-preview {
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+
+  .hero__featured-preview :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity var(--dur-slow) var(--ease-out);
+  }
+
+  .hero__featured-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .hero__featured-meta {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .hero__marquee {
+    position: relative;
+    z-index: 4;
+    overflow: hidden;
+    background: var(--tomato);
+    color: var(--dark);
+    transform: rotate(-1.5deg) scale(1.015);
+    margin-top: 14px;
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  .hero__marquee-track {
+    display: flex;
+    width: max-content;
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 6px 0;
+    white-space: nowrap;
+    animation: marquee 22s linear infinite;
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* --- Stage 0: wireframe --- */
+  .hero[data-stage='0'] .hero__marker {
+    border-color: var(--muted);
+  }
+  .hero[data-stage='0'] .hero__featured-preview {
+    background: transparent;
+  }
+
+  /* --- Stage 2 (design) & 3 (live): full color --- */
+  .hero[data-stage='2'] .hero__wordmark,
+  .hero[data-stage='3'] .hero__wordmark {
+    color: var(--ink);
+  }
+
+  .hero[data-stage='2'] .hero__marker,
+  .hero[data-stage='3'] .hero__marker {
+    background: var(--lime);
+    color: var(--dark);
+    border-color: transparent;
+  }
+
+  .hero[data-stage='2'] .hero__avatar,
+  .hero[data-stage='3'] .hero__avatar {
+    opacity: 1;
+    transform: rotate(-7deg) translateY(0);
+  }
+
+  .hero[data-stage='2'] .hero__btn-primary:hover,
+  .hero[data-stage='3'] .hero__btn-primary:hover {
+    box-shadow: calc(var(--shadow-offset) * 1.8) calc(var(--shadow-offset) * 1.8) 0 0 var(--lime);
+  }
+
+  .hero[data-stage='2'] .hero__btn-primary,
+  .hero[data-stage='3'] .hero__btn-primary {
+    background: var(--tomato);
+    color: var(--dark);
+    border-color: transparent;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--lime);
+  }
+
+  .hero__featured-preview :global(picture){height:100%}
+  .hero[data-stage='2'] .hero__featured-preview :global(img),
+  .hero[data-stage='3'] .hero__featured-preview :global(img) {
+    opacity: 1;
+  }
+
+  /* --- Stage 3 only: site fully live --- */
+  .hero[data-stage='3'] .hero__marquee {
+    opacity: 1;
+  }
+  .hero[data-stage='3'] .hero__marquee-track {
+    animation-play-state: running;
+  }
+
+  @media (max-width: 899px) {
+    .hero__stage-label{top:8px;right:8px;z-index:4;font-size:10px}
+    .hero__avatar-box{width:clamp(64px,17vw,118px)}
+    .hero__stats{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .hero__stats li+li{border-left:1px solid var(--line);padding-left:24px}
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .hero__subheading {
+      text-wrap: balance;
+      line-height: 1.58;
+    }
+  }
+  @media (min-width: 900px) {
+    .hero__columns {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+    .hero__col {
+      border-bottom: none;
+      border-left: 1px solid var(--line);
+    }
+    .hero__col:first-child {
+      border-left: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const pinTarget = document.querySelector<HTMLElement>('[data-hero-pin]');
+  const label = document.querySelector<HTMLElement>('[data-build-label]');
+
+  if (hero && pinTarget && label) {
+    const stages: string[] = JSON.parse(pinTarget.dataset.stages ?? '[]');
+    const statEls = Array.from(hero.querySelectorAll<HTMLElement>('[data-stat]'));
+    let counted = false;
+
+    function countUp() {
+      if (counted) return;
+      counted = true;
+      statEls.forEach((el) => {
+        const raw = el.dataset.stat ?? '0';
+        const target = parseInt(raw, 10) || 0;
+        const counter = { n: 0 };
+        gsap.to(counter, {
+          n: target,
+          duration: 0.65,
+          ease: 'power1.out',
+          onUpdate: () => {
+            el.textContent = Math.round(counter.n) + raw.replace(/[0-9]/g, '');
+          },
+        });
+      });
+    }
+
+    function setStage(progress: number) {
+      let idx = 0;
+      if (progress < 0.3) idx = 0;
+      else if (progress < 0.65) idx = 1;
+      else if (progress < 0.999) idx = 2;
+      else idx = 3;
+
+      if (hero.dataset.stage !== String(idx)) {
+        hero.dataset.stage = String(idx);
+        label.textContent = stages[idx] ?? '';
+        if (idx >= 2) countUp();
+      }
+    }
+
+    // Build animation plays automatically on page load (not on scroll or hover),
+    // completing quickly so the first screen never feels like it is holding the visitor up.
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      hero.dataset.stage = '3';
+      label.textContent = stages[3] ?? '';
+      statEls.forEach((el) => { el.textContent = el.dataset.stat ?? ''; });
+    } else {
+      setStage(0);
+      const driver = { p: 0 };
+      gsap.to(driver, {
+        p: 1,
+        duration: 2.4,
+        ease: 'power1.out',
+        delay: 0.05,
+        onUpdate: () => setStage(driver.p),
+      });
+    }
+  }
+
+  // Scale the wordmark so it always spans the full width of the viewport,
+  // regardless of font metrics/breakpoint.
+  const wordmark = document.querySelector<HTMLElement>('[data-wordmark]');
+  const wordmarkRow = wordmark?.parentElement ?? null;
+  const letterA = document.querySelector<HTMLElement>('[data-letter-a]');
+  const avatar = document.querySelector<HTMLElement>('[data-avatar]');
+  const avatarBox = avatar?.querySelector<HTMLElement>('.hero__avatar-box') ?? null;
+  const pinEl = document.querySelector<HTMLElement>('[data-hero-pin]');
+
+  // Center the avatar sticker on the wordmark's "A", right after the wordmark is fitted.
+  const positionAvatar = () => {
+    if (!letterA || !avatar || !avatarBox || !pinEl) return;
+    const letterRect = letterA.getBoundingClientRect();
+    const pinRect = pinEl.getBoundingClientRect();
+    const cardW = avatar.offsetWidth;
+    const cardH = avatar.offsetHeight;
+    const centerX = letterRect.left + letterRect.width / 2 - pinRect.left;
+    const centerY = letterRect.top + letterRect.height / 2 - pinRect.top;
+    // Figma places the card slightly right of the "A", straddling the A/S junction.
+    avatar.style.left = `${centerX - cardW / 2 + cardW * 0.22}px`;
+    avatar.style.top = `${centerY - cardH / 2 - cardH * 0.06}px`;
+  };
+
+  if (wordmark && wordmarkRow) {
+    const fit = () => {
+      const containerWidth = wordmarkRow.clientWidth;
+      if (!containerWidth) return;
+      const reference = 100;
+      // Measure the text's intrinsic width (ignoring the 100%-width box) before fitting.
+      wordmark.style.width = 'max-content';
+      wordmark.style.fontSize = `${reference}px`;
+      const natural = wordmark.getBoundingClientRect().width;
+      wordmark.style.width = '';
+      if (natural > 0) {
+        const size = Math.max(40, Math.min((containerWidth / natural) * reference, 420));
+        wordmark.style.fontSize = `${size}px`;
+      }
+      positionAvatar();
+    };
+
+    fit();
+    document.fonts?.ready.then(fit).catch(() => {});
+
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(fit, 100);
+    });
+  }
+</script>

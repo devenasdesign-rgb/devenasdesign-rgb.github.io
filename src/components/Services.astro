@@ -1,0 +1,510 @@
+---
+import SectionHeader from './SectionHeader.astro';
+
+interface ServiceItem {
+  id: string;
+  title: string;
+  forWho: string;
+  price: string;
+  timeframe: string;
+  example: string;
+  popular: boolean;
+  included: string[][];
+}
+
+interface Props {
+  services: {
+    sectionLabel: string;
+    columns: string[];
+    meta: string;
+    heading: { pre: string; marker: string; post: string };
+    subheading: string;
+    includedLabel: string;
+    exampleLabel: string;
+    popularLabel: string;
+    discussButton: string;
+    items: ServiceItem[];
+    other: { index: string; title: string; text: string; button: string };
+  };
+}
+
+const { services } = Astro.props;
+---
+
+<section class="services" id="services">
+  <SectionHeader label={services.sectionLabel} meta={services.meta} />
+
+  <div class="services__intro">
+    <h2 class="services__heading">
+      {services.heading.pre}<span class="marker-blue">{services.heading.marker}</span>{services.heading.post}
+    </h2>
+    <p class="services__subheading">{services.subheading}</p>
+  </div>
+
+  <div class="services__head mono" aria-hidden="true">
+    {services.columns.map((c) => <span>{c}</span>)}
+  </div>
+
+  <div class="services__list">
+    {
+      services.items.map((item, i) => (
+        <div class:list={['services__item', { 'services__item--popular': item.popular }]}>
+          <div class="services__row">
+            <span class="mono services__index">({String(i + 1).padStart(2, '0')})</span>
+
+            <div class="services__main">
+              <h3 class="services__title">{item.title}</h3>
+              {item.popular && <span class="mono services__popular-tag">{services.popularLabel}</span>}
+            </div>
+
+            <p class="services__forwho">{item.forWho}</p>
+            <span class="mono services__timeframe">{item.timeframe}</span>
+
+            <div class="services__buy">
+              <span class="services__price">{item.price}</span>
+            </div>
+          </div>
+
+          <button type="button" class="services__toggle mono" data-toggle-included aria-expanded={item.popular ? 'true' : 'false'}>
+            <span data-toggle-sign>{item.popular ? '[−]' : '[+]'}</span> {services.includedLabel}
+          </button>
+
+          <div class="services__included" data-included hidden={!item.popular}>
+            <div class="services__included-cols">
+              {
+                item.included.map((col) => (
+                  <ul class="services__included-col">
+                    {col.map((step) => (
+                      <li>
+                        <span aria-hidden="true">→</span> {step}
+                      </li>
+                    ))}
+                  </ul>
+                ))
+              }
+            </div>
+            <p class="mono services__example">
+              {services.exampleLabel}: {item.example}
+            </p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="services__other">
+    <span class="mono services__other-index">{services.other.index}</span>
+    <div class="services__other-body">
+      <h3>{services.other.title}</h3>
+      <p>{services.other.text}</p>
+    </div>
+    <button type="button" class="btn services__other-btn hard-shadow-lime" data-open-task-brief>
+      {services.other.button}
+    </button>
+  </div>
+</section>
+
+<style>
+  .services {
+    position: relative;
+    overflow-x: clip;
+  }
+
+  .services__intro {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    padding: 40px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .services__heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 20ch;
+  }
+
+  .services__subheading {
+    color: var(--muted-strong);
+    font-size: 15px;
+    max-width: 34ch;
+  }
+
+  .services__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .services__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .services__item--popular {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .services__row {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px 16px;
+    align-items: center;
+    padding: 24px var(--gutter);
+  }
+
+  .services__index {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .services__item--popular .services__index {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .services__main {
+    min-width: 0;
+  }
+
+  .services__popular-tag {
+    display: inline-block;
+    background: var(--lime);
+    color: var(--dark);
+    font-size: 10px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+
+  .services__title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2.6vw, 28px);
+    margin: 0 0 4px;
+  }
+
+  .services__forwho {
+    font-size: 14px;
+    color: var(--muted-strong);
+    margin: 0;
+    max-width: 48ch;
+  }
+
+  .services__item--popular .services__forwho {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .services__timeframe {
+    grid-column: 2;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .services__item--popular .services__timeframe {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .services__price {
+    grid-column: 2;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(28px, 3.5vw, 40px);
+    color: var(--lime);
+  }
+
+  .services__toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0 var(--gutter) 20px;
+    font-size: 11px;
+    color: var(--muted-strong);
+  }
+
+  .services__item--popular .services__toggle {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .services__toggle:hover {
+    color: var(--lime);
+  }
+
+  .services__included[hidden] {
+    display: none;
+  }
+
+  .services__included {
+    padding: 0 var(--gutter) 32px;
+  }
+
+  .services__included-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .services__included-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted-strong);
+  }
+
+  .services__item--popular .services__included-col {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .services__included-col li span {
+    color: var(--lime);
+    margin-right: 4px;
+  }
+
+  .services__example {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .services__item--popular .services__example {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .services__other {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px var(--gutter);
+    background: var(--tomato);
+    color: var(--dark);
+    transform: rotate(-0.6deg);
+  }
+
+  .services__other-index {
+    font-size: 11px;
+  }
+
+  .services__other h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(22px, 3vw, 30px);
+    margin: 0 0 8px;
+  }
+
+  .services__other p {
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .services__other-btn {
+    align-self: flex-start;
+    background: var(--dark);
+    color: var(--ink);
+  }
+
+  @media (min-width: 1100px) {
+    .services__row {
+      grid-template-columns: 50px minmax(0, 1fr) minmax(132px, 0.55fr) minmax(220px, 0.9fr);
+    }
+    .services__main { grid-column: 2; }
+    .services__timeframe { grid-column: 3; }
+    .services__price { grid-column: 4; justify-self: end; text-align: right; }
+    .services__included-cols {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .services__other { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+
+  /* --- Figma v2 alignment --- */
+  .services__intro {
+    padding: 56px var(--gutter) 40px;
+  }
+  .services__heading {
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+    max-width: 12ch;
+  }
+  .services__heading :global(.marker-blue) {
+    padding: 0 14px 4px 10px;
+  }
+  .services__subheading {
+    font-size: 17px;
+    line-height: 1.45;
+  }
+  .services__head {
+    display: none;
+    padding: 14px var(--gutter);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 10px;
+    color: var(--muted);
+    grid-template-columns: 60px minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 0.5fr) minmax(0, 0.85fr);
+    gap: 24px;
+  }
+  .services__row {
+    padding: 28px var(--gutter);
+  }
+  .services__title {
+    font-size: clamp(22px, 2.5vw, 34px);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .services__popular-tag {
+    margin: 10px 0 0;
+  }
+  .services__buy {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .services__price {
+    font-size: clamp(24px, 2.3vw, 34px);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .services__cta {
+    padding: 11px 16px;
+    font-size: 11px;
+  }
+  .services__toggle {
+    padding: 14px var(--gutter);
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+  }
+  .services__item--popular .services__toggle {
+    border-top-color: rgba(255, 255, 255, 0.28);
+  }
+  .services__other {
+    transform: none;
+  }
+  .services__other h3 {
+    font-size: clamp(24px, 3vw, 36px);
+    margin: 0;
+  }
+  @media (min-width: 1100px) {
+    .services__head {
+      display: grid;
+    }
+    .services__row {
+      grid-template-columns: 60px minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 0.5fr) minmax(0, 0.85fr);
+      gap: 24px;
+      align-items: center;
+    }
+    .services__main {
+      grid-column: 2;
+    }
+    .services__forwho {
+      grid-column: 3;
+      max-width: 34ch;
+    }
+    .services__timeframe {
+      grid-column: 4;
+    }
+    .services__buy {
+      grid-column: 5;
+    }
+    .services__toggle {
+      padding-left: calc(var(--gutter) + 84px);
+    }
+    .services__included {
+      padding-left: calc(var(--gutter) + 84px);
+    }
+  }
+
+  /* --- Mobile: compact stacked rows --- */
+  @media (max-width: 1099px) {
+    .services__row {
+      grid-template-columns: 1fr auto;
+      gap: 6px 16px;
+      padding: 22px var(--gutter) 18px;
+      align-items: baseline;
+    }
+    .services__index,
+    .services__main,
+    .services__forwho {
+      grid-column: 1 / -1;
+    }
+    .services__index {
+      font-size: 10px;
+    }
+    .services__title {
+      font-size: clamp(22px, 6vw, 28px);
+    }
+    .services__forwho {
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 4px 0 8px;
+    }
+    .services__timeframe {
+      grid-column: 1;
+      font-size: 10px;
+      align-self: center;
+    }
+    .services__buy {
+      grid-column: 2;
+      align-self: center;
+    }
+    .services__price {
+      font-size: clamp(22px, 6vw, 28px);
+    }
+    .services__toggle {
+      padding: 12px var(--gutter);
+    }
+    .services__included {
+      padding: 4px var(--gutter) 24px;
+    }
+    .services__included-cols {
+      gap: 10px;
+    }
+  }
+  @media (max-width: 699px) {
+    .services__intro {
+      padding: 36px var(--gutter) 28px;
+      gap: 16px;
+    }
+    .services__heading {
+      font-size: clamp(30px, 8.6vw, 40px);
+      max-width: none;
+    }
+    .services__subheading {
+      font-size: 15px;
+    }
+    .services__other {
+      padding: 24px var(--gutter);
+      gap: 12px;
+    }
+    .services__other h3 {
+      font-size: 22px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-toggle-included]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.nextElementSibling as HTMLElement | null;
+      const sign = btn.querySelector('[data-toggle-sign]');
+      if (!panel) return;
+      const isHidden = panel.hasAttribute('hidden');
+      if (isHidden) {
+        panel.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        if (sign) sign.textContent = '[−]';
+      } else {
+        panel.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', 'false');
+        if (sign) sign.textContent = '[+]';
+      }
+    });
+  });
+</script>

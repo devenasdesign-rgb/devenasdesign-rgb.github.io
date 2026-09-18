@@ -1,0 +1,243 @@
+---
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  process: {
+    sectionLabel: string;
+    meta: string;
+    heading: { line1: string; pre: string; marker: string };
+    activeLabel: string;
+    steps: { title: string; text: string }[];
+  };
+}
+
+const { process: proc } = Astro.props;
+---
+
+<section class="process" id="process">
+  <SectionHeader label={proc.sectionLabel} meta={proc.meta} />
+
+  <div class="process__intro">
+    <h2 class="process__heading">
+      {proc.heading.line1}<br />
+      {proc.heading.pre}<span class="marker-lime">{proc.heading.marker}</span>
+    </h2>
+  </div>
+
+  <div class="process__grid" data-process-grid>
+    {
+      proc.steps.map((step, i) => (
+        <button type="button" class="process__step" data-step>
+          <span class="mono process__step-active" data-step-active>
+            ● {proc.activeLabel}
+          </span>
+          <span class="process__step-number">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="process__step-title">{step.title}</h3>
+          <p class="process__step-text">{step.text}</p>
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .process {
+    position: relative;
+  }
+
+  .process__intro {
+    padding: 40px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .process__heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .process__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process__step {
+    position: relative;
+    text-align: left;
+    padding: 24px var(--gutter);
+    border-bottom: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    transition: background var(--dur-base) var(--ease-out);
+  }
+
+  .process__step:nth-child(2n + 1) {
+    border-left: none;
+  }
+
+  .process__step-active {
+    display: block;
+    font-size: 10px;
+    color: var(--lime);
+    margin-bottom: 8px;
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  .process__step-number {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    color: var(--muted);
+    margin-bottom: 8px;
+    transition: color var(--dur-base) var(--ease-out);
+  }
+
+  .process__step-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0 0 8px;
+  }
+
+  .process__step-text {
+    font-size: 13px;
+    color: var(--muted-strong);
+    margin: 0;
+    display: none;
+  }
+
+  .process__step.is-open .process__step-text {
+    display: block;
+  }
+
+  .process__step.is-active {
+    background: var(--lime);
+  }
+
+  .process__step.is-active .process__step-active {
+    opacity: 1;
+  }
+
+  .process__step.is-active .process__step-number,
+  .process__step.is-active .process__step-title,
+  .process__step.is-active .process__step-text {
+    color: var(--dark);
+  }
+
+  @media (min-width: 900px) {
+    .process__grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .process__step:nth-child(2n + 1) {
+      border-left: 1px solid var(--line);
+    }
+
+    .process__step:nth-child(5n + 1) {
+      border-left: none;
+    }
+
+    .process__step-text {
+      display: block;
+    }
+
+    .process__step {
+      cursor: default;
+    }
+  }
+
+  /* --- Figma v2 alignment --- */
+  .process__intro {
+    padding: 56px var(--gutter) 48px;
+    border-bottom: 0;
+  }
+  .process__heading {
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+  }
+  .process__heading :global(.marker-lime) {
+    padding: 0 14px 4px 10px;
+  }
+  .process__grid {
+    border-top: 1px solid var(--line);
+  }
+  .process__step {
+    display: flex;
+    flex-direction: column;
+    min-height: 240px;
+    padding: 20px 24px 22px;
+  }
+  .process__step-active {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin: 0;
+    color: var(--dark);
+  }
+  .process__step-number {
+    color: var(--ink);
+    font-size: clamp(44px, 4.6vw, 72px);
+    margin-bottom: auto;
+    letter-spacing: -0.02em;
+  }
+  .process__step-title {
+    font-size: clamp(18px, 1.7vw, 24px);
+    letter-spacing: -0.02em;
+    margin: 28px 0 8px;
+  }
+  .process__step-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  @media (min-width: 900px) {
+    .process__step {
+      min-height: 280px;
+    }
+  }
+</style>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-process-grid]');
+  if (grid) {
+    const steps = Array.from(grid.querySelectorAll<HTMLElement>('[data-step]'));
+
+    // Tap-to-open description on mobile (desktop shows it always via CSS).
+    steps.forEach((step) => {
+      step.addEventListener('click', () => {
+        if (window.matchMedia('(min-width: 900px)').matches) return;
+        step.classList.toggle('is-open');
+      });
+    });
+
+    // As the grid scrolls through the viewport, move the "now" highlight across steps.
+    let ticking = false;
+    const updateActive = () => {
+      ticking = false;
+      const rect = grid.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height + vh;
+      const scrolled = vh - rect.top;
+      const progress = Math.min(1, Math.max(0, scrolled / total));
+      const idx = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+      steps.forEach((el, i) => el.classList.toggle('is-active', i === idx));
+    };
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateActive);
+        }
+      },
+      { passive: true }
+    );
+    updateActive();
+  }
+</script>

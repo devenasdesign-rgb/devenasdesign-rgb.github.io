@@ -1,0 +1,73 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import ProjectImage from '../../../components/ProjectImage.astro';
+import { projects } from '../../../data/proof';
+import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
+
+const demoSlugs = ['eurasia', 'annafit'];
+const media: Record<string, string[]> = {
+  eurasia: ['/assets/cases/eurasia/desktop-01-home.jpg', '/assets/cases/eurasia/chatgpt-image-17-sent.-2026-g.-11-10-32.png', '/assets/cases/eurasia/chatgpt-image-17-sent.-2026-g.-11-11-39.png'],
+  annafit: ['/assets/cases/annafit/macbook-pro-14-22.png', '/assets/cases/annafit/telefony.png', '/assets/cases/annafit/iphone-16-pro.png'],
+};
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) => ['eurasia', 'annafit'].map((slug) => ({ params: { lang, slug } })));
+}
+
+const { lang: rawLang, slug } = Astro.params;
+if (!rawLang || !isLocale(rawLang) || !slug || !demoSlugs.includes(slug)) throw new Error('Unknown concept demo');
+const lang = rawLang as Locale;
+const data = getSiteData(lang);
+const item = data.work.items.find((entry) => entry.slug === slug);
+if (!item) throw new Error('Unknown concept demo');
+const story = projects[slug][lang];
+const ru = lang === 'ru';
+const copy = ru ? {
+  eyebrow: '[ ДЕМО-КОНЦЕПТ ]',
+  title: 'Это демонстрационная версия',
+  description: 'Не действующий магазин и не реальный сервис. Страница показывает, как мог бы выглядеть и работать проект.',
+  back: '← ВЕРНУТЬСЯ К КЕЙСУ',
+  show: 'ЭКРАНЫ КОНЦЕПТА',
+  note: 'КОНЦЕПТ · НЕ ПРИНИМАЕТ ЗАКАЗЫ',
+} : {
+  eyebrow: '[ CONCEPT DEMO ]',
+  title: 'This is a concept preview',
+  description: 'Not an operating store or a live service. This page shows how the project could look and work.',
+  back: '← RETURN TO CASE STUDY',
+  show: 'CONCEPT SCREENS',
+  note: 'CONCEPT · NOT ACCEPTING ORDERS',
+};
+---
+
+<Base lang={lang} title={`${item.name} — concept demo`} description={copy.description}>
+  <Header lang={lang} {...data.header} />
+  <main class="demo">
+    <a class="demo__back mono" href={`/${lang}/cases/${slug}/`}>{copy.back}</a>
+    <section class="demo__hero">
+      <div class="demo__grid" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="demo__copy">
+        <span class="mono">{copy.eyebrow}</span>
+        <h1>{item.name}</h1>
+        <p>{item.description}</p>
+      </div>
+      <aside class="demo__notice">
+        <span class="mono">{copy.note}</span>
+        <h2>{copy.title}</h2>
+        <p>{copy.description}</p>
+        <p class="mono">{story.role}</p>
+      </aside>
+    </section>
+    <section class="demo__screens">
+      <div class="demo__cap mono"><span>{copy.show}</span><span>01—0{media[slug].length}</span></div>
+      {media[slug].map((image, index) => <figure class:list={['demo__screen', { 'demo__screen--wide': index === 0 }]}><ProjectImage src={image} alt={`${item.name} concept screen ${index + 1}`} sizes={index === 0 ? '100vw' : '(max-width: 799px) 100vw, 50vw'} /><figcaption class="mono">0{index + 1}</figcaption></figure>)}
+    </section>
+  </main>
+</Base>
+
+<style>
+  .demo{overflow:hidden}.demo__back{display:inline-block;margin:22px var(--gutter);font-size:11px;color:var(--muted)}.demo__back:hover{color:var(--lime)}
+  .demo__hero{position:relative;display:grid;gap:36px;padding:50px var(--gutter) 56px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.demo__grid{position:absolute;inset:0;pointer-events:none}.demo__grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}.demo__grid i:nth-child(1){left:25%}.demo__grid i:nth-child(2){left:50%}.demo__grid i:nth-child(3){left:75%}.demo__copy,.demo__notice{position:relative;z-index:1}.demo__copy>span,.demo__notice>span{font-size:11px;color:var(--lime)}.demo h1,.demo h2{font-family:var(--font-display);letter-spacing:-.055em}.demo h1{font-size:clamp(52px,11vw,170px);line-height:.85;margin:22px 0}.demo__copy>p{font-size:clamp(18px,2vw,25px);max-width:31ch}.demo__notice{padding:24px;border:1px solid var(--lime);background:var(--dark);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--blue)}.demo__notice h2{font-size:clamp(24px,3vw,40px);line-height:1.02;margin:20px 0 14px}.demo__notice p{font-size:16px;line-height:1.5;max-width:39ch}.demo__notice p:last-child{margin-top:24px;font-size:10px;color:var(--muted-strong);text-transform:uppercase}
+  .demo__screens{display:grid;grid-template-columns:1fr;gap:24px;padding:0 var(--gutter) 72px}.demo__cap{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;color:var(--lime)}.demo__screen{position:relative;margin:0;border:1px solid var(--line);background:var(--surface)}.demo__screen :global(picture),.demo__screen :global(img){display:block;width:100%;height:100%;object-fit:cover;object-position:top}.demo__screen :global(img){min-height:260px;max-height:620px}.demo__screen--wide :global(img){max-height:780px}.demo__screen figcaption{position:absolute;top:10px;left:10px;padding:3px 6px;background:var(--lime);color:var(--dark);font-size:10px}
+  @media(min-width:800px){.demo__hero{grid-template-columns:1.15fr .85fr;align-items:end;padding-top:80px;padding-bottom:80px}.demo__screens{grid-template-columns:1fr 1fr}.demo__cap,.demo__screen--wide{grid-column:1/-1}.demo__screen--wide :global(img){max-height:850px}}
+</style>

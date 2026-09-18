@@ -1,0 +1,346 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import ProjectImage from './ProjectImage.astro';
+
+interface Props {
+  about: {
+    sectionLabel: string;
+    kicker: string;
+    photoCaption: string;
+    photoLink: string;
+    photoLinkHref: string;
+    sticker: string;
+    heading: { line1: string; markerPrefix: string; marker: string; line3: string };
+    text: string;
+    facts: { title: string; text: string }[];
+    numbers: { value: string; label: string; color: string }[];
+    trustLine: string;
+  };
+}
+
+const { about } = Astro.props;
+const letters = ['A', 'B'];
+---
+
+<section class="about" id="about">
+  <SectionHeader label={about.sectionLabel} meta={about.kicker} />
+
+  <div class="about__grid">
+    <div class="about__photo-col">
+      <div class="about__photo-frame">
+        <ProjectImage class="about__photo" src="/assets/founder/anastasia.png" alt="Анастасия Девентейчик" sizes="(max-width: 899px) 90vw, 420px" />
+        <div class="about__sticker mono hard-shadow-tomato">{about.sticker}</div>
+      </div>
+      <div class="about__photo-caption mono">
+        <span>{about.photoCaption}</span>
+        <a href={about.photoLinkHref} target="_blank" rel="noopener noreferrer">{about.photoLink}</a>
+      </div>
+    </div>
+
+    <div class="about__content">
+      <h2 class="about__heading">
+        {about.heading.line1}<br />
+        {about.heading.markerPrefix}<span class="marker-lime">{about.heading.marker}</span><br />
+        {about.heading.line3}
+      </h2>
+
+      <p class="about__text">{about.text}</p>
+
+      <div class="about__facts">
+        {
+          about.facts.map((fact, i) => (
+            <div class="about__fact">
+              <span class="mono about__fact-index">({letters[i]})</span>
+              <h3 class="about__fact-title">{fact.title}</h3>
+              <p class="about__fact-text">{fact.text}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="about__numbers">
+        {
+          about.numbers.map((n) => (
+            <div class={`about__number about__number--${n.color}`}>
+              <span class="about__number-value">{n.value}</span>
+              <span class="mono about__number-label">{n.label}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="about__trust mono"><i class="about__trust-dot dot-round" aria-hidden="true"></i>{about.trustLine}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+  }
+
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about__photo-col {
+    padding: 40px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about__photo-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: visible;
+  }
+
+  .about__photo-frame :global(.about__photo) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .about__sticker {
+    position: absolute;
+    top: -18px;
+    right: -18px;
+    background: var(--ink);
+    color: var(--dark);
+    padding: 10px 16px;
+    font-size: 11px;
+    transform: rotate(6deg);
+    max-width: 70%;
+  }
+
+  .about__photo-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 420px;
+  }
+
+  .about__photo-caption a {
+    color: var(--ink);
+    border-bottom: 1px solid rgba(244, 241, 234, 0.4);
+  }
+
+  .about__photo-caption a:hover {
+    color: var(--lime);
+    border-color: var(--lime);
+  }
+
+  .about__content {
+    padding: 40px var(--gutter);
+  }
+
+  .about__heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+
+  .about__text {
+    color: var(--muted-strong);
+    font-size: 16px;
+    max-width: 56ch;
+    margin-bottom: 32px;
+  }
+
+  .about__facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+
+  .about__fact-index {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .about__fact-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 6px;
+  }
+
+  .about__fact-text {
+    color: var(--muted-strong);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .about__numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+
+  .about__number {
+    flex: 1 1 180px;
+    border-top: 4px solid var(--ink);
+    padding-top: 12px;
+  }
+
+  .about__number--lime {
+    border-top-color: var(--lime);
+  }
+
+  .about__number--blue {
+    border-top-color: var(--blue);
+  }
+
+  .about__number-value {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .about__number-label {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .about__trust {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--muted-strong);
+  }
+
+  .about__trust-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--lime);
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 900px) {
+    .about__grid {
+      grid-template-columns: 480px 1fr;
+    }
+
+    .about__photo-col {
+      border-bottom: none;
+      border-right: 1px solid var(--line);
+    }
+
+    .about__facts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* --- Figma v2 alignment --- */
+  .about__content {
+    padding: 0;
+  }
+  .about__heading {
+    padding: 36px var(--gutter) 0;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+  }
+  .about__heading :global(.marker-lime) {
+    padding: 0 14px 4px 10px;
+  }
+  .about__text {
+    padding: 0 var(--gutter);
+    font-size: clamp(16px, 1.4vw, 20px);
+    max-width: 46ch;
+    margin: 0 0 40px;
+  }
+  .about__facts {
+    padding: 0;
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .about__fact {
+    padding: 28px var(--gutter);
+  }
+  .about__fact + .about__fact {
+    border-top: 1px solid var(--line);
+  }
+  .about__fact-index {
+    color: var(--tomato);
+  }
+  .about__fact-title {
+    font-size: clamp(20px, 2vw, 26px);
+    letter-spacing: -0.02em;
+  }
+  .about__fact-text {
+    font-size: 15px;
+    max-width: 36ch;
+  }
+  .about__numbers {
+    padding: 0;
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .about__number {
+    flex: 1 1 260px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 168px;
+    padding: 28px var(--gutter);
+    border-top: 0;
+  }
+  .about__number--lime {
+    background: var(--lime);
+    color: var(--dark);
+  }
+  .about__number--blue {
+    background: var(--blue);
+    color: var(--white);
+  }
+  .about__number-value {
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 0.9;
+    margin: 0;
+  }
+  .about__number-label {
+    max-width: 17ch;
+    text-align: right;
+    color: inherit;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .about__trust {
+    padding: 18px var(--gutter);
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 900px) {
+    .about__fact + .about__fact {
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+  }
+</style>

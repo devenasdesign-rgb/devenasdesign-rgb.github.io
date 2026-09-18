@@ -1,0 +1,32 @@
+{
+  "cafe": {
+    "accent": "tomato",
+    "ru": ["Меню, который хочется забронировать", "Стол на сегодня — в три клика"],
+    "en": ["A menu people want to book a table for", "A table for tonight, in three clicks"]
+  },
+  "beauty": {
+    "accent": "lime",
+    "ru": ["Запись без звонков — прямо с сайта", "Красота, на которую хочется записаться"],
+    "en": ["Booking without a single phone call", "Beauty worth booking online"]
+  },
+  "shop": {
+    "accent": "blue",
+    "ru": ["Каталог и оплата — без лишних шагов", "Магазин, в котором удобно покупать"],
+    "en": ["Catalog and checkout, no extra steps", "A store that's easy to shop in"]
+  },
+  "expert": {
+    "accent": "lime",
+    "ru": ["Экспертиза, которой сразу доверяют", "Сайт, который продаёт вашу репутацию"],
+    "en": ["Expertise people trust right away", "A site that sells your reputation"]
+  },
+  "construction": {
+    "accent": "tomato",
+    "ru": ["Заявки на смету — с первого экрана", "Портфолио объектов, которое убеждает"],
+    "en": ["Quote requests from the first screen", "A portfolio that closes the deal"]
+  },
+  "other": {
+    "accent": "blue",
+    "ru": ["Сайт, который расскажет о вас лучше", "Идея, собранная во что-то настоящее"],
+    "en": ["A site that tells your story better", "An idea, turned into something real"]
+  }
+}

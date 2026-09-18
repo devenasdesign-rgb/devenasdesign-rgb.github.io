@@ -1,0 +1,35 @@
+---
+interface Props {
+  label: string;
+  meta?: string;
+}
+
+const { label, meta } = Astro.props;
+---
+
+<div class="section-header mono">
+  <span class="section-header__label">{label}</span>
+  {meta && <span class="section-header__meta">{meta}</span>}
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 10px var(--gutter);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 11px;
+  }
+
+  .section-header__label {
+    color: var(--lime);
+  }
+
+  .section-header__meta {
+    color: var(--muted);
+    text-align: right;
+  }
+</style>

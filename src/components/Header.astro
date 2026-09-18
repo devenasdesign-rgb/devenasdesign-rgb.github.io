@@ -1,0 +1,245 @@
+---
+import type { Locale } from '../lib/i18n';
+import { contacts } from '../data/proof';
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  lang: Locale;
+  logo: string;
+  nav: NavItem[];
+  cta: string;
+  menuButton: string;
+  meta: { tag: string; name: string; status: string; year: string };
+}
+
+const { lang, logo, nav, cta, menuButton, meta } = Astro.props;
+const isInnerPage = /^\/(ru|en)\/.+/.test(Astro.url.pathname);
+const sectionHref = (href: string) => (isInnerPage ? `/${lang}/${href}` : href);
+const ruHref = Astro.url.pathname.replace(/^\/(ru|en)(?=\/|$)/, '/ru');
+const enHref = Astro.url.pathname.replace(/^\/(ru|en)(?=\/|$)/, '/en');
+const menuCopy = lang === 'ru' ? { close: 'ЗАКРЫТЬ', socials: 'НА СВЯЗИ →' } : { close: 'CLOSE', socials: 'GET IN TOUCH →' };
+---
+
+<header class="header">
+  <div class="header__bar">
+    <a class="header__logo" href={`/${lang}/`}>{logo}</a>
+
+    <nav class="header__nav mono" id="primary-navigation" aria-label={lang === 'ru' ? 'Основная навигация' : 'Primary navigation'}>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={sectionHref(item.href)}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <button class="btn btn-primary header__mobile-cta" type="button" data-open-brief>{cta}</button>
+      <div class="header__mobile-socials">
+        <span>{menuCopy.socials}</span>
+        <div>
+          <a href={contacts.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM ↗</a>
+          <a href={contacts.vk} target="_blank" rel="noopener noreferrer">VK ↗</a>
+          <a href={contacts.instagram} target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header__actions">
+      <div class="header__lang mono" role="group" aria-label="Language">
+        <a href={ruHref} aria-current={lang === 'ru' ? 'true' : undefined} class:list={{ 'is-active': lang === 'ru' }}>RU</a>
+        <span aria-hidden="true">/</span>
+        <a href={enHref} aria-current={lang === 'en' ? 'true' : undefined} class:list={{ 'is-active': lang === 'en' }}>EN</a>
+      </div>
+      <button class="btn btn-primary header__cta" type="button" data-open-brief>{cta}</button>
+      <button class="header__menu-btn mono" type="button" data-open-menu aria-expanded="false" aria-controls="primary-navigation">
+        <span class="header__menu-open-label">{menuButton}</span><span class="header__menu-close-label">{menuCopy.close}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="header__meta mono">
+    <span>{meta.tag}</span>
+    <span class="header__meta-name">{meta.name}</span>
+    <span class="header__meta-status"><i class="header__dot dot-round" aria-hidden="true"></i>{meta.status}</span>
+    <span>{meta.year}</span>
+  </div>
+</header>
+
+<style>
+  .header__mobile-cta{margin-top:24px}@media(min-width:1200px){.header__mobile-cta{display:none}}
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: var(--line-w) solid var(--line);
+  }
+
+  .header__bar {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 var(--gutter);
+    position: relative;
+    z-index: 2;
+    background: var(--bg);
+  }
+
+  .header__logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+  }
+
+  .header__nav {
+    flex: 1;
+    display: none;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: 20px;
+  }
+
+  .header__nav a {
+    font-size: 12px;
+    opacity: 0.75;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .header__nav a:hover {
+    opacity: 1;
+    color: var(--lime);
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+  }
+
+  .header__lang {
+    display: flex;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .header__lang a {
+    opacity: 0.5;
+  }
+
+  .header__lang a.is-active {
+    opacity: 1;
+    color: var(--lime);
+  }
+
+  .header__cta {
+    display: none;
+  }
+
+  .header__menu-btn {
+    background: var(--ink);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 16px;
+  }
+  .header__menu-close-label { display: none; }
+  .header.is-menu-open .header__menu-open-label { display: none; }
+  .header.is-menu-open .header__menu-close-label { display: inline; }
+
+  .header__meta {
+    display: none;
+  }
+  .header__mobile-socials { display: none; }
+
+  .header.is-menu-open .header__nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: calc(100dvh - var(--header-h));
+    padding: 24px var(--gutter) max(28px, env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    overflow-y: auto;
+    z-index: 1;
+  }
+
+  .header.is-menu-open .header__nav ul {
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .header.is-menu-open .header__nav li { border-bottom: 1px solid var(--line); }
+  .header.is-menu-open .header__nav a { display: block; padding: 16px 0; font-size: clamp(16px, 2.3vw, 22px); opacity: 1; }
+  .header.is-menu-open .header__mobile-cta { align-self: flex-start; margin-top: 28px; }
+  .header.is-menu-open .header__mobile-socials { display: block; margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+  .header__mobile-socials>span { display: block; color: var(--lime); margin-bottom: 12px; }
+  .header__mobile-socials>div { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+  .header.is-menu-open .header__mobile-socials a { display: inline; padding: 0; font-size: 11px; opacity: 1; color: var(--ink); }
+
+  @media (min-width: 1200px) {
+    .header__nav {
+      display: block;
+    }
+
+    .header__cta {
+      display: inline-flex;
+    }
+
+    .header__menu-btn {
+      display: none;
+    }
+
+    .header__mobile-socials {
+      display: none !important;
+    }
+
+    .header__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 8px var(--gutter);
+      font-size: 11px;
+      color: var(--muted);
+      border-top: var(--line-w) solid var(--line);
+    }
+
+    .header__meta-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--lime);
+    }
+
+    .header__dot {
+      width: 6px;
+      height: 6px;
+      background: var(--lime);
+      display: inline-block;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.header');
+  const menu = header?.querySelector<HTMLButtonElement>('[data-open-menu]');
+  const closeMenu = () => { header?.classList.remove('is-menu-open'); menu?.setAttribute('aria-expanded', 'false'); };
+  menu?.addEventListener('click', () => { const open = header?.classList.toggle('is-menu-open'); menu.setAttribute('aria-expanded', String(!!open)); });
+  header?.querySelectorAll('.header__nav a, .header__mobile-cta').forEach((link) => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeMenu(); });
+  header?.querySelectorAll<HTMLAnchorElement>('.header__lang a').forEach((link) => link.addEventListener('click', () => { const url = new URL(link.href); url.hash = window.location.hash; link.href = url.href; }));
+</script>

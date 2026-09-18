@@ -1,0 +1,239 @@
+---
+import type { Locale } from '../lib/i18n';
+import { contacts } from '../data/proof';
+const { lang } = Astro.props as { lang: Locale };
+const ru = lang === 'ru';
+const text = ru ? {
+  close: 'ЗАКРЫТЬ', label: '[ БРИФ ]', title: 'Расскажите\nо проекте', intro: 'Отвечу в течение рабочего дня. Это займёт около двух минут.',
+  tabs: ['01 О ПРОЕКТЕ', '02 ДЕТАЛИ', '03 КОНТАКТ'], service: 'ЧТО НУЖНО СДЕЛАТЬ? *', serviceHint: 'Выберите формат', services: ['Одностраничный сайт', 'Многостраничный сайт', 'Интернет-магазин', 'Дизайн-макет', 'Другое'],
+  niche: 'СФЕРА БИЗНЕСА *', nicheHint: 'Выберите сферу', niches: ['Кафе и рестораны', 'Красота и здоровье', 'Магазин', 'Эксперт или специалист', 'Строительство и услуги', 'Другое'], business: 'НАЗВАНИЕ БИЗНЕСА', businessHint: 'Например, «Кофейня на углу»', goal: 'ГЛАВНАЯ ЦЕЛЬ', goals: ['Получать заявки', 'Продавать онлайн', 'Онлайн-запись', 'Рассказать о бренде'],
+  pages: 'КОЛИЧЕСТВО СТРАНИЦ', pageOptions: ['1 страница', '3–5 страниц', '6–10 страниц', 'Не знаю'], timeline: 'КОГДА НУЖЕН ЗАПУСК?', timelines: ['До 2 недель', 'В течение месяца', '2–3 месяца', 'Срок не горит'], budget: 'ПЛАНИРУЕМЫЙ БЮДЖЕТ', budgets: ['До 60 000 ₽', '60–100 000 ₽', '100–150 000 ₽', 'Обсудим после брифа'],
+  name: 'ВАШЕ ИМЯ *', contact: 'КАК СВЯЗАТЬСЯ *', task: 'КОММЕНТАРИЙ', nameHint: 'Имя', contactHint: 'Telegram / E-mail / WhatsApp', taskHint: 'Расскажите о задаче своими словами', next: 'ДАЛЕЕ →', prev: '← НАЗАД', send: 'ОТПРАВИТЬ БРИФ ↗', done: 'ЗАЯВКА ПОЛУЧЕНА', doneText: 'Спасибо! Я свяжусь с вами в течение рабочего дня.', back: '← ВЕРНУТЬСЯ НА САЙТ'
+} : {
+  close: 'CLOSE', label: '[ BRIEF ]', title: 'Tell me about\nyour project', intro: 'I will reply within one business day. This takes about two minutes.',
+  tabs: ['01 PROJECT', '02 DETAILS', '03 CONTACT'], service: 'WHAT DO YOU NEED? *', serviceHint: 'Select a format', services: ['One-page website', 'Multi-page website', 'Online store', 'Website design', 'Other'],
+  niche: 'BUSINESS TYPE *', nicheHint: 'Select a field', niches: ['Cafes & restaurants', 'Beauty & health', 'Shop', 'Expert or specialist', 'Construction & services', 'Other'], business: 'BUSINESS NAME', businessHint: 'E.g. “Corner Coffee Co.”', goal: 'MAIN GOAL', goals: ['Get more inquiries', 'Sell online', 'Online booking', 'Tell the brand story'],
+  pages: 'NUMBER OF PAGES', pageOptions: ['1 page', '3–5 pages', '6–10 pages', 'Not sure yet'], timeline: 'WHEN SHOULD IT LAUNCH?', timelines: ['Within 2 weeks', 'Within a month', '2–3 months', 'No fixed deadline'], budget: 'PLANNED BUDGET', budgets: ['Up to $900', '$900–1,400', '$1,400–2,200', 'Discuss after the brief'],
+  name: 'YOUR NAME *', contact: 'BEST WAY TO REACH YOU *', task: 'A COMMENT', nameHint: 'Name', contactHint: 'Telegram / E-mail / WhatsApp', taskHint: 'Tell me about the task in your own words', next: 'NEXT →', prev: '← BACK', send: 'SEND THE BRIEF ↗', done: 'REQUEST RECEIVED', doneText: 'Thank you! I will be in touch within one business day.', back: '← BACK TO SITE'
+};
+const taskCopy = ru ? {
+  label: '[ ДРУГАЯ ЗАДАЧА ]', title: 'Расскажите\nо задаче', intro: 'Логотип, презентация, упаковка, соцсети или реклама — соберу вводные и предложу решение.', type: 'ЧТО НУЖНО СДЕЛАТЬ? *', typeHint: 'Выберите услугу', types: ['Логотип и айдентика', 'Презентация', 'Соцсети', 'Упаковка', 'Реклама', 'Другое'], comment: 'КРАТКО О ЗАДАЧЕ *', commentHint: 'Что нужно сделать, для кого и к какому сроку?', contact: 'КАК СВЯЗАТЬСЯ *', contactHint: 'Telegram / E-mail / WhatsApp', telegram: 'НАПИСАТЬ В TELEGRAM ↗', send: 'ОТПРАВИТЬ ЗАПРОС ↗', done: 'ЗАПРОС ПОЛУЧЕН', doneText: 'Спасибо! Изучу задачу и отвечу в течение рабочего дня.'
+} : {
+  label: '[ OTHER DESIGN TASK ]', title: 'Tell me about\nyour task', intro: 'Logo, presentation, packaging, social media or ads — I will collect the details and suggest a solution.', type: 'WHAT DO YOU NEED? *', typeHint: 'Select a service', types: ['Logo & identity', 'Presentation', 'Social media', 'Packaging', 'Advertising', 'Other'], comment: 'A SHORT DESCRIPTION *', commentHint: 'What do you need, for whom, and by when?', contact: 'BEST WAY TO REACH YOU *', contactHint: 'Telegram / E-mail / WhatsApp', telegram: 'WRITE IN TELEGRAM ↗', send: 'SEND REQUEST ↗', done: 'REQUEST RECEIVED', doneText: 'Thank you! I will review the task and reply within one business day.'
+};
+---
+
+<dialog class="brief" data-brief-modal aria-labelledby="brief-title">
+  <button class="brief__close mono" type="button" data-close-brief>× {text.close}</button>
+  <div class="brief__content">
+    <div data-site-brief>
+    <span class="mono brief__label">{text.label}</span>
+    <h2 id="brief-title">{text.title.split('\n').map((line) => <>{line}<br /></>)}</h2>
+    <p>{text.intro}</p>
+    <p class="brief__alternative"><a href={contacts.telegram} target="_blank" rel="noopener noreferrer">{ru ? 'Можно без брифа — напишите мне в Telegram ↗' : 'Prefer a quick chat? Message me on Telegram ↗'}</a></p>
+    <div class="brief__tabs mono" data-brief-tabs>{text.tabs.map((tab, index) => <span class:list={{ 'is-active': index === 0 }}>{tab}</span>)}</div>
+    <form data-brief-form novalidate>
+      <section class="brief__step is-active" data-brief-step>
+        <label class="mono">{text.service}<select name="service" required><option value="">{text.serviceHint}</option>{text.services.map((service) => <option>{service}</option>)}</select></label>
+        <label class="mono">{text.niche}<select name="niche" required><option value="">{text.nicheHint}</option>{text.niches.map((niche) => <option>{niche}</option>)}</select></label>
+        <label class="mono">{text.business}<input name="business" autocomplete="organization" maxlength="120" placeholder={text.businessHint} /></label>
+        <label class="mono">{text.goal}<select name="goal">{text.goals.map((goal) => <option>{goal}</option>)}</select></label>
+      </section>
+      <section class="brief__step" data-brief-step>
+        <label class="mono">{text.pages}<select name="pages">{text.pageOptions.map((option, i) => <option selected={i === 3}>{option}</option>)}</select></label>
+        <label class="mono">{text.timeline}<select name="timeline">{text.timelines.map((timeline, i) => <option selected={i === 3}>{timeline}</option>)}</select></label>
+        <label class="mono">{text.budget}<select name="budget">{text.budgets.map((budget, i) => <option selected={i === 3}>{budget}</option>)}</select></label>
+      </section>
+      <section class="brief__step" data-brief-step>
+        <label class="mono">{text.name}<input required name="name" autocomplete="name" maxlength="100" placeholder={text.nameHint} /></label>
+        <label class="mono">{text.contact}<input required name="contact" maxlength="150" placeholder={text.contactHint} /></label>
+        <label class="mono">{text.task}<textarea name="task" maxlength="1200" placeholder={text.taskHint}></textarea></label>
+        <p class="brief__note">{ru ? 'Следующий шаг — проверить сообщение и отправить его мне в Telegram. До этого ответы остаются только на этой странице.' : 'Next, review your message and send it to me on Telegram. Until then, your answers stay on this page only.'}</p>
+      </section>
+      <div class="brief__controls"><button type="button" class="brief__back mono" data-brief-prev hidden>{text.prev}</button><span class="mono" data-brief-progress aria-live="polite">01 / 03</span><button type="button" class="btn btn-primary hard-shadow-lime" data-brief-next>{text.next}</button><button type="submit" class="btn btn-primary hard-shadow-lime" data-brief-send hidden>{ru ? 'Проверить бриф →' : 'Review brief →'}</button></div>
+    </form>
+    </div>
+    <div data-task-brief hidden>
+      <span class="mono brief__label">{taskCopy.label}</span>
+      <h2 id="task-brief-title">{taskCopy.title.split('\n').map((line) => <>{line}<br /></>)}</h2>
+      <p>{taskCopy.intro}</p>
+      <form data-task-form>
+        <label class="mono">{taskCopy.type}<select name="service" required><option value="">{taskCopy.typeHint}</option>{taskCopy.types.map((type) => <option>{type}</option>)}</select></label>
+        <label class="mono">{taskCopy.comment}<textarea name="task" required maxlength="1200" placeholder={taskCopy.commentHint}></textarea></label>
+        <label class="mono">{taskCopy.contact}<input name="contact" required maxlength="150" placeholder={taskCopy.contactHint} /></label>
+        <p class="brief__note">{ru ? 'Соберём сообщение, которое вы сможете отправить мне в Telegram.' : 'We’ll prepare a message for you to send to me on Telegram.'}</p>
+        <div class="brief__task-actions"><button type="submit" class="btn btn-primary hard-shadow-lime">{ru ? 'Проверить запрос →' : 'Review request →'}</button><a class="brief__alternative" href={contacts.telegram} target="_blank" rel="noopener noreferrer">{taskCopy.telegram}</a></div>
+      </form>
+    </div>
+    <section class="brief__handoff" data-brief-handoff hidden aria-labelledby="handoff-title">
+      <span class="mono brief__label">{ru ? '[ ПОСЛЕДНИЙ ШАГ ]' : '[ ONE LAST STEP ]'}</span>
+      <h2 id="handoff-title" tabindex="-1">{ru ? 'Бриф готов. Давайте знакомиться.' : 'Brief ready. Let’s talk.'}</h2>
+      <p>{ru ? 'Откройте мой чат и нажмите «Отправить» в Telegram. Пока сообщение не отправлено, я не вижу вашу заявку.' : 'Open my chat and press Send in Telegram. I won’t receive your inquiry until you send the message there.'}</p>
+      <label class="mono">{ru ? 'ВАШЕ СООБЩЕНИЕ' : 'YOUR MESSAGE'}<textarea data-brief-message readonly rows="10"></textarea></label>
+      <a class="btn btn-primary hard-shadow-lime" href={contacts.telegram} data-brief-telegram target="_blank" rel="noopener noreferrer">{ru ? 'Открыть Telegram ↗' : 'Open Telegram ↗'}</a>
+      <p class="brief__note">{ru ? 'Если текст не появился в чате, скопируйте его и вставьте вручную.' : 'If the draft does not appear in the chat, copy it and paste it manually.'}</p>
+      <div class="brief__secondary"><button type="button" class="mono" data-brief-copy>{ru ? 'Скопировать текст' : 'Copy message'}</button><button type="button" class="mono" data-brief-edit>{ru ? '← Изменить ответы' : '← Edit answers'}</button></div>
+      <p class="brief__note" data-copy-status role="status"></p>
+    </section>
+  </div>
+</dialog>
+
+<style>
+  .brief__content>div>p{color:var(--muted-strong);margin-bottom:20px}.brief .brief__alternative{font-size:12px;color:var(--lime);line-height:1.5}.brief__alternative a{border-bottom:1px solid var(--line);padding-bottom:3px}.brief .brief__note{font:12px/1.6 var(--font-body);color:var(--muted-strong)}.brief__back{font-size:11px;padding:12px 0;color:var(--muted-strong)}.brief__back:hover{color:var(--lime)}.brief__handoff{display:flex;flex-direction:column;gap:20px}.brief__handoff h2{margin:0}.brief__handoff>p{color:var(--muted-strong)}.brief__handoff textarea{font-size:14px;line-height:1.6;min-height:200px;width:100%}.brief__handoff>.btn{align-self:flex-start}.brief__secondary{display:flex;gap:24px;flex-wrap:wrap;font-size:11px}.brief__secondary button{border-bottom:1px solid var(--line);padding:8px 0}.brief__secondary button:hover{color:var(--lime)}.brief__controls{justify-content:flex-end}.brief__controls [data-brief-progress]{margin-right:auto}
+  .brief{width:min(560px,100vw);height:100dvh;max-height:100dvh;margin:0 0 0 auto;padding:0;border:0;border-left:1px solid var(--line);background:var(--surface);color:var(--ink);box-shadow:-10px 0 0 var(--blue);overflow-y:auto}.brief [hidden]{display:none!important}.brief[open]{animation:brief-drawer-in .42s var(--ease-out)}.brief::backdrop{background:rgba(10,10,10,.78);backdrop-filter:blur(4px)}@keyframes brief-drawer-in{from{transform:translateX(100%)}to{transform:translateX(0)}}.brief__close{position:absolute;right:18px;top:18px;font-size:11px;color:var(--muted)}.brief__close:hover{color:var(--lime)}.brief__content{min-height:100%;padding:72px clamp(24px,5vw,56px) 42px}.brief__label{font-size:11px;color:var(--lime)}.brief h2{font:600 clamp(30px,5vw,52px)/1.08 var(--font-display);letter-spacing:-.04em;margin:18px 0 14px}.brief__content>p{max-width:45ch;color:var(--muted-strong);margin-bottom:22px}.brief__tabs{display:flex;gap:12px;flex-wrap:wrap;padding:13px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:10px;color:var(--muted)}.brief__tabs .is-active{color:var(--lime)}.brief form{display:flex;flex-direction:column;gap:18px;padding-top:22px}.brief__step{display:none;flex-direction:column;gap:18px}.brief__step.is-active{display:flex}.brief label{display:flex;flex-direction:column;gap:8px;color:var(--muted);font-size:10px}.brief input,.brief textarea,.brief select{background:transparent;border:0;border-bottom:1px solid var(--line);padding:9px 0;color:var(--ink);font:16px var(--font-body);outline:0}.brief select{appearance:auto}.brief select option{background:var(--surface);color:var(--ink)}.brief textarea{min-height:92px;resize:vertical}.brief input:focus,.brief textarea:focus,.brief select:focus{border-color:var(--lime)}.brief__controls,.brief__task-actions{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}.brief__controls [data-brief-prev]{margin-right:auto}.brief__controls span{font-size:10px;color:var(--muted)}.brief__done{padding:18px 0}.brief__done span{font-size:11px;color:var(--lime)}.brief__done p{font-size:18px;max-width:30ch;margin:13px 0 22px}
+  @media (max-width: 899px) {
+    .brief {
+      width: 100dvw;
+      max-width: 100dvw;
+      margin: 0;
+      border-left: 0;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .brief__content {
+      box-sizing: border-box;
+      height: 100dvh;
+      min-height: 100dvh;
+      padding: 58px 24px 20px;
+      overflow: hidden;
+    }
+
+    .brief__close { top: 17px; right: 24px; }
+    .brief h2 { font-size: clamp(30px, 8.5vw, 42px); line-height: 1.02; margin: 10px 0; }
+    .brief__content > div > p { font-size: 14px; line-height: 1.35; margin-bottom: 11px; }
+    .brief .brief__alternative { font-size: 11px; }
+    .brief__tabs { gap: 10px; padding: 10px 0; }
+    .brief form { gap: 12px; padding-top: 14px; }
+    .brief__step { gap: 12px; }
+    .brief label { gap: 5px; }
+    .brief input, .brief textarea, .brief select { font-size: 15px; padding: 7px 0; }
+    .brief textarea { min-height: 70px; }
+    .brief__controls, .brief__task-actions { margin-top: 2px; }
+    .brief__controls .btn, .brief__task-actions .btn { min-height: 48px; padding: 13px 20px; }
+  }
+
+  @media (max-width: 420px) {
+    .brief__content { padding: 52px 20px 16px; }
+    .brief__close { top: 14px; right: 20px; }
+    .brief h2 { font-size: 30px; }
+    .brief__content > div > p { font-size: 13px; }
+    .brief__tabs { font-size: 9px; gap: 8px; padding: 8px 0; }
+    .brief form { gap: 10px; padding-top: 11px; }
+    .brief__step { gap: 10px; }
+    .brief input, .brief textarea, .brief select { padding: 6px 0; }
+  }
+</style>
+
+<script>
+  import { contacts } from '../data/proof';
+  const modal = document.querySelector<HTMLDialogElement>('[data-brief-modal]');
+  const siteBrief = modal?.querySelector<HTMLElement>('[data-site-brief]');
+  const taskBrief = modal?.querySelector<HTMLElement>('[data-task-brief]');
+  const form = modal?.querySelector<HTMLFormElement>('[data-brief-form]');
+  const steps = modal ? Array.from(modal.querySelectorAll<HTMLElement>('[data-brief-step]')) : [];
+  const tabs = modal ? Array.from(modal.querySelectorAll<HTMLElement>('[data-brief-tabs] span')) : [];
+  const previous = modal?.querySelector<HTMLButtonElement>('[data-brief-prev]');
+  const next = modal?.querySelector<HTMLButtonElement>('[data-brief-next]');
+  const send = modal?.querySelector<HTMLButtonElement>('[data-brief-send]');
+  const progress = modal?.querySelector<HTMLElement>('[data-brief-progress]');
+  const taskForm = modal?.querySelector<HTMLFormElement>('[data-task-form]');
+  const handoff = modal?.querySelector<HTMLElement>('[data-brief-handoff]');
+  const messageField = modal?.querySelector<HTMLTextAreaElement>('[data-brief-message]');
+  const telegramLink = modal?.querySelector<HTMLAnchorElement>('[data-brief-telegram]');
+  const copyStatus = modal?.querySelector<HTMLElement>('[data-copy-status]');
+  const ru = document.documentElement.lang === 'ru';
+  let currentStep = 0;
+  let mode: 'site' | 'task' = 'site';
+  let caseName = '';
+  let savedOverflow = '';
+  let trigger: HTMLElement | null = null;
+  const showStep = (index: number, focus = false) => {
+    currentStep = index;
+    steps.forEach((step, i) => { step.classList.toggle('is-active', i === index); step.hidden = i !== index; });
+    tabs.forEach((tab, i) => { tab.classList.toggle('is-active', i === index); if (i === index) tab.setAttribute('aria-current', 'step'); else tab.removeAttribute('aria-current'); });
+    if (previous) previous.hidden = index === 0;
+    if (next) next.hidden = index === steps.length - 1;
+    if (send) send.hidden = index !== steps.length - 1;
+    if (progress) progress.textContent = `0${index + 1} / 03`;
+    if (focus) steps[index]?.querySelector<HTMLElement>('input, select')?.focus();
+  };
+  const validStep = () => {
+    const invalid = steps[currentStep]?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(':invalid');
+    if (invalid) { invalid.reportValidity(); return false; }
+    return true;
+  };
+  const setValue = (name: string, value?: string) => {
+    const field = form?.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+    if (field && value) field.value = value;
+  };
+  const open = (button: HTMLElement, kind: 'site' | 'task') => {
+    if (!modal || !siteBrief || !taskBrief || !handoff) return;
+    mode = kind; trigger = button;
+    siteBrief.hidden = kind !== 'site'; taskBrief.hidden = kind !== 'task'; handoff.hidden = true;
+    modal.setAttribute('aria-labelledby', kind === 'site' ? 'brief-title' : 'task-brief-title');
+    if (kind === 'site') {
+      caseName = button.dataset.case ?? '';
+      const source = button.closest('[data-brief-prefill]');
+      source?.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[name]').forEach((field) => setValue(field.name, field.value));
+      setValue('business', button.dataset.business);
+      const niche = button.dataset.niche;
+      if (niche) {
+        const select = form?.elements.namedItem('niche') as HTMLSelectElement;
+        const index = ['cafe', 'beauty', 'shop', 'expert', 'construction', 'other'].indexOf(niche);
+        if (select && index >= 0) select.selectedIndex = index + 1;
+      }
+      const completeIntro = !!source && ['service', 'niche'].every((name) => (form?.elements.namedItem(name) as HTMLSelectElement)?.value);
+      showStep(completeIntro ? 1 : currentStep);
+    }
+    savedOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    modal.showModal();
+    (kind === 'site' ? steps[currentStep] : taskBrief)?.querySelector<HTMLElement>('select, input')?.focus();
+  };
+  document.querySelectorAll<HTMLElement>('[data-open-brief]').forEach((button) => button.addEventListener('click', (event) => { event.preventDefault(); open(button, 'site'); }));
+  document.querySelectorAll<HTMLElement>('[data-open-task-brief]').forEach((button) => button.addEventListener('click', () => open(button, 'task')));
+  modal?.querySelectorAll<HTMLElement>('[data-close-brief]').forEach((button) => button.addEventListener('click', () => modal.close()));
+  next?.addEventListener('click', () => { if (validStep()) showStep(Math.min(currentStep + 1, steps.length - 1), true); });
+  previous?.addEventListener('click', () => showStep(Math.max(currentStep - 1, 0), true));
+  const prepareMessage = (source: HTMLFormElement) => {
+    if (!handoff || !siteBrief || !taskBrief || !messageField || !telegramLink) return;
+    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]'));
+    const lines = fields.filter((field) => field.value.trim()).map((field) => {
+      const label = field.closest('label')?.firstChild?.textContent?.replace(/\s*\*$/, '').trim() ?? field.name;
+      return `${label}: ${field.value.trim()}`;
+    });
+    const intro = ru ? 'Здравствуйте, Анастасия! Хочу обсудить проект.' : 'Hi Anastasia! I would like to discuss a project.';
+    const reference = mode === 'site' && caseName ? `${ru ? 'Заинтересовал кейс' : 'Interested in the case'}: ${caseName}\n\n` : '';
+    const message = `${intro}\n\n${reference}${lines.join('\n\n')}`;
+    messageField.value = message;
+    telegramLink.href = `${contacts.telegram}?text=${encodeURIComponent(message)}`;
+    siteBrief.hidden = true; taskBrief.hidden = true; handoff.hidden = false;
+    if (copyStatus) copyStatus.textContent = '';
+    modal?.setAttribute('aria-labelledby', 'handoff-title');
+    modal?.scrollTo({ top: 0 });
+    modal?.querySelector<HTMLElement>('#handoff-title')?.focus();
+  };
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (currentStep < steps.length - 1) { if (validStep()) showStep(currentStep + 1, true); return; }
+    const invalidIndex = steps.findIndex((step) => step.querySelector(':invalid'));
+    if (invalidIndex >= 0) { showStep(invalidIndex); validStep(); return; }
+    prepareMessage(form);
+  });
+  taskForm?.addEventListener('submit', (event) => { event.preventDefault(); if (taskForm.reportValidity()) prepareMessage(taskForm); });
+  modal?.querySelector('[data-brief-edit]')?.addEventListener('click', () => {
+    if (!siteBrief || !taskBrief || !handoff) return;
+    handoff.hidden = true; siteBrief.hidden = mode !== 'site'; taskBrief.hidden = mode !== 'task';
+    modal.setAttribute('aria-labelledby', mode === 'site' ? 'brief-title' : 'task-brief-title');
+    if (mode === 'site') showStep(currentStep, true); else taskForm?.querySelector('select')?.focus();
+  });
+  modal?.querySelector('[data-brief-copy]')?.addEventListener('click', async () => {
+    if (!messageField || !copyStatus) return;
+    try { await navigator.clipboard.writeText(messageField.value); copyStatus.textContent = ru ? 'Скопировано. Вставьте текст в чат @devenas.' : 'Copied. Paste the message into the @devenas chat.'; }
+    catch { messageField.focus(); messageField.select(); copyStatus.textContent = ru ? 'Текст выделен — скопируйте его вручную.' : 'Text selected — copy it manually.'; }
+  });
+  modal?.addEventListener('click', (event) => { if (event.target === modal && event.clientX < modal.getBoundingClientRect().left) modal.close(); });
+  modal?.addEventListener('close', () => { document.documentElement.style.overflow = savedOverflow; trigger?.focus(); });
+  showStep(0);
+</script>

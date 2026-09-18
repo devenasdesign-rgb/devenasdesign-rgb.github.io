@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import AboutMe from '../../components/AboutMe.astro';
+import Work from '../../components/Work.astro';
+import Reviews from '../../components/Reviews.astro';
+import Services from '../../components/Services.astro';
+import Process from '../../components/Process.astro';
+import MoreSections from '../../components/MoreSections.astro';
+import BriefModal from '../../components/BriefModal.astro';
+import { locales, getSiteData, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const data = getSiteData(lang);
+
+const titles: Record<Locale, string> = {
+  ru: 'DEVENAS — веб-дизайнер Анастасия Девентейчик',
+  en: 'DEVENAS — web designer Anastasia Deventeichik',
+};
+const descriptions: Record<Locale, string> = {
+  ru: 'Анастасия Девентейчик — веб-дизайнер. Создаю сайты для малого бизнеса и экспертов: делаю предложение понятным, а путь к заявке — простым. Tilda и код.',
+  en: 'Anastasia Deventeichik is a web designer for small businesses and experts. I build websites that make your offer clear and the next step to an inquiry easy. Tilda and custom code.',
+};
+---
+
+<Base lang={lang} title={titles[lang]} description={descriptions[lang]}>
+  <Header lang={lang} {...data.header} />
+  <main>
+    <Hero lang={lang} hero={data.hero} />
+    <AboutMe about={data.about} />
+    <Work lang={lang} work={data.work} />
+    <Services services={data.services} />
+    <Process process={data.process} />
+    <Reviews lang={lang} />
+    <MoreSections lang={lang} />
+    <BriefModal lang={lang} />
+  </main>
+</Base>

@@ -1,0 +1,80 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import BriefModal from '../../../components/BriefModal.astro';
+import Reviews from '../../../components/Reviews.astro';
+import ProjectImage from '../../../components/ProjectImage.astro';
+import { projects } from '../../../data/proof';
+import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) => getSiteData(lang).work.items.map((item) => ({ params: { lang, slug: item.slug } })));
+}
+
+const { lang: rawLang, slug } = Astro.params;
+if (!rawLang || !isLocale(rawLang) || !slug) throw new Error('Unknown case');
+const lang = rawLang as Locale;
+const data = getSiteData(lang);
+const item = data.work.items.find((entry) => entry.slug === slug);
+if (!item) throw new Error('Unknown case');
+const ru = lang === 'ru';
+const project = projects[slug];
+const story = project[lang];
+const projectHref = project.url ?? (project.demoSlug ? `/${lang}/demos/${project.demoSlug}/` : undefined);
+const media: Record<string, string[]> = {
+  perfectmatch: ['/assets/cases/perfectmatch/dekstop.png','/assets/cases/perfectmatch/mob-rm.png'],
+  ntguilty: ['/assets/cases/ntguilty/chatgpt-image-17-sent.-2026-g.-11-46-11.png','/assets/cases/ntguilty/chatgpt-image-17-sent.-2026-g.-11-45-39.png'],
+  'adventure-bro': ['/assets/cases/adventure-bro/mokap-dekstop.png','/assets/cases/adventure-bro/keys-mobilka.png'],
+  'myaso-i-bulka': ['/assets/cases/myaso-i-bulka/chatgpt-image-17-sent.-2026-g.-11-03-51.png','/assets/cases/myaso-i-bulka/chatgpt-image-17-sent.-2026-g.-11-05-46.png'],
+  eurasia: ['/assets/cases/eurasia/chatgpt-image-17-sent.-2026-g.-11-10-32.png','/assets/cases/eurasia/chatgpt-image-17-sent.-2026-g.-11-11-39.png'],
+  'intimate-aesthetics-center': ['/assets/cases/intimate-aesthetics-center/new-chatgpt-image-17-.-2026-.-12-20-21.png','/assets/cases/intimate-aesthetics-center/new-chatgpt-image-17-.-2026-.-12-33-25.png'],
+  annafit: ['/assets/cases/annafit/chatgpt-image-17-sent.-2026-g.-11-00-28.png','/assets/cases/annafit/telefony.png'],
+};
+const gallery = media[slug] ?? [item.cover];
+const text = ru ? {
+  back: '← ВСЕ РАБОТЫ', number: '[ КЕЙС ]', taskLabel: 'ЗАДАЧА', solutionLabel: 'РЕШЕНИЕ', outcomeLabel: 'ЧТО ПОЛУЧИЛОСЬ', roleLabel: 'МОЯ РОЛЬ', timelineLabel: 'СРОКИ РАЗРАБОТКИ',
+  details: 'ДЕТАЛИ ПРОЕКТА', next: 'ОБСУДИТЬ ПОХОЖУЮ ЗАДАЧУ ↗', more: 'СЛЕДУЮЩИЙ КЕЙС →'
+} : {
+  back: '← ALL WORK', number: '[ CASE STUDY ]', taskLabel: 'THE TASK', solutionLabel: 'THE SOLUTION', outcomeLabel: 'THE OUTCOME', roleLabel: 'MY ROLE', timelineLabel: 'TIMELINE',
+  details: 'PROJECT DETAILS', next: 'DISCUSS A SIMILAR PROJECT ↗', more: 'NEXT CASE →'
+};
+const index = data.work.items.findIndex((entry) => entry.slug === slug);
+const next = data.work.items[(index + 1) % data.work.items.length];
+---
+
+<Base lang={lang} title={`${item.name} — DEVENAS`} description={item.description}>
+  <Header lang={lang} {...data.header} />
+  <main class="case">
+    <a class="case__back mono" href={`/${lang}/#work`}>{text.back}</a>
+    <section class="case__hero">
+      <div class="case__grid" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="case__title"><span class="mono">{text.number} · 0{index + 1}/07</span><h1>{item.name}</h1><p>{item.description}</p><div class="case__tags mono">{item.tags.map((tag) => <span>{tag}</span>)}</div><p class="case__status mono">{story.status}</p>{projectHref && <a class="case__live mono" href={projectHref} target="_blank" rel="noopener noreferrer">{project.linkLabel?.[lang] ?? (ru ? 'Открыть сайт проекта ↗' : 'Visit the live website ↗')}</a>}</div>
+      <ProjectImage class="case__cover" src={gallery[0]} alt={item.name} loading="eager" />
+    </section>
+    <section class="case__story" aria-label={ru ? 'О кейсе' : 'Case details'}>
+      <article class="case__task"><span class="mono">{text.taskLabel}</span><h2>{story.task}</h2></article>
+      <article><span class="mono">{text.solutionLabel}</span><p>{story.solution}</p></article>
+      <article class="case__outcome"><span class="mono">{text.outcomeLabel}</span><p>{story.outcome}</p></article>
+      <div class="case__facts">
+        <article><span class="mono">{text.roleLabel}</span><p>{story.role}</p></article>
+        <article><span class="mono">{text.timelineLabel}</span><p>{story.timeline}</p></article>
+      </div>
+    </section>
+    <section class="case__gallery"><div class="case__gallery-cap mono"><span>{text.details}</span><span>01—0{gallery.length}</span></div>{gallery.map((image, imageIndex) => <figure class:list={['case__shot', { 'case__shot--wide': imageIndex === 0 }]}><ProjectImage src={image} alt={`${item.name} ${imageIndex + 1}`} sizes={imageIndex === 0 ? '100vw' : '(max-width: 799px) 100vw, 50vw'} /><figcaption class="mono">0{imageIndex + 1}</figcaption></figure>)}</section>
+    <Reviews lang={lang} slug={slug} />
+    <section class="case__cta"><p class="mono">{item.name} · {item.description}</p><h2>{ru ? 'Ваш проект\nможет быть\nследующим' : 'Your project\ncould be\nnext'}</h2><button type="button" class="btn btn-primary hard-shadow-lime" data-open-brief data-case={item.name}>{text.next}</button></section>
+    <a class="case__next" href={`/${lang}/cases/${next.slug}/`}><span class="mono">{text.more}</span><strong>{next.name} ↗</strong></a>
+    <BriefModal lang={lang} />
+  </main>
+</Base>
+
+<style>
+  .case__hero :global(.case__cover){position:relative;z-index:1;width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--line);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--blue)}.case__shot :global(picture){width:100%;height:100%;object-fit:cover;object-position:top}.case__shot :global(img){min-height:240px;max-height:560px}.case__shot--wide :global(img){max-height:760px}
+  .case__title .case__status{font-size:10px;max-width:none;margin-top:24px;color:var(--muted-strong)}.case__live{display:inline-block;font-size:12px;color:var(--lime);margin-top:16px;padding-bottom:6px;border-bottom:1px solid currentColor}.case__live:hover{color:var(--ink)}.case__title{min-width:0}.case__next{gap:24px}.case__next strong{min-width:0}.case__next span{flex-shrink:0}
+  .case{overflow:hidden}.case__back{display:inline-block;margin:22px var(--gutter);font-size:11px;color:var(--muted)}.case__back:hover{color:var(--lime)}
+  .case__hero{position:relative;display:grid;grid-template-columns:1fr;gap:32px;padding:32px var(--gutter) 56px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.case__grid{position:absolute;inset:0;pointer-events:none}.case__grid i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}.case__grid i:nth-child(1){left:25%}.case__grid i:nth-child(2){left:50%}.case__grid i:nth-child(3){left:75%}.case__title{position:relative;z-index:1}.case__title>span{font-size:11px;color:var(--lime)}.case h1,.case h2{font-family:var(--font-display);letter-spacing:-.055em}.case h1{font-size:clamp(30px,5.2vw,80px);line-height:.95;margin:22px 0;overflow-wrap:break-word}.case__title p{font-size:clamp(18px,2vw,25px);max-width:28ch}.case__tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}.case__tags span{padding:6px 9px;border:1px solid var(--line);font-size:10px}.case__hero>img{position:relative;z-index:1;width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--line);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--blue)}
+  .case__story{display:grid;grid-template-columns:1fr;gap:36px;padding:56px var(--gutter);border-bottom:1px solid var(--line)}.case__story article{min-width:0}.case__story span,.case__gallery-cap{font-size:11px;color:var(--lime)}.case__story h2{font-size:clamp(26px,4vw,48px);line-height:1.18;margin-top:14px;max-width:22ch}.case__story p{font-size:17px;line-height:1.6;max-width:47ch;margin:14px 0 0}.case__outcome{padding-top:30px;border-top:1px solid var(--line)}.case__facts{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--line)}.case__facts article{padding:22px 0;border-bottom:1px solid var(--line)}.case__facts p{font:600 13px/1.55 var(--font-mono);letter-spacing:.02em;text-transform:uppercase;max-width:58ch}
+  .case__gallery{display:grid;grid-template-columns:1fr;gap:24px;padding:0 var(--gutter) 56px}.case__gallery-cap{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}.case__shot{margin:0;position:relative;border:1px solid var(--line);background:var(--surface)}.case__shot img{width:100%;min-height:320px;height:100%;object-fit:cover;object-position:top}.case__shot figcaption{position:absolute;top:10px;left:10px;background:var(--lime);color:var(--dark);padding:3px 6px;font-size:10px}
+  .case__cta{padding:64px var(--gutter);background:var(--blue);color:var(--white)}.case__cta p{font-size:11px;margin-bottom:18px}.case__cta h2{font-size:clamp(36px,6vw,76px);line-height:1.04;white-space:pre-line;margin:0 0 28px}.case__next{display:flex;justify-content:space-between;align-items:center;padding:26px var(--gutter);border-bottom:1px solid var(--line)}.case__next span{font-size:11px;color:var(--muted)}.case__next strong{font:600 clamp(18px,3vw,34px) var(--font-display)}.case__next:hover{background:var(--lime);color:var(--dark)}
+  @media(min-width:800px){.case__hero{grid-template-columns:1fr 1.1fr;align-items:end;padding-top:72px;padding-bottom:72px}.case__story{grid-template-columns:1fr 1fr;column-gap:80px;row-gap:56px;padding-top:88px;padding-bottom:88px}.case__outcome,.case__facts{grid-column:1/-1}.case__outcome{display:grid;grid-template-columns:1fr 1fr;column-gap:80px}.case__outcome p{grid-column:2}.case__facts{grid-template-columns:1fr 1fr}.case__facts article{padding:24px 28px 24px 0}.case__facts article+article{padding-left:28px;border-left:1px solid var(--line)}.case__gallery{grid-template-columns:1fr 1fr}.case__gallery-cap,.case__shot--wide{grid-column:1/-1}.case__shot--wide img{max-height:760px}.case__shot:not(.case__shot--wide) img{max-height:560px}.case__cta{padding:88px var(--gutter)}}
+</style>

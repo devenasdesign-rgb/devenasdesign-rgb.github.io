@@ -1,0 +1,473 @@
+{
+  "header": {
+    "logo": "DEVENAS®",
+    "nav": [
+      {
+        "label": "[01] WORK",
+        "href": "#work"
+      },
+      {
+        "label": "[02] SERVICES",
+        "href": "#services"
+      },
+      {
+        "label": "[03] PROCESS",
+        "href": "#process"
+      },
+      {
+        "label": "[04] FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "[05] CONTACT",
+        "href": "#contact"
+      }
+    ],
+    "cta": "DISCUSS A PROJECT ↗",
+    "menuButton": "MENU",
+    "meta": {
+      "tag": "(WEB DESIGN / TILDA / CODE)",
+      "name": "ANASTASIA DEVENTEICHIK",
+      "status": "OPEN FOR PROJECTS",
+      "year": "©2026"
+    }
+  },
+  "hero": {
+    "wordmark": "DEVENAS",
+    "caption": "Web designer Anastasia Deventeichik",
+    "avatarSticker": "← THAT'S ME",
+    "slogan": {
+      "line1": "I build websites that",
+      "line2": "tell your story better",
+      "line3": "than you ever could"
+    },
+    "primaryButton": "Discuss a project ↗",
+    "secondaryButton": "See my work ↗",
+    "subheading": "Websites for small businesses and experts, built to make your offer clear and the next step easy. I handle structure, design and launch — on Tilda or in code.",
+    "stats": [
+      {
+        "value": "10+",
+        "label": "PROJECTS"
+      },
+      {
+        "value": "3+",
+        "label": "YEARS IN DESIGN"
+      }
+    ],
+    "featured": {
+      "label": "(03) FEATURED",
+      "index": "1/7",
+      "name": "Perfect Match",
+      "meta": "HR CONSULTING · RU/EN · CODE"
+    },
+    "marquee": "Landing pages ✦ Multi-page websites ✦ Online stores ✦ Website design ✦ Graphic design",
+    "buildStages": [
+      "PROTOTYPE",
+      "MOODBOARD",
+      "DESIGN",
+      "SITE READY"
+    ]
+  },
+  "about": {
+    "sectionLabel": "[00] ABOUT ME",
+    "kicker": "ECONOMIST → WEB DESIGNER",
+    "photoCaption": "(PHOTO) ANASTASIA",
+    "photoLink": "TILDA EXPERTS ↗",
+    "photoLinkHref": "https://experts.tilda.ru/devenas",
+    "sticker": "RESULTS > LOOKS ✺",
+    "heading": {
+      "line1": "A designer",
+      "markerPrefix": "with a ",
+      "marker": "business",
+      "line3": "mindset"
+    },
+    "text": "I'm Anastasia. I studied economics, so I see a website as a tool that should bring in leads and revenue. Good looks matter — but they work for results, not instead of them.",
+    "facts": [
+      {
+        "title": "I calculate, not guess",
+        "text": "My economics background helps me treat a website as an investment that should pay off."
+      },
+      {
+        "title": "Results > looks",
+        "text": "Every block on the page answers a customer's question and leads to an inquiry."
+      }
+    ],
+    "numbers": [
+      {
+        "value": "10+",
+        "label": "PROJECTS FOR BUSINESSES AND EXPERTS",
+        "color": "lime"
+      },
+      {
+        "value": "3+",
+        "label": "YEARS FROM LOGOS TO STORES",
+        "color": "blue"
+      }
+    ],
+    "trustLine": "WORKING OFFICIALLY: SELF-EMPLOYED · CONTRACT · RECEIPTS"
+  },
+  "work": {
+    "sectionLabel": "[01] WORK — 07 PROJECTS",
+    "heading": {
+      "line1": "Projects that",
+      "pre": "speak ",
+      "marker": "for me"
+    },
+    "subheading": "Live websites and concepts — each clearly labeled, so you see the honest picture.",
+    "filters": [
+      {
+        "key": "all",
+        "label": "ALL"
+      },
+      {
+        "key": "sites",
+        "label": "WEBSITES"
+      },
+      {
+        "key": "stores",
+        "label": "STORES"
+      },
+      {
+        "key": "concepts",
+        "label": "CONCEPTS"
+      }
+    ],
+    "viewCase": "VIEW CASE →",
+    "items": [
+      {
+        "slug": "perfectmatch",
+        "name": "Perfect Match",
+        "description": "HR consulting",
+        "tags": [
+          "LIVE",
+          "RU/EN",
+          "CODE"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/perfectmatch/dekstop.png",
+        "domain": "perfectmatch.pro"
+      },
+      {
+        "slug": "ntguilty",
+        "name": "NTGUILTY",
+        "description": "Criminal defense lawyers",
+        "tags": [
+          "LIVE",
+          "TILDA"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/ntguilty/ntguilty-desktop-1440.png",
+        "domain": "ntguilty.ru"
+      },
+      {
+        "slug": "adventure-bro",
+        "name": "Adventure Bro",
+        "description": "Abkhazia tours",
+        "tags": [
+          "LIVE",
+          "TILDA"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/adventure-bro/mokap-dekstop.png",
+        "domain": "adventurebro.ru"
+      },
+      {
+        "slug": "myaso-i-bulka",
+        "name": "MYASO & BULKA",
+        "description": "Burger bar QR menu",
+        "tags": [
+          "CONCEPT",
+          "CODE"
+        ],
+        "categories": [
+          "stores",
+          "concepts"
+        ],
+        "cover": "/assets/cases/myaso-i-bulka/01-index-desktop-en.png",
+        "domain": null
+      },
+      {
+        "slug": "eurasia",
+        "name": "EURASIA",
+        "description": "Professional cosmetics store",
+        "tags": [
+          "CLIENT",
+          "CODED CONCEPT"
+        ],
+        "categories": [
+          "stores",
+          "concepts"
+        ],
+        "cover": "/assets/cases/eurasia/desktop-01-home.jpg",
+        "domain": null
+      },
+      {
+        "slug": "intimate-aesthetics-center",
+        "name": "Intimate Aesthetics Center",
+        "description": "From a logo to a platform",
+        "tags": [
+          "LIVE",
+          "IN PROGRESS"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/intimate-aesthetics-center/new-desktop-1440.png",
+        "domain": null
+      },
+      {
+        "slug": "annafit",
+        "name": "AnnaFit",
+        "description": "Personal trainer landing page",
+        "tags": [
+          "CONCEPT"
+        ],
+        "categories": [
+          "sites",
+          "concepts"
+        ],
+        "cover": "/assets/cases/annafit/macbook-pro-14-22.png",
+        "domain": null
+      }
+    ],
+    "yourSite": {
+      "index": "(08)",
+      "heading": "Your website could be next. Want to see what it might look like?",
+      "fieldLabel": "What's your business called?",
+      "placeholder": "E.g. \"Corner Coffee Co.\"",
+      "nicheLabel": "Business type",
+      "niches": [
+        {
+          "key": "cafe",
+          "label": "Cafes & restaurants"
+        },
+        {
+          "key": "beauty",
+          "label": "Beauty & health"
+        },
+        {
+          "key": "shop",
+          "label": "Shop"
+        },
+        {
+          "key": "expert",
+          "label": "Expert"
+        },
+        {
+          "key": "construction",
+          "label": "Construction & services"
+        },
+        {
+          "key": "other",
+          "label": "Other"
+        }
+      ],
+      "buildButton": "Build it in 3 seconds ↗",
+      "rebuildButton": "Build again",
+      "ctaButton": "I want this for real",
+      "resultLabel": "YOUR MINI SITE"
+    }
+  },
+  "services": {
+    "sectionLabel": "[02] SERVICES & PRICING",
+    "meta": "OPEN PRICING · QUOTE IN 1 DAY",
+    "heading": {
+      "pre": "Pick a ",
+      "marker": "format",
+      "post": " — I'll handle the rest"
+    },
+    "subheading": "Transparent pricing. The final quote depends on scope and complexity — fill in a short brief and I'll send it within a day.",
+    "includedLabel": "WHAT'S INCLUDED",
+    "exampleLabel": "EXAMPLE",
+    "popularLabel": "MOST POPULAR",
+    "discussButton": "Discuss ↗",
+    "items": [
+      {
+        "id": "onepage",
+        "title": "One-page website",
+        "forWho": "When you need to present one service, product or event quickly and boldly.",
+        "price": "$900",
+        "timeframe": "from 14 business days",
+        "example": "NTGUILTY, AnnaFit",
+        "popular": false,
+        "included": [
+          [
+            "Kickoff & brief",
+            "Niche, competitor and audience research",
+            "Structure and interaction logic",
+            "Wireframe"
+          ],
+          [
+            "Visual concept & moodboard",
+            "2–3 first-screen design concepts",
+            "Design mockup",
+            "Development on Tilda or in code"
+          ],
+          [
+            "Responsive on every device",
+            "Setup, integrations and basic SEO",
+            "Testing and handover",
+            "Video guide and 1–2 weeks of support"
+          ]
+        ]
+      },
+      {
+        "id": "multipage",
+        "title": "Multi-page website",
+        "forWho": "For companies and experts with a lot to share: services, cases, team, blog.",
+        "price": "from $1,400",
+        "timeframe": "from 22 business days",
+        "example": "PerfectMatch, Adventure Bro",
+        "popular": true,
+        "included": [
+          [
+            "Kickoff & brief",
+            "Niche, competitor and audience research",
+            "Sitemap",
+            "Structure and interaction logic"
+          ],
+          [
+            "Wireframe",
+            "Visual concept & moodboard",
+            "Design mockup for every block and page",
+            "Development on Tilda or in code"
+          ],
+          [
+            "Responsive on every device",
+            "Setup, integrations and basic SEO",
+            "Testing and handover",
+            "Video guide and 1–2 weeks of support"
+          ]
+        ]
+      },
+      {
+        "id": "store",
+        "title": "Online store",
+        "forWho": "Catalog, cart and payments — to sell online without the hassle.",
+        "price": "from $2,200",
+        "timeframe": "from 22 business days",
+        "example": "EURASIA, MYASO & BULKA",
+        "popular": false,
+        "included": [
+          [
+            "Kickoff & brief",
+            "Niche, competitor and audience research",
+            "Sitemap",
+            "Structure and interaction logic"
+          ],
+          [
+            "Wireframe",
+            "Visual concept & moodboard",
+            "Design mockup for every block and page",
+            "Development on Tilda or in code"
+          ],
+          [
+            "Responsive on every device",
+            "Setup, integrations and basic SEO",
+            "Testing and handover",
+            "Video guide and 1–2 weeks of support"
+          ]
+        ]
+      },
+      {
+        "id": "design",
+        "title": "Website design",
+        "forWho": "A well-thought-out Figma design that any developer can easily build.",
+        "price": "$700",
+        "timeframe": "from 7 business days",
+        "example": "EURASIA, AnnaFit",
+        "popular": false,
+        "included": [
+          [
+            "Kickoff & brief",
+            "Niche, competitor and audience research",
+            "Structure and logic",
+            "Copy review and help"
+          ],
+          [
+            "Wireframe",
+            "Moodboard",
+            "2–3 first-screen design concepts"
+          ],
+          [
+            "Design mockup",
+            "Responsive on every device",
+            "UI kit",
+            "Development support"
+          ]
+        ]
+      }
+    ],
+    "other": {
+      "index": "(05)",
+      "title": "Need a different kind of design?",
+      "text": "Logo, presentation, social media, packaging or ads — tell me about your task and I'll suggest a solution.",
+      "button": "Discuss a task ↗"
+    },
+    "columns": [
+      "(№)",
+      "FORMAT",
+      "FOR",
+      "TIMELINE",
+      "PRICE"
+    ]
+  },
+  "process": {
+    "sectionLabel": "[03] PROCESS",
+    "meta": "10 STEPS · NO SURPRISES",
+    "heading": {
+      "line1": "From first message",
+      "pre": "to launch — ",
+      "marker": "10 steps"
+    },
+    "activeLabel": "NOW",
+    "steps": [
+      {
+        "title": "Getting to know you",
+        "text": "I dig into your task, goals and wishes."
+      },
+      {
+        "title": "Proposal",
+        "text": "I send options, timelines and pricing — you choose."
+      },
+      {
+        "title": "Agreement",
+        "text": "We put everything in writing."
+      },
+      {
+        "title": "Research",
+        "text": "I study your niche, competitors and customers."
+      },
+      {
+        "title": "Wireframe",
+        "text": "I build the structure: what goes where, and why."
+      },
+      {
+        "title": "Moodboard",
+        "text": "I set the mood: colors, fonts, references."
+      },
+      {
+        "title": "Concepts",
+        "text": "I show you first-screen options to choose from."
+      },
+      {
+        "title": "Design",
+        "text": "I design every page, including the mobile version."
+      },
+      {
+        "title": "Development",
+        "text": "I build the site on Tilda or in code, then set it up and test it."
+      },
+      {
+        "title": "Launch & support",
+        "text": "I hand over the site with a guide. 1–2 weeks of free support, and I stay in touch after that."
+      }
+    ]
+  }
+}

@@ -1,0 +1,692 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import type { Locale } from '../lib/i18n';
+import yourSiteTemplates from '../data/your-site.json';
+import { projects } from '../data/proof';
+import ProjectImage from './ProjectImage.astro';
+
+interface WorkItem {
+  slug: string;
+  name: string;
+  description: string;
+  tags: string[];
+  categories: string[];
+  cover: string;
+  domain: string | null;
+}
+
+interface Props {
+  lang: Locale;
+  work: {
+    sectionLabel: string;
+    heading: { line1: string; pre: string; marker: string };
+    subheading: string;
+    filters: { key: string; label: string }[];
+    viewCase: string;
+    items: WorkItem[];
+    yourSite: {
+      index: string;
+      heading: string;
+      fieldLabel: string;
+      placeholder: string;
+      nicheLabel: string;
+      niches: { key: string; label: string }[];
+      buildButton: string;
+      rebuildButton: string;
+      ctaButton: string;
+      resultLabel: string;
+    };
+  };
+}
+
+const { lang, work } = Astro.props;
+---
+
+<section class="work" id="work">
+  <SectionHeader label={work.sectionLabel} />
+
+  <div class="work__intro">
+    <h2 class="work__heading">
+      {work.heading.line1}<br />
+      {work.heading.pre}<span class="marker-blue">{work.heading.marker}</span>
+    </h2>
+    <p class="work__subheading">{work.subheading}</p>
+  </div>
+
+  <div class="work__filters mono" data-work-filters>
+    {
+      work.filters.map((f, i) => (
+        <button type="button" class="work__filter" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'}>
+          {f.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="work__list" data-work-list>
+    {
+      work.items.map((item, i) => (
+        <article
+          class="work__row"
+          data-categories={item.categories.join(',')}
+        >
+          <span class="mono work__row-index">{String(i + 1).padStart(2, '0')}</span>
+          <a class="work__row-main" href={`/${lang}/cases/${item.slug}/`}>
+            <span class="work__row-name">{item.name}</span>
+            <span class="work__row-desc">{item.description}</span>
+          </a>
+          <span class="work__row-tags mono">
+            {item.tags.map((t) => (
+              <span class="work__tag">{t}</span>
+            ))}
+          </span>
+          <div class="work__row-links mono">
+            <a href={`/${lang}/cases/${item.slug}/`}>{lang === 'ru' ? 'Кейс →' : 'Case study →'}</a>
+            {projects[item.slug]?.url && <a href={projects[item.slug].url} target="_blank" rel="noopener noreferrer">{projects[item.slug].linkLabel?.[lang] ?? (lang === 'ru' ? 'Открыть сайт ↗' : 'Live website ↗')}</a>}
+          </div>
+          <span class="work__preview" data-preview aria-hidden="true">
+            <ProjectImage src={item.cover} alt="" sizes="320px" />
+            <span class="work__preview-caption mono">
+              {item.domain ?? item.slug} — {work.viewCase}
+            </span>
+          </span>
+        </article>
+      ))
+    }
+
+    <div class="work__row work__row--yoursite" data-yoursite>
+      <div class="yours">
+        <div class="yours__panel">
+          <p class="work__yoursite-heading">{work.yourSite.heading}</p>
+          <label class="work__field mono">
+            <span>{work.yourSite.fieldLabel}</span>
+            <input type="text" maxlength="30" placeholder={work.yourSite.placeholder} data-yoursite-input />
+          </label>
+          <label class="work__field mono">
+            <span>{work.yourSite.nicheLabel}</span>
+            <select data-yoursite-niche>
+              {work.yourSite.niches.map((n) => <option value={n.key}>{n.label}</option>)}
+            </select>
+          </label>
+          <div class="work__yoursite-actions">
+            <button type="button" class="btn btn-secondary" data-yoursite-rebuild>{work.yourSite.rebuildButton}</button>
+            <button type="button" class="btn btn-primary hard-shadow-lime" data-open-brief data-yoursite-cta>{work.yourSite.ctaButton}</button>
+          </div>
+        </div>
+
+        <div class="yours__stage">
+          <span class="mono yours__label" data-yoursite-status>{work.yourSite.resultLabel}</span>
+          <div class="yours__mock" data-yoursite-mock data-accent="lime" data-state="wire" aria-live="polite">
+            <div class="yours__bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">your-site.com</span></div>
+            <div class="yours__nav">
+              <b data-mock-logo></b>
+              <nav aria-hidden="true"><span data-mock-nav="0"></span><span data-mock-nav="1"></span><span data-mock-nav="2"></span></nav>
+              <span class="yours__nav-btn" data-mock-btn-sm></span>
+            </div>
+            <div class="yours__hero">
+              <div class="yours__copy">
+                <h3 class="work__yoursite-mock-name" data-yoursite-mock-name></h3>
+                <p data-yoursite-mock-tagline></p>
+                <span class="yours__btn mono" data-mock-btn></span>
+              </div>
+              <div class="yours__img" aria-hidden="true"><span class="mono">{lang === 'ru' ? '(ОБЛОЖКА)' : '(COVER)'}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" data-yoursite-templates set:html={JSON.stringify(yourSiteTemplates)} />
+  <script type="application/json" data-yoursite-lang set:html={JSON.stringify(lang)} />
+</section>
+
+<style>
+  .work {
+    position: relative;
+  }
+
+  .work__intro {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    padding: 40px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .work__heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .work__subheading {
+    color: var(--muted-strong);
+    font-size: 15px;
+    max-width: 38ch;
+  }
+
+  .work__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .work__filter {
+    font-size: 11px;
+    padding: 8px 14px;
+    border: 1px solid rgba(244, 241, 234, 0.35);
+    color: var(--muted-strong);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .work__filter[aria-pressed='true'] {
+    background: var(--lime);
+    color: var(--dark);
+    border-color: var(--lime);
+  }
+
+  .work__filter:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .work__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px minmax(0,1fr);
+    align-items: center;
+    gap: 16px;
+    padding: 20px var(--gutter);
+    border-bottom: 1px solid var(--line);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+
+  .work__row[hidden] {
+    display: none;
+  }
+
+  .work__row-index {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .work__row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .work__row-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 3vw, 32px);
+  }
+
+  .work__row-desc {
+    color: var(--muted-strong);
+    font-size: 13px;
+  }
+
+  .work__row-tags {
+    display: flex;
+    grid-column: 2;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .work__tag {
+    border: 1px solid rgba(244, 241, 234, 0.3);
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+
+  .work__row-arrow {
+    font-size: 18px;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .work__row[data-categories]:hover, .work__row[data-categories]:focus-within {
+    background: var(--lime);
+    color: var(--dark);
+  }
+
+  .work__row:hover .work__row-desc,
+  .work__row:hover .work__row-index,
+  .work__row:focus-within .work__row-desc {
+    color: var(--dark);
+  }
+
+  .work__row:hover .work__row-name {
+    color: var(--dark);
+  }
+
+  .work__row:hover .work__tag, .work__row:focus-within .work__tag {
+    color: var(--dark);
+    border-color: rgba(10, 10, 10, 0.4);
+  }
+
+  .work__row:hover .work__row-arrow {
+    transform: translate(3px, -3px);
+    color: var(--dark);
+  }
+
+  .work__preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    aspect-ratio: 16 / 10;
+    pointer-events: none;
+    opacity: 0;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--dark);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--blue);
+    transform: translate(-50%, -60%) rotate(4deg);
+    transition: opacity var(--dur-fast) var(--ease-out);
+    z-index: 60;
+  }
+
+  .work__preview :global(picture), .work__preview :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .work__preview-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 6px 10px;
+    font-size: 10px;
+    background: var(--dark);
+    color: var(--ink);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .work__row:hover .work__preview {
+      opacity: 1;
+    }
+  }
+
+  /* Row 08 — "Your business_" mini builder */
+  .work__row--yoursite {
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .work__yoursite-heading {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 3vw, 32px);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    max-width: 46ch;
+  }
+
+  .work__yoursite-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px;
+  }
+
+  .work__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--muted);
+    flex: 1 1 200px;
+  }
+
+  .work__field input,
+  .work__field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(244, 241, 234, 0.4);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 8px 0;
+  }
+
+  .work__field select {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .work__field input:focus,
+  .work__field select:focus {
+    outline: none;
+    border-color: var(--lime);
+  }
+
+  .work__yoursite-result[hidden] {
+    display: none;
+  }
+
+  .work__yoursite-result-label {
+    font-size: 10px;
+    color: var(--lime);
+  }
+
+  .work__yoursite-mock {
+    margin: 12px 0 20px;
+    padding: 32px 24px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+  }
+
+  .work__yoursite-mock-name {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0 0 12px;
+    word-break: break-word;
+  }
+
+  .work__yoursite-mock-tagline {
+    font-size: 12px;
+    color: var(--muted-strong);
+  }
+
+  .work__yoursite-mock--tomato .work__yoursite-mock-name {
+    color: var(--tomato);
+  }
+  .work__yoursite-mock--lime .work__yoursite-mock-name {
+    color: var(--lime);
+  }
+  .work__yoursite-mock--blue .work__yoursite-mock-name {
+    color: var(--blue);
+  }
+
+  .work__yoursite-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .work__row-links{display:flex;gap:16px;grid-column:2;font-size:10px;flex-wrap:wrap}.work__row-links a{padding:8px 0;border-bottom:1px solid currentColor}.work__row-links a:hover{text-decoration:underline;text-underline-offset:4px}
+  @media (min-width: 1024px) {
+    .work__row {
+      grid-template-columns: 44px minmax(0,1fr) auto auto;
+    }
+    .work__row-links{grid-column:auto;flex-direction:column;gap:0;min-width:144px}
+    .work__row-tags {
+      display: flex;
+      grid-column: auto;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .work__row--yoursite {
+      grid-template-columns: 60px 1fr;
+    }
+  }
+
+  /* --- Figma v2 alignment --- */
+  .work__intro {
+    padding: 56px var(--gutter) 16px;
+    border-bottom: 0;
+  }
+  .work__heading {
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+  .work__heading :global(.marker-blue) {
+    padding: 0 14px 4px 10px;
+  }
+  .work__subheading {
+    font-size: 17px;
+    line-height: 1.45;
+    max-width: 32ch;
+  }
+  .work__filters {
+    justify-content: flex-start;
+    gap: 0;
+    padding: 0 var(--gutter) 32px;
+    border-bottom: 0;
+  }
+  .work__filter {
+    border: 1px solid rgba(244, 241, 234, 0.5);
+    padding: 12px 18px;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .work__filter + .work__filter {
+    border-left: 0;
+  }
+  .work__filter[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--dark);
+    border-color: var(--ink);
+  }
+  .work__list {
+    border-top: 1px solid var(--line);
+  }
+  .work__row-name {
+    font-size: clamp(24px, 3.1vw, 44px);
+    letter-spacing: -0.03em;
+  }
+  .work__row--yoursite .work__row-index {
+    color: var(--tomato);
+  }
+  @media (min-width: 1024px) {
+    .work__filters {
+      justify-content: flex-end;
+      padding-top: 8px;
+    }
+    .work__row {
+      grid-template-columns: 60px minmax(0, 1.5fr) minmax(0, 1.1fr) minmax(0, 1fr) 150px;
+      padding-top: 26px;
+      padding-bottom: 26px;
+    }
+    .work__row-main {
+      display: contents;
+    }
+    .work__row-desc {
+      font-size: 17px;
+      color: var(--muted-strong);
+    }
+    .work__row-tags {
+      font-size: 11px;
+    }
+    .work__tag {
+      border: 0;
+      padding: 0;
+    }
+    .work__tag + .work__tag::before {
+      content: '·';
+      margin: 0 8px;
+    }
+  }
+
+  /* --- Row 08: live prototype on a white background --- */
+  .yours { display: grid; gap: 28px; min-width: 0; }
+  .yours__panel { display: flex; flex-direction: column; gap: 20px; }
+  .yours__panel .work__field { flex: none; }
+  .yours__panel .work__yoursite-heading { margin: 0; }
+  .yours__stage { min-width: 0; }
+  .yours__label { display: block; font-size: 10px; color: var(--lime); margin-bottom: 10px; }
+  .yours { padding-right: 6px; }
+  .yours__mock {
+    --a: var(--lime); --on-a: var(--dark);
+    background: #fff; color: #0a0a0a; border: 1px solid var(--line);
+    box-shadow: 8px 8px 0 0 var(--a); transition: box-shadow 0.5s var(--ease-out);
+  }
+  .yours__mock[data-accent='tomato'] { --a: var(--tomato); --on-a: var(--dark); }
+  .yours__mock[data-accent='blue'] { --a: var(--blue); --on-a: var(--white); }
+  .yours__bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-bottom: 1px solid #e5e5e5; background: #f4f4f4; }
+  .yours__bar i { width: 8px; height: 8px; background: #cfcfcf; }
+  .yours__bar span { margin-left: 10px; font-size: 10px; color: #8a8a8a; text-transform: none; }
+  .yours__nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; border-bottom: 1px solid #e5e5e5; }
+  .yours__nav b { font: 700 15px var(--font-display); letter-spacing: -0.03em; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .yours__nav nav { display: none; gap: 20px; font: 500 11px var(--font-mono); text-transform: uppercase; color: #555; }
+  .yours__nav-btn { padding: 8px 12px; font: 700 10px var(--font-mono); text-transform: uppercase; background: var(--a); color: var(--on-a); transition: background 0.5s, color 0.5s; }
+  .yours__hero { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 28px 20px 32px; }
+  .yours__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+  .yours__mock .work__yoursite-mock-name { font: 900 clamp(26px, 3.3vw, 50px)/0.98 var(--font-display); letter-spacing: -0.05em; margin: 0; color: #0a0a0a; overflow-wrap: break-word; word-break: normal; hyphens: manual; transition: color 0.5s; }
+  .yours__copy p { font-size: 15px; line-height: 1.4; color: #444; max-width: 30ch; margin: 0; transition: color 0.5s; }
+  .yours__btn { padding: 12px 18px; font-size: 11px; font-weight: 700; background: var(--a); color: var(--on-a); box-shadow: 5px 5px 0 0 #0a0a0a; transition: background 0.5s, color 0.5s, box-shadow 0.5s; }
+  .yours__img { min-height: 180px; display: flex; align-items: flex-end; padding: 10px; font-size: 10px; background: linear-gradient(135deg, var(--a), #0a0a0a 140%); color: var(--on-a); transition: background 0.6s; }
+  /* wireframe → moodboard → design */
+  .yours__mock[data-state='wire'] .work__yoursite-mock-name { color: transparent; -webkit-text-stroke: 1px #0a0a0a; }
+  .yours__mock[data-state='wire'] .yours__copy p { color: transparent; background: linear-gradient(#ddd, #ddd) 0 40%/100% 6px no-repeat, linear-gradient(#ddd, #ddd) 0 75%/70% 6px no-repeat; }
+  .yours__mock[data-state='wire'] .yours__btn,
+  .yours__mock[data-state='wire'] .yours__nav-btn { background: transparent; color: transparent; box-shadow: none; outline: 1px dashed #999; }
+  .yours__mock[data-state='wire'] .yours__img,
+  .yours__mock[data-state='mid'] .yours__img { background: #ececec; color: #999; }
+  .yours__mock[data-state='wire'] .yours__nav-btn, .yours__mock[data-state='mid'] .yours__nav-btn { box-shadow: none; }
+  .yours__mock[data-state='mid'] .yours__btn { background: #ddd; color: #666; box-shadow: none; }
+  .yours__mock[data-state='mid'] .yours__nav-btn { background: #ddd; color: #666; }
+  .work__row.work__row--yoursite { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 900px) { .yours { margin-left: 76px; } }
+  .work__row.work__row--yoursite:hover { background: transparent; }
+  @media (min-width: 900px) {
+    .yours { grid-template-columns: minmax(280px, 380px) 1fr; gap: 40px; }
+    .yours__nav nav { display: flex; }
+    .yours__hero { grid-template-columns: 1.1fr 0.9fr; align-items: stretch; padding: 40px 28px 44px; }
+    .yours__img { min-height: 240px; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Filter tabs
+  const filterBar = document.querySelector<HTMLElement>('[data-work-filters]');
+  const list = document.querySelector<HTMLElement>('[data-work-list]');
+  if (filterBar && list) {
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('.work__row[data-categories]'));
+    filterBar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!btn) return;
+      filterBar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      const key = btn.dataset.filter;
+      rows.forEach((row) => {
+        const cats = (row.dataset.categories ?? '').split(',');
+        const show = key === 'all' || cats.includes(key ?? '');
+        row.hidden = !show;
+      });
+    });
+  }
+
+  // Cursor-following preview on hover (desktop only)
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll<HTMLElement>('.work__row[data-categories]').forEach((row) => {
+      const preview = row.querySelector<HTMLElement>('[data-preview]');
+      if (!preview) return;
+      row.addEventListener('mousemove', (e) => {
+        preview.style.left = `${e.clientX}px`;
+        preview.style.top = `${e.clientY}px`;
+      });
+    });
+  }
+
+  // "Your business_": live prototype of the first screen on a white background
+  const templatesEl = document.querySelector<HTMLScriptElement>('[data-yoursite-templates]');
+  const langEl = document.querySelector<HTMLScriptElement>('[data-yoursite-lang]');
+  const templates = templatesEl ? JSON.parse(templatesEl.textContent ?? '{}') : {};
+  const lang = langEl ? JSON.parse(langEl.textContent ?? '"ru"') : 'ru';
+  const ru = lang !== 'en';
+
+  const root = document.querySelector<HTMLElement>('[data-yoursite]');
+  const input = document.querySelector<HTMLInputElement>('[data-yoursite-input]');
+  const nicheSelect = document.querySelector<HTMLSelectElement>('[data-yoursite-niche]');
+  const rebuildBtn = document.querySelector<HTMLButtonElement>('[data-yoursite-rebuild]');
+  const ctaBtn = document.querySelector<HTMLButtonElement>('[data-yoursite-cta]');
+  const mock = document.querySelector<HTMLElement>('[data-yoursite-mock]');
+  const mockName = document.querySelector<HTMLElement>('[data-yoursite-mock-name]');
+  const mockTagline = document.querySelector<HTMLElement>('[data-yoursite-mock-tagline]');
+  const mockLogo = document.querySelector<HTMLElement>('[data-mock-logo]');
+  const navItems = Array.from(document.querySelectorAll<HTMLElement>('[data-mock-nav]'));
+  const btnSm = document.querySelector<HTMLElement>('[data-mock-btn-sm]');
+  const btn = document.querySelector<HTMLElement>('[data-mock-btn]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const navLabels = ru ? ['Услуги', 'О нас', 'Контакты'] : ['Services', 'About', 'Contact'];
+  const cta = ru ? 'Оставить заявку ↗' : 'Get in touch ↗';
+  const fallbackName = ru ? 'Ваш бизнес' : 'Your Business';
+  let taglineIndex = 0;
+  let timers: number[] = [];
+  let debounce = 0;
+
+  function sanitize(raw: string) {
+    const banned = ['fuck', 'shit', 'блять', 'хуй', 'пизда', 'сука'];
+    let value = raw.replace(/[<>]/g, '').trim().slice(0, 30);
+    if (banned.some((word) => value.toLowerCase().includes(word))) value = fallbackName;
+    return value || fallbackName;
+  }
+
+  function fill() {
+    if (!input || !nicheSelect || !mock || !mockName || !mockTagline) return;
+    const name = sanitize(input.value);
+    const niche = nicheSelect.value;
+    const template = templates[niche] ?? templates.other ?? {};
+    const taglines: string[] = template[lang] ?? template.ru ?? [];
+    mock.dataset.accent = template.accent ?? 'lime';
+    mockName.textContent = name;
+    if (mockLogo) mockLogo.textContent = name;
+    mockTagline.textContent = taglines[taglineIndex % Math.max(taglines.length, 1)] ?? '';
+    navItems.forEach((el, i) => { el.textContent = navLabels[i]; });
+    if (btnSm) btnSm.textContent = ru ? 'Связаться' : 'Contact';
+    if (btn) btn.textContent = cta;
+    if (ctaBtn) { ctaBtn.dataset.business = name; ctaBtn.dataset.niche = niche; }
+  }
+
+  // Wireframe → moodboard → design, ~2s, the same idea as the main screen.
+  function build() {
+    if (!mock) return;
+    timers.forEach((t) => window.clearTimeout(t));
+    timers = [];
+    fill();
+    if (reduced) { mock.dataset.state = 'done'; return; }
+    mock.dataset.state = 'wire';
+    timers.push(window.setTimeout(() => { mock.dataset.state = 'mid'; }, 650));
+    timers.push(window.setTimeout(() => { mock.dataset.state = 'done'; }, 1400));
+    gsap.fromTo(mock, { y: 10, opacity: 0.7 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' });
+  }
+
+  const schedule = () => { window.clearTimeout(debounce); debounce = window.setTimeout(build, 450); };
+  input?.addEventListener('input', schedule);
+  nicheSelect?.addEventListener('change', () => { taglineIndex = 0; build(); });
+  rebuildBtn?.addEventListener('click', () => { taglineIndex += 1; build(); });
+
+  // Build right away: fill instantly, then play the build as the block scrolls into view.
+  fill();
+  if (root && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); build(); }
+    }, { threshold: 0.35 });
+    io.observe(root);
+  } else {
+    build();
+  }
+</script>
