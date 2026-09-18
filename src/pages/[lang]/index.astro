@@ -85,7 +85,7 @@ const website = {
 const jsonLd = { '@context': 'https://schema.org', '@graph': [person, service, website] };
 ---
 
-<Base lang={lang} title={titles[lang]} description={descriptions[lang]} jsonLd={jsonLd}>
+<Base lang={lang} title={titles[lang]} description={descriptions[lang]} image={lang === 'en' ? '/og-image-en.png' : '/og-image.png'} jsonLd={jsonLd}>
   <Header lang={lang} {...data.header} />
   <main>
     <Hero lang={lang} hero={data.hero} />

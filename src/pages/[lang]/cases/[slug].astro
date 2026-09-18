@@ -69,7 +69,7 @@ const jsonLd = [
 ];
 ---
 
-<Base lang={lang} title={pageTitle} description={pageDescription} type="article" jsonLd={jsonLd}>
+<Base lang={lang} title={pageTitle} description={pageDescription} image={`/social/cases/${slug}-${lang}.png`} type="article" jsonLd={jsonLd}>
   <Header lang={lang} {...data.header} />
   <main class="case">
     <a class="case__back mono" href={`/${lang}/#work`}>{text.back}</a>
