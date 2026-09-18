@@ -49,6 +49,7 @@ const taskCopy = ru ? {
         <label class="mono">{text.name}<input required name="name" autocomplete="name" maxlength="100" placeholder={text.nameHint} /></label>
         <label class="mono">{text.contact}<input required name="contact" maxlength="150" placeholder={text.contactHint} /></label>
         <label class="mono">{text.task}<textarea name="task" maxlength="1200" placeholder={text.taskHint}></textarea></label>
+        <label class="brief__consent"><input type="checkbox" name="consent" required /><span>{ru ? <>Согласен(на) с обработкой персональных данных и <a href={`/${lang}/privacy/`} target="_blank" rel="noopener">политикой конфиденциальности</a></> : <>I agree to the processing of my personal data and the <a href={`/${lang}/privacy/`} target="_blank" rel="noopener">privacy policy</a></>}</span></label>
         <p class="brief__note" data-note-live>{ru ? 'Следующий шаг — проверить сообщение и отправить его мне в Telegram. До этого ответы остаются только на этой странице.' : 'Next, review your message and send it to me on Telegram. Until then, your answers stay on this page only.'}</p>
       </section>
       <div class="brief__controls"><button type="button" class="brief__back mono" data-brief-prev hidden>{text.prev}</button><span class="mono" data-brief-progress aria-live="polite">01 / 03</span><button type="button" class="btn btn-primary hard-shadow-lime" data-brief-next>{text.next}</button><button type="submit" class="btn btn-primary hard-shadow-lime" data-brief-send hidden>{ru ? 'Проверить бриф →' : 'Review brief →'}</button></div>
@@ -63,6 +64,7 @@ const taskCopy = ru ? {
         <label class="mono">{taskCopy.type}<select name="service" required><option value="">{taskCopy.typeHint}</option>{taskCopy.types.map((type) => <option>{type}</option>)}</select></label>
         <label class="mono">{taskCopy.comment}<textarea name="task" required maxlength="1200" placeholder={taskCopy.commentHint}></textarea></label>
         <label class="mono">{taskCopy.contact}<input name="contact" required maxlength="150" placeholder={taskCopy.contactHint} /></label>
+        <label class="brief__consent"><input type="checkbox" name="consent" required /><span>{ru ? <>Согласен(на) с обработкой персональных данных и <a href={`/${lang}/privacy/`} target="_blank" rel="noopener">политикой конфиденциальности</a></> : <>I agree to the processing of my personal data and the <a href={`/${lang}/privacy/`} target="_blank" rel="noopener">privacy policy</a></>}</span></label>
         <p class="brief__note" data-note-live>{ru ? 'Соберём сообщение, которое вы сможете отправить мне в Telegram.' : 'We’ll prepare a message for you to send to me on Telegram.'}</p>
         <p class="brief__note brief__error" data-brief-error role="alert" hidden></p>
         <div class="brief__task-actions"><button type="submit" class="btn btn-primary hard-shadow-lime" data-task-send>{ru ? 'Проверить запрос →' : 'Review request →'}</button><a class="brief__alternative" href={contacts.telegram} target="_blank" rel="noopener noreferrer">{taskCopy.telegram}</a></div>
@@ -79,7 +81,7 @@ const taskCopy = ru ? {
       <p class="brief__note" data-copy-status role="status"></p>
     </section>
     <section class="brief__done" data-brief-done hidden aria-labelledby="done-title">
-      <div class="brief__sticker mono" aria-hidden="true"><img src="/assets/avatar.jpg" alt="" width="120" height="120" /><span>{ru ? '✓ ПОЛУЧИЛА' : '✓ GOT IT'}</span></div>
+      <div class="brief__sticker mono" aria-hidden="true"><img src="/assets/avatar-480.webp" alt="" width="120" height="120" /><span>{ru ? '✓ ПОЛУЧИЛА' : '✓ GOT IT'}</span></div>
       <h2 id="done-title" tabindex="-1">{ru ? <>Бриф<br /><span class="marker-lime">у меня!</span></> : <>Got your<br /><span class="marker-lime">brief!</span></>}</h2>
       <p>{ru ? 'Изучу задачу и пришлю расчёт в течение дня.' : 'I’ll review your task and send a quote within a day.'}</p>
       <dl class="brief__next mono">
@@ -149,6 +151,10 @@ const taskCopy = ru ? {
 
   .brief__done h2 .marker-lime{font-size:inherit;color:var(--dark);display:inline-block}
   .brief__done .brief__sticker span{color:var(--dark);font-size:11px}
+
+  .brief label.brief__consent{flex-direction:row;align-items:flex-start;gap:12px;font:13px/1.5 var(--font-body);text-transform:none;letter-spacing:0;color:var(--muted-strong)}
+  .brief__consent input{flex:none;width:20px;height:20px;margin:1px 0 0;padding:0;accent-color:var(--lime);border:1px solid var(--line)}
+  .brief__consent a{color:var(--lime);border-bottom:1px solid currentColor}
 </style>
 
 <script>
@@ -225,7 +231,7 @@ const taskCopy = ru ? {
   previous?.addEventListener('click', () => showStep(Math.max(currentStep - 1, 0), true));
   const prepareMessage = (source: HTMLFormElement) => {
     if (!handoff || !siteBrief || !taskBrief || !messageField || !telegramLink) return;
-    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')).filter((field) => field.name !== 'website');
+    const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]')).filter((field) => field.name !== 'website' && field.name !== 'consent');
     const lines = fields.filter((field) => field.value.trim()).map((field) => {
       const label = field.closest('label')?.firstChild?.textContent?.replace(/\s*\*$/, '').trim() ?? field.name;
       return `${label}: ${field.value.trim()}`;
@@ -256,7 +262,7 @@ const taskCopy = ru ? {
   const deliver = async (source: HTMLFormElement, button: HTMLButtonElement | null) => {
     if (!briefApi) { prepareMessage(source); return; }
     const fields = Array.from(source.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[name]'))
-      .filter((field) => field.name !== 'website' && field.value.trim())
+      .filter((field) => field.name !== 'website' && field.name !== 'consent' && field.value.trim())
       .map((field) => ({ label: field.closest('label')?.firstChild?.textContent?.replace(/\s*\*$/, '').trim() ?? field.name, value: field.value.trim() }));
     const honeypot = (source.elements.namedItem('website') as HTMLInputElement | null)?.value ?? '';
     const originalLabel = button?.textContent ?? '';

@@ -48,7 +48,7 @@ const { hero, lang } = Astro.props;
     </div>
 
     <div class="hero__avatar mono" data-avatar>
-      <img class="hero__avatar-box" src="/assets/avatar.jpg" alt="" aria-hidden="true" />
+      <img class="hero__avatar-box" src="/assets/avatar-480.webp" alt="" aria-hidden="true" />
       <span>{hero.avatarSticker}</span>
     </div>
 
@@ -86,7 +86,7 @@ const { hero, lang } = Astro.props;
         </ul>
       </div>
 
-      <a class="hero__col hero__col--03" href={`/${lang}/cases/perfectmatch/`} aria-label={lang === 'ru' ? 'Посмотреть кейс PerfectMatch' : 'View the PerfectMatch case study'}>
+      <a class="hero__col hero__col--03" href={`/${lang}/cases/perfectmatch/`}>
         <span class="mono hero__col-index">{hero.featured.label} {hero.featured.index}</span>
         <div class="hero__featured-preview" data-featured aria-hidden="true">
           <ProjectImage src="/assets/cases/perfectmatch/dekstop.png" alt="" sizes="(max-width: 899px) 100vw, 33vw" />
@@ -157,6 +157,7 @@ const { hero, lang } = Astro.props;
 
   .hero__wordmark-row {
     position: relative;
+    container-type: inline-size;
   }
 
   .hero__wordmark {
@@ -164,7 +165,9 @@ const { hero, lang } = Astro.props;
     width: 100%;
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(56px, 16.5vw, 236px);
+    font-size: clamp(56px, 16.7vw, 420px);
+    /* Final size is known up front (word width ≈ 5.98 × font size), so the JS fit causes no layout shift. */
+    font-size: min(420px, calc(100cqw * 0.1671));
     line-height: 0.8;
     letter-spacing: -0.05em;
     white-space: nowrap;

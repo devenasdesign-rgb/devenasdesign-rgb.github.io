@@ -1,0 +1,141 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import BriefModal from '../../components/BriefModal.astro';
+import { locales, getSiteData, type Locale } from '../../lib/i18n';
+import { contacts } from '../../data/proof';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const data = getSiteData(lang);
+const ru = lang === 'ru';
+
+const updated = ru ? '19 сентября 2026 г.' : 'September 19, 2026';
+
+const doc = ru
+  ? {
+      title: 'Политика конфиденциальности — DEVENAS',
+      description: 'Как сайт devenasdesign.com собирает, использует и защищает персональные данные, которые вы оставляете в брифе.',
+      back: '← НА ГЛАВНУЮ',
+      label: '[ ДОКУМЕНТ ]',
+      h1: 'Политика конфиденциальности',
+      lead: 'Здесь коротко и без лишних терминов объяснено, какие данные вы оставляете на сайте devenasdesign.com, зачем они нужны и как вы можете ими управлять.',
+      sections: [
+        ['1. Кто обрабатывает данные', ['Оператор персональных данных — Анастасия Девентейчик, самозанятая (плательщик налога на профессиональный доход), веб-дизайнер, бренд DEVENAS. Связаться по любым вопросам о данных можно в Telegram: @devenas.']],
+        ['2. Какие данные мы получаем', ['Только те, что вы сами указываете в брифе и формах на сайте: имя, контакт для связи (Telegram, e-mail, телефон или другой), название и сфера вашего бизнеса, описание задачи, выбранные параметры проекта (услуга, сроки, бюджет и т. п.), комментарий.', 'Дополнительно браузер автоматически передаёт технические данные, необходимые для работы сайта: IP-адрес, тип устройства и браузера. Мы не используем их для вашей идентификации.']],
+        ['3. Зачем нужны данные', ['Чтобы связаться с вами, уточнить задачу, подготовить расчёт и предложение, заключить договор и выполнить работу. Мы не используем ваши данные для рассылок без вашего согласия и не продаём их.']],
+        ['4. Основание обработки', ['Ваше согласие, которое вы даёте, отмечая галочку в брифе перед отправкой. Без согласия отправить бриф через форму нельзя, но вы можете написать напрямую в Telegram.']],
+        ['5. Кому передаются данные', ['Заявка из брифа отправляется в мой личный Telegram. Для этого используются технические сервисы: Telegram (мессенджер), Vercel (обработка запроса формы) и GitHub Pages (хостинг сайта). Эти сервисы могут находиться за пределами России. Данные не передаются никому другому, кроме случаев, предусмотренных законом.']],
+        ['6. Сколько хранятся данные', ['Пока это необходимо для связи и выполнения работы, либо до тех пор, пока вы не отзовёте согласие. По завершении сотрудничества данные хранятся в течение срока, требуемого законом для отчётности и договоров.']],
+        ['7. Ваши права', ['Вы можете запросить, какие данные о вас есть, исправить их, потребовать удаления и отозвать согласие. Для этого напишите в Telegram @devenas — ответ придёт в течение рабочих дней.']],
+        ['8. Cookies и аналитика', ['Сейчас сайт не использует cookies для рекламы. При подключении веб-аналитики (например, Яндекс Метрики) на сайте появится уведомление, а эта политика будет обновлена. Часть данных, например прогресс заполнения брифа, может сохраняться только в вашем браузере и никуда не отправляется.']],
+        ['9. Изменения', ['Политика может обновляться. Актуальная версия всегда находится на этой странице, дата последнего обновления указана вверху.']],
+      ],
+    }
+  : {
+      title: 'Privacy policy — DEVENAS',
+      description: 'How devenasdesign.com collects, uses and protects the personal data you leave in the project brief.',
+      back: '← BACK TO HOME',
+      label: '[ DOCUMENT ]',
+      h1: 'Privacy policy',
+      lead: 'A short, plain-language explanation of what data you leave on devenasdesign.com, why it is needed and how you can control it.',
+      sections: [
+        ['1. Who processes your data', ['The data controller is Anastasia Deventeichik, a self-employed web designer operating as DEVENAS. You can contact me about your data on Telegram: @devenas.']],
+        ['2. What data we receive', ['Only what you enter yourself in the brief and forms on the site: your name, a way to contact you (Telegram, e-mail, phone or other), your business name and field, a description of the task, project parameters (service, timeline, budget and so on) and a comment.', 'Your browser also sends technical data needed to serve the site, such as IP address and device or browser type. We do not use it to identify you.']],
+        ['3. Why we need it', ['To contact you, clarify the task, prepare a quote and proposal, sign an agreement and do the work. Your data is not used for mailings without your consent and is never sold.']],
+        ['4. Legal basis', ['Your consent, which you give by ticking the checkbox in the brief before sending it. The form cannot be sent without consent, but you can always write to me directly on Telegram.']],
+        ['5. Who receives the data', ['A brief is delivered to my personal Telegram. Technical services are used for this: Telegram (messenger), Vercel (processing the form request) and GitHub Pages (site hosting). These services may be located outside your country. Data is not shared with anyone else except where required by law.']],
+        ['6. How long data is kept', ['For as long as needed to communicate and do the work, or until you withdraw consent. After the collaboration ends, data is kept for the period required by law for accounting and contracts.']],
+        ['7. Your rights', ['You may ask what data I hold about you, correct it, request deletion and withdraw your consent. Write to me on Telegram @devenas and I will reply within business days.']],
+        ['8. Cookies and analytics', ['The site currently uses no advertising cookies. If web analytics (for example Yandex Metrica) is added, a notice will appear on the site and this policy will be updated. Some data, such as your progress through the brief, may be stored only in your browser and is not sent anywhere.']],
+        ['9. Changes', ['This policy may be updated. The current version is always on this page, with the last update date shown at the top.']],
+      ],
+    };
+---
+
+<Base lang={lang} title={doc.title} description={doc.description}>
+  <Header lang={lang} {...data.header} />
+  <main class="doc">
+    <a class="doc__back mono" href={`/${lang}/`}>{doc.back}</a>
+    <article class="doc__body">
+      <span class="mono doc__label">{doc.label}</span>
+      <h1>{doc.h1}</h1>
+      <p class="doc__meta mono">{ru ? 'ОБНОВЛЕНО:' : 'UPDATED:'} {updated}</p>
+      <p class="doc__lead">{doc.lead}</p>
+      {doc.sections.map(([heading, paragraphs]) => (
+        <section>
+          <h2>{heading}</h2>
+          {(paragraphs as string[]).map((text) => <p>{text}</p>)}
+        </section>
+      ))}
+      <p class="doc__contact mono">{ru ? 'ВОПРОСЫ ПО ДАННЫМ →' : 'DATA QUESTIONS →'} <a href={contacts.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM @DEVENAS ↗</a></p>
+    </article>
+  </main>
+  <BriefModal lang={lang} />
+</Base>
+
+<style>
+  .doc {
+    min-height: 70vh;
+  }
+  .doc__back {
+    display: inline-block;
+    margin: 22px var(--gutter);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .doc__back:hover {
+    color: var(--lime);
+  }
+  .doc__body {
+    padding: 24px var(--gutter) 96px;
+    border-top: 1px solid var(--line);
+    max-width: 860px;
+  }
+  .doc__label {
+    font-size: 11px;
+    color: var(--lime);
+  }
+  .doc h1 {
+    font: 600 clamp(32px, 6vw, 64px) / 1.08 var(--font-display);
+    letter-spacing: -0.04em;
+    margin: 18px 0 14px;
+  }
+  .doc__meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .doc__lead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.5;
+    color: var(--muted-strong);
+    margin-bottom: 40px;
+  }
+  .doc h2 {
+    font: 600 clamp(19px, 2.4vw, 24px) / 1.2 var(--font-display);
+    letter-spacing: -0.02em;
+    margin: 36px 0 12px;
+  }
+  .doc section p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted-strong);
+    margin-bottom: 12px;
+    max-width: 68ch;
+  }
+  .doc__contact {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .doc__contact a {
+    color: var(--lime);
+    margin-left: 8px;
+  }
+</style>

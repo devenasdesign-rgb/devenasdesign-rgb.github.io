@@ -56,7 +56,7 @@ const socials: [string, string][] = [
       <h2>{content.faqTitle.split('\n').map((line, i, arr) => i === arr.length - 1 ? <span class="marker-blue">{line}</span> : <>{line}<br /></>)}</h2>
       <p class="faq__hint">{ru ? 'Нажмите на вопрос, чтобы раскрыть ответ.' : 'Select a question to reveal the answer.'}</p>
       <aside class="faq__card">
-        <img src="/assets/avatar.jpg" alt="" width="64" height="64" loading="lazy" />
+        <img src="/assets/avatar-480.webp" alt="" width="64" height="64" loading="lazy" />
         <div><strong>{ru ? 'Не нашли ответ?' : 'Didn’t find an answer?'}</strong><span class="mono">{ru ? 'СПРОСИТЕ МЕНЯ НАПРЯМУЮ' : 'ASK ME DIRECTLY'}</span></div>
         <a class="faq__card-btn mono" href={contacts.telegram} target="_blank" rel="noopener noreferrer"><span>{ru ? 'НАПИСАТЬ В TELEGRAM' : 'MESSAGE ON TELEGRAM'}</span><span aria-hidden="true">↗</span></a>
       </aside>
@@ -100,7 +100,7 @@ const socials: [string, string][] = [
     <div class="footer__socials">{socials.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}</div>
   </div>
   <div class="footer__wordmark" data-footer-wordmark aria-hidden="true">DEVENAS</div>
-  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><span>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</span>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
+  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
 </footer>
 
 <style>

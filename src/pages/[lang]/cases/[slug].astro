@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import Header from '../../../components/Header.astro';
 import BriefModal from '../../../components/BriefModal.astro';
+import FloatingContact from '../../../components/FloatingContact.astro';
 import Reviews from '../../../components/Reviews.astro';
 import ProjectImage from '../../../components/ProjectImage.astro';
 import { projects } from '../../../data/proof';
@@ -92,6 +93,7 @@ const jsonLd = [
     <section class="case__cta"><p class="mono">{item.name} · {item.description}</p><h2>{ru ? 'Ваш проект\nможет быть\nследующим' : 'Your project\ncould be\nnext'}</h2><button type="button" class="btn btn-primary hard-shadow-lime" data-open-brief data-case={item.name}>{text.next}</button></section>
     <a class="case__next" href={`/${lang}/cases/${next.slug}/`}><span class="mono">{text.more}</span><strong>{next.name} ↗</strong></a>
     <BriefModal lang={lang} />
+  <FloatingContact lang={lang} />
   </main>
 </Base>
 

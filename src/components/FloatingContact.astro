@@ -1,0 +1,123 @@
+---
+import type { Locale } from '../lib/i18n';
+import { contacts } from '../data/proof';
+
+const { lang } = Astro.props as { lang: Locale };
+const ru = lang === 'ru';
+---
+
+<div class="fc" data-fc>
+  <ul class="fc__menu mono" id="fc-menu" hidden>
+    <li><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><b>Telegram</b><span>{ru ? 'быстрее всего' : 'fastest'}</span><i aria-hidden="true">↗</i></a></li>
+    <li><button type="button" data-open-brief><b>{ru ? 'Заполнить бриф' : 'Fill in the brief'}</b><span>{ru ? '2 мин' : '2 min'}</span><i aria-hidden="true">→</i></button></li>
+    <li><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><b>{ru ? 'ВКонтакте' : 'VK'}</b><span></span><i aria-hidden="true">↗</i></a></li>
+  </ul>
+  <button class="fc__btn mono" type="button" aria-expanded="false" aria-controls="fc-menu" data-fc-toggle aria-label={ru ? 'Написать мне' : 'Message me'}>
+    <img src="/assets/avatar-480.webp" alt="" width="44" height="44" />
+    <span class="fc__label">{ru ? 'НАПИСАТЬ' : 'MESSAGE'} <i aria-hidden="true">↗</i></span>
+  </button>
+</div>
+
+<style>
+  .fc {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+  }
+  .fc__btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px;
+    background: var(--ink);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 5px 5px 0 var(--tomato);
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .fc__btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 var(--tomato);
+  }
+  .fc__btn img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    background: var(--lime);
+    flex: none;
+  }
+  .fc__label {
+    display: none;
+    padding: 0 10px 0 2px;
+    white-space: nowrap;
+  }
+  .fc__menu {
+    width: min(280px, calc(100vw - 32px));
+    background: var(--ink);
+    color: var(--dark);
+    box-shadow: 6px 6px 0 var(--blue);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .fc__menu[hidden] {
+    display: none;
+  }
+  .fc__menu li + li {
+    border-top: 1px solid rgba(10, 10, 10, 0.18);
+  }
+  .fc__menu a,
+  .fc__menu button {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 18px;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    color: var(--dark);
+  }
+  .fc__menu span {
+    font-size: 10px;
+    opacity: 0.6;
+  }
+  .fc__menu i {
+    font-style: normal;
+  }
+  .fc__menu a:hover,
+  .fc__menu button:hover {
+    background: var(--lime);
+  }
+  @media (min-width: 768px) {
+    .fc {
+      right: 24px;
+      bottom: 24px;
+    }
+    .fc__label {
+      display: inline;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-fc]');
+  const toggle = root?.querySelector<HTMLButtonElement>('[data-fc-toggle]');
+  const menu = root?.querySelector<HTMLElement>('.fc__menu');
+  if (root && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => setOpen(menu.hidden));
+    menu.querySelectorAll('a, button').forEach((item) => item.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', (event) => { if (!root.contains(event.target as Node)) setOpen(false); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setOpen(false); });
+  }
+</script>

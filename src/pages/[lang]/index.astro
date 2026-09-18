@@ -9,6 +9,7 @@ import Services from '../../components/Services.astro';
 import Process from '../../components/Process.astro';
 import MoreSections from '../../components/MoreSections.astro';
 import BriefModal from '../../components/BriefModal.astro';
+import FloatingContact from '../../components/FloatingContact.astro';
 import { locales, getSiteData, type Locale } from '../../lib/i18n';
 import { seo } from '../../data/seo';
 
@@ -96,5 +97,6 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': [person, service, w
     <Reviews lang={lang} />
     <MoreSections lang={lang} />
     <BriefModal lang={lang} />
+    <FloatingContact lang={lang} />
   </main>
 </Base>
