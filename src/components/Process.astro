@@ -200,6 +200,10 @@ const { process: proc } = Astro.props;
       min-height: 280px;
     }
   }
+
+  .process__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .process__step { min-width: 0; overflow-wrap: anywhere; }
+  @media (min-width: 900px) { .process__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 </style>
 
 <script>

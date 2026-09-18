@@ -13,6 +13,8 @@ html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* No pinch/double-tap zoom: only vertical and horizontal panning. */
+  touch-action: pan-x pan-y;
 }
 
 html,

@@ -574,6 +574,13 @@ const { lang, work } = Astro.props;
     .yours__hero { grid-template-columns: 1.1fr 0.9fr; align-items: stretch; padding: 40px 28px 44px; }
     .yours__img { min-height: 240px; }
   }
+
+  @media (max-width: 899px) {
+    .work__heading { font-size: clamp(22px, 7vw, 44px); white-space: nowrap; }
+    .work__heading :global(.marker-blue) { padding: 0 10px 3px 8px; }
+    .yours { padding-right: 0; }
+    .yours__mock { box-shadow: 5px 5px 0 0 var(--a); width: calc(100% - 5px); }
+  }
 </style>
 
 <script>

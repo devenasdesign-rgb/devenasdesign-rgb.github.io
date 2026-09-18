@@ -40,7 +40,7 @@ const letters = ['A', 'B'];
     <div class="about__content">
       <h2 class="about__heading">
         {about.heading.line1}<br />
-        {about.heading.markerPrefix}<span class="marker-lime">{about.heading.marker}</span><br />
+        <span class="about__nowrap">{about.heading.markerPrefix}<span class="marker-lime">{about.heading.marker}</span></span><br />
         {about.heading.line3}
       </h2>
 
@@ -362,5 +362,18 @@ const letters = ['A', 'B'];
       border-right: 0;
       padding-bottom: 40px;
     }
+  }
+
+  /* Mobile: grid items must be allowed to shrink below their content width. */
+  .about__grid { grid-template-columns: minmax(0, 1fr); }
+  .about__grid > * { min-width: 0; }
+  .about__photo-frame, .about__photo-caption { width: 100%; }
+  .about__photo-caption { flex-wrap: wrap; }
+  @media (min-width: 900px) { .about__grid { grid-template-columns: 480px minmax(0, 1fr); } }
+
+  .about__nowrap { white-space: nowrap; }
+  @media (max-width: 899px) {
+    .about__heading { font-size: clamp(22px, 7vw, 52px); }
+    .about__heading :global(.marker-lime) { padding: 0 10px 3px 8px; }
   }
 </style>
