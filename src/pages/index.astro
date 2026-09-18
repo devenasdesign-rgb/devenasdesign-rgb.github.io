@@ -1,4 +1,41 @@
 ---
-import { defaultLocale } from '../lib/i18n';
-return Astro.redirect(`/${defaultLocale}/`, 302);
+// Корень сайта: мгновенно ведёт на язык посетителя (русский по умолчанию).
+// GitHub Pages не умеет серверные редиректы, поэтому это статическая страница с тёмным фоном без текста.
 ---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DEVENAS — веб-дизайнер Анастасия Девентейчик</title>
+    <meta name="theme-color" content="#0e0e10" />
+    <link rel="canonical" href="https://devenasdesign.com/ru/" />
+    <link rel="alternate" hreflang="ru" href="https://devenasdesign.com/ru/" />
+    <link rel="alternate" hreflang="en" href="https://devenasdesign.com/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://devenasdesign.com/ru/" />
+    <meta http-equiv="refresh" content="0; url=/ru/" />
+    <style is:inline>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0e0e10;
+        color: #f4f1ea;
+        font: 14px/1.5 system-ui, sans-serif;
+      }
+      a {
+        color: #d4ff3a;
+      }
+    </style>
+    <script is:inline>
+      var lang = (navigator.language || 'ru').toLowerCase();
+      location.replace(lang.indexOf('ru') === 0 ? '/ru/' : '/en/');
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding:20px"><a href="/ru/">Русская версия</a> · <a href="/en/">English version</a></p>
+    </noscript>
+  </body>
+</html>
