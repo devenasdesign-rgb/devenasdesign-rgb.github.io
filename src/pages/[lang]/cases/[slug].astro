@@ -6,6 +6,7 @@ import Reviews from '../../../components/Reviews.astro';
 import ProjectImage from '../../../components/ProjectImage.astro';
 import { projects } from '../../../data/proof';
 import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
+import { seo } from '../../../data/seo';
 
 export function getStaticPaths() {
   return locales.flatMap((lang) => getSiteData(lang).work.items.map((item) => ({ params: { lang, slug: item.slug } })));
@@ -40,9 +41,35 @@ const text = ru ? {
 };
 const index = data.work.items.findIndex((entry) => entry.slug === slug);
 const next = data.work.items[(index + 1) % data.work.items.length];
+const pageTitle = ru ? `${item.name} — кейс: ${item.description} | DEVENAS` : `${item.name} — case study: ${item.description} | DEVENAS`;
+const shorten = (value: string, max = 158) => (value.length <= max ? value : `${value.slice(0, max - 1).replace(/\s+\S*$/, '')}…`);
+const pageDescription = shorten(`${item.name} — ${item.description}. ${story.task} ${story.solution}`);
+const caseUrl = `${seo.origin}/${lang}/cases/${slug}/`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: item.name,
+    description: pageDescription,
+    url: caseUrl,
+    image: `${seo.origin}${item.cover}`,
+    inLanguage: lang,
+    author: { '@type': 'Person', name: ru ? 'Анастасия Девентейчик' : 'Anastasia Deventeichik', url: `${seo.origin}/${lang}/` },
+    ...(project.url ? { sameAs: project.url } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'DEVENAS', item: `${seo.origin}/${lang}/` },
+      { '@type': 'ListItem', position: 2, name: ru ? 'Работы' : 'Work', item: `${seo.origin}/${lang}/#work` },
+      { '@type': 'ListItem', position: 3, name: item.name, item: caseUrl },
+    ],
+  },
+];
 ---
 
-<Base lang={lang} title={`${item.name} — DEVENAS`} description={item.description}>
+<Base lang={lang} title={pageTitle} description={pageDescription} type="article" jsonLd={jsonLd}>
   <Header lang={lang} {...data.header} />
   <main class="case">
     <a class="case__back mono" href={`/${lang}/#work`}>{text.back}</a>

@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base lang="ru" title="Страница не найдена — DEVENAS" description="Такой страницы нет. Вернитесь на главную DEVENAS." noindex>
+  <main style="min-height:100vh;display:grid;place-content:center;gap:24px;padding:40px 20px;text-align:left">
+    <p class="mono" style="color:var(--lime);font-size:12px">404</p>
+    <h1 style="font:600 clamp(32px,7vw,72px)/1.1 var(--font-display);letter-spacing:-.04em">Такой страницы<br />нет</h1>
+    <p style="color:var(--muted-strong);max-width:40ch">Возможно, ссылка устарела. Вернитесь на главную или посмотрите работы.</p>
+    <p style="display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn btn-primary hard-shadow-lime" href="/ru/">На главную ↗</a>
+      <a class="btn btn-secondary" href="/en/">English</a>
+    </p>
+  </main>
+</Base>

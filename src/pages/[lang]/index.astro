@@ -10,6 +10,7 @@ import Process from '../../components/Process.astro';
 import MoreSections from '../../components/MoreSections.astro';
 import BriefModal from '../../components/BriefModal.astro';
 import { locales, getSiteData, type Locale } from '../../lib/i18n';
+import { seo } from '../../data/seo';
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -19,16 +20,72 @@ const { lang } = Astro.params as { lang: Locale };
 const data = getSiteData(lang);
 
 const titles: Record<Locale, string> = {
-  ru: 'DEVENAS — веб-дизайнер Анастасия Девентейчик',
-  en: 'DEVENAS — web designer Anastasia Deventeichik',
+  ru: 'Веб-дизайнер Анастасия Девентейчик — сайты на Tilda и в коде | DEVENAS',
+  en: 'Web designer Anastasia Deventeichik — Tilda & custom-code websites | DEVENAS',
 };
 const descriptions: Record<Locale, string> = {
-  ru: 'Анастасия Девентейчик — веб-дизайнер. Создаю сайты для малого бизнеса и экспертов: делаю предложение понятным, а путь к заявке — простым. Tilda и код.',
-  en: 'Anastasia Deventeichik is a web designer for small businesses and experts. I build websites that make your offer clear and the next step to an inquiry easy. Tilda and custom code.',
+  ru: 'Анастасия Девентейчик — веб-дизайнер. Создаю лендинги, многостраничные сайты и интернет-магазины для малого бизнеса и экспертов на Tilda и в коде. Цены открытые, расчёт за 1 день.',
+  en: 'Anastasia Deventeichik is a web designer. I build landing pages, multi-page websites and online stores for small businesses and experts on Tilda and in code. Open pricing, quote within a day.',
 };
+
+const ru = lang === 'ru';
+const origin = seo.origin;
+const price: Record<string, { amount: number; currency: string }> = ru
+  ? { onepage: { amount: 55000, currency: 'RUB' }, multipage: { amount: 80000, currency: 'RUB' }, store: { amount: 120000, currency: 'RUB' }, design: { amount: 40000, currency: 'RUB' } }
+  : { onepage: { amount: 900, currency: 'USD' }, multipage: { amount: 1400, currency: 'USD' }, store: { amount: 2200, currency: 'USD' }, design: { amount: 700, currency: 'USD' } };
+
+const person = {
+  '@type': 'Person',
+  '@id': `${origin}/#person`,
+  name: ru ? 'Анастасия Девентейчик' : 'Anastasia Deventeichik',
+  alternateName: 'DEVENAS',
+  jobTitle: ru ? 'Веб-дизайнер' : 'Web designer',
+  url: `${origin}/${lang}/`,
+  image: `${origin}/assets/founder/anastasia.png`,
+  sameAs: seo.sameAs,
+  knowsAbout: ru
+    ? ['веб-дизайн', 'Tilda', 'сайты для малого бизнеса', 'лендинги', 'интернет-магазины', 'UX/UI дизайн']
+    : ['web design', 'Tilda', 'websites for small business', 'landing pages', 'online stores', 'UX/UI design'],
+  knowsLanguage: ['ru', 'en'],
+};
+const service = {
+  '@type': 'ProfessionalService',
+  '@id': `${origin}/#service`,
+  name: 'DEVENAS',
+  url: `${origin}/${lang}/`,
+  image: `${origin}${seo.ogImage}`,
+  description: descriptions[lang],
+  founder: { '@id': `${origin}/#person` },
+  areaServed: ru ? 'Россия и весь мир' : 'Worldwide',
+  availableLanguage: ['ru', 'en'],
+  sameAs: seo.sameAs,
+  openingHours: 'Mo-Fr 08:00-19:00',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: data.services.sectionLabel.replace(/^\[\d+\]\s*/, ''),
+    itemListElement: data.services.items.map((item) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: item.title, description: item.forWho },
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: price[item.id].amount,
+        priceCurrency: price[item.id].currency,
+      },
+    })),
+  },
+};
+const website = {
+  '@type': 'WebSite',
+  '@id': `${origin}/#website`,
+  url: `${origin}/${lang}/`,
+  name: 'DEVENAS',
+  inLanguage: lang,
+  publisher: { '@id': `${origin}/#person` },
+};
+const jsonLd = { '@context': 'https://schema.org', '@graph': [person, service, website] };
 ---
 
-<Base lang={lang} title={titles[lang]} description={descriptions[lang]}>
+<Base lang={lang} title={titles[lang]} description={descriptions[lang]} jsonLd={jsonLd}>
   <Header lang={lang} {...data.header} />
   <main>
     <Hero lang={lang} hero={data.hero} />

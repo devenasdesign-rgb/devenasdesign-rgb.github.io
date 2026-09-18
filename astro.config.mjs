@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,5 +12,12 @@ export default defineConfig({
       prefixDefaultLocale: true,
     },
   },
+  integrations: [
+    sitemap({
+      i18n: { defaultLocale: 'ru', locales: { ru: 'ru-RU', en: 'en-US' } },
+      // корень «/» — только редирект на /ru/, в карту сайта он не нужен
+      filter: (page) => new URL(page).pathname !== '/',
+    }),
+  ],
   prefetch: true,
 });

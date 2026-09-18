@@ -1,14 +1,34 @@
 ---
 import '../styles/global.css';
 import type { Locale } from '../lib/i18n';
+import { seo } from '../data/seo';
 
 interface Props {
   lang: Locale;
   title: string;
   description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { lang, title, description } = Astro.props;
+const { lang, title, description, image = seo.ogImage, type = 'website', noindex = false, jsonLd } = Astro.props;
+
+const site = Astro.site ?? new URL(seo.origin);
+const pathname = Astro.url.pathname;
+const canonical = new URL(pathname, site).href;
+const other: Locale = lang === 'ru' ? 'en' : 'ru';
+const hasLangPath = pathname.startsWith(`/${lang}/`);
+const alternates = hasLangPath
+  ? {
+      ru: new URL(pathname.replace(`/${lang}/`, '/ru/'), site).href,
+      en: new URL(pathname.replace(`/${lang}/`, '/en/'), site).href,
+    }
+  : null;
+const imageUrl = new URL(image, site).href;
+const locales = { ru: 'ru_RU', en: 'en_US' } as const;
+const ld = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
@@ -17,8 +37,33 @@ const { lang, title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0e0e10" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {alternates && <link rel="alternate" hreflang="ru" href={alternates.ru} />}
+    {alternates && <link rel="alternate" hreflang="en" href={alternates.en} />}
+    {alternates && <link rel="alternate" hreflang="x-default" href={alternates.ru} />}
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={seo.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={locales[lang]} />
+    <meta property="og:locale:alternate" content={locales[other]} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    {seo.verification.yandex && <meta name="yandex-verification" content={seo.verification.yandex} />}
+    {seo.verification.google && <meta name="google-site-verification" content={seo.verification.google} />}
+    {ld.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
