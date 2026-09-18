@@ -541,8 +541,14 @@ const { hero, lang } = Astro.props;
     const centerX = letterRect.left + letterRect.width / 2 - pinRect.left;
     const centerY = letterRect.top + letterRect.height / 2 - pinRect.top;
     // Figma places the card slightly right of the "A", straddling the A/S junction.
-    avatar.style.left = `${centerX - cardW / 2 + cardW * 0.22}px`;
-    avatar.style.top = `${centerY - cardH / 2 - cardH * 0.06}px`;
+    // Keep the rotated card (and its offset shadow) fully inside the hero so no corner gets clipped.
+    const tilt = Math.sin((7 * Math.PI) / 180);
+    const overhangY = (cardW * tilt) / 2 + 12;
+    const overhangX = (cardH * tilt) / 2 + 20;
+    const left = centerX - cardW / 2 + cardW * 0.22;
+    const top = centerY - cardH / 2 - cardH * 0.06;
+    avatar.style.left = `${Math.min(Math.max(left, overhangX), pinRect.width - cardW - overhangX)}px`;
+    avatar.style.top = `${Math.max(top, overhangY)}px`;
   };
 
   if (wordmark && wordmarkRow) {
