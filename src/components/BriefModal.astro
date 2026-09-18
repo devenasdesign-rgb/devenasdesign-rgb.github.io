@@ -79,8 +79,8 @@ const taskCopy = ru ? {
       <p class="brief__note" data-copy-status role="status"></p>
     </section>
     <section class="brief__done" data-brief-done hidden aria-labelledby="done-title">
-      <span class="mono brief__label">{ru ? '✓ ПОЛУЧИЛА' : '✓ RECEIVED'}</span>
-      <h2 id="done-title" tabindex="-1">{ru ? 'Бриф у меня!' : 'Got your brief!'}</h2>
+      <div class="brief__sticker mono" aria-hidden="true"><img src="/assets/avatar.jpg" alt="" width="120" height="120" /><span>{ru ? '✓ ПОЛУЧИЛА' : '✓ GOT IT'}</span></div>
+      <h2 id="done-title" tabindex="-1">{ru ? <>Бриф<br /><span class="marker-lime">у меня!</span></> : <>Got your<br /><span class="marker-lime">brief!</span></>}</h2>
       <p>{ru ? 'Изучу задачу и пришлю расчёт в течение дня.' : 'I’ll review your task and send a quote within a day.'}</p>
       <dl class="brief__next mono">
         <div><dt>{ru ? 'ЧТО ДАЛЬШЕ' : 'WHAT’S NEXT'}</dt><dd>{ru ? 'Расчёт и варианты — в выбранный мессенджер' : 'A quote and options, in your chosen messenger'}</dd></div>
@@ -142,6 +142,13 @@ const taskCopy = ru ? {
   .brief__error{color:var(--tomato)!important}
   .brief__done{display:flex;flex-direction:column;gap:20px}.brief__done h2{margin:0}.brief__done>.btn{align-self:flex-start}
   .brief__next{margin:8px 0;border-top:1px solid var(--line)}.brief__next div{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px}.brief__next dt{color:var(--muted)}.brief__next dd{margin:0;text-align:right;max-width:26ch}.brief__next a{color:var(--lime)}
+
+  .brief__sticker{align-self:flex-start;display:flex;flex-direction:column;gap:8px;width:clamp(120px,32vw,168px);padding:8px 8px 10px;margin:6px 0 18px 6px;background:var(--ink);color:var(--dark);box-shadow:8px 8px 0 var(--tomato);transform:rotate(-6deg);font-size:11px;font-weight:700}
+  .brief__sticker img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--lime)}
+  .brief__done h2{font-size:clamp(40px,8vw,72px);line-height:1.12}.brief__done h2 .marker-lime{padding:0 12px 4px 8px}
+
+  .brief__done h2 .marker-lime{font-size:inherit;color:var(--dark);display:inline-block}
+  .brief__done .brief__sticker span{color:var(--dark);font-size:11px}
 </style>
 
 <script>
