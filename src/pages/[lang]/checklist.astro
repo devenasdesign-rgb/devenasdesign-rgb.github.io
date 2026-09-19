@@ -115,6 +115,7 @@ let counter = 0;
       <h1>{doc.h1}</h1>
       <p class="chk__lead">{doc.lead}</p>
 
+      <div class="chk__layout">
       <div class="chk__groups" data-chk data-total={total}>
         {doc.groups.map((group) => (
           <fieldset class="chk__group">
@@ -139,6 +140,7 @@ let counter = 0;
         <strong data-chk-title>{doc.verdicts[0][0]}</strong>
         <p data-chk-text>{doc.verdicts[0][1]}</p>
       </aside>
+      </div>
 
       <section class="chk__cta">
         <h2>{doc.ctaTitle}</h2>
@@ -171,7 +173,6 @@ let counter = 0;
   .chk__body {
     padding: 24px var(--gutter) 96px;
     border-top: 1px solid var(--line);
-    max-width: 860px;
   }
   .chk__label {
     font-size: 11px;
@@ -188,6 +189,9 @@ let counter = 0;
     color: var(--muted-strong);
     margin-bottom: 40px;
     max-width: 62ch;
+  }
+  .chk__layout {
+    display: contents;
   }
   .chk__group {
     border: 0;
@@ -253,7 +257,7 @@ let counter = 0;
   .chk__result {
     position: sticky;
     bottom: 12px;
-    margin: 32px 0 0;
+    margin: 20px 0 0;
     padding: 20px 22px;
     background: var(--ink);
     color: var(--dark);
@@ -285,6 +289,50 @@ let counter = 0;
     line-height: 1.5;
     margin: 0;
     max-width: 62ch;
+  }
+  @media (max-width: 999px) {
+    .chk__result {
+      padding: 14px 16px;
+      gap: 8px;
+      box-shadow: 5px 5px 0 var(--tomato);
+    }
+    .chk__result p {
+      display: none;
+    }
+  }
+  @media (min-width: 1000px) {
+    .chk__layout {
+      display: grid;
+      align-items: start;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 72px;
+    }
+    .chk__result {
+      position: sticky;
+      top: 170px;
+      bottom: auto;
+      margin: 0;
+      padding: 28px;
+      gap: 14px;
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .chk__groups {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .chk__item {
+      padding: 16px 0;
+    }
+    .chk__text {
+      font-size: 18px;
+    }
+    .chk__lead {
+      max-width: 60ch;
+    }
+    .chk__cta {
+      max-width: 60ch;
+    }
   }
   .chk__cta {
     margin-top: 72px;
