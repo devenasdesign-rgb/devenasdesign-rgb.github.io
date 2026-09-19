@@ -16,7 +16,8 @@ export default defineConfig({
     sitemap({
       i18n: { defaultLocale: 'ru', locales: { ru: 'ru-RU', en: 'en-US' } },
       // корень «/» — только редирект на /ru/, в карту сайта он не нужен
-      filter: (page) => new URL(page).pathname !== '/',
+      // скрытый бриф для клиентов не должен попадать в карту сайта
+      filter: (page) => new URL(page).pathname !== '/' && !page.includes('/project-brief/'),
     }),
   ],
   prefetch: true,

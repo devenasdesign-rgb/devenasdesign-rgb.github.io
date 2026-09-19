@@ -1,0 +1,654 @@
+---
+// Скрытая страница развёрнутого брифа. Не указана на сайте, не попадает в карту сайта, закрыта от индексации.
+// Открывается только по ссылке, которую я отправляю клиенту. Необязательный параметр ?for=Имя показывает мне, кому ушла ссылка.
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { locales, getSiteData, type Locale } from '../../lib/i18n';
+import { sections } from '../../data/fullbrief';
+import { briefApi, contacts } from '../../data/proof';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const data = getSiteData(lang);
+const ru = lang === 'ru';
+
+const total = sections.reduce((n, s) => n + s.questions.length, 0);
+
+const t = ru
+  ? {
+      title: 'Бриф на сайт — DEVENAS',
+      description: 'Развёрнутый бриф на дизайн сайта и вёрстку.',
+      label: '[ БРИФ НА ДИЗАЙН САЙТА ]',
+      h1: 'Расскажите о проекте',
+      lead: 'Чем подробнее вы ответите, тем точнее получится структура и расчёт. Не знаете ответа на вопрос, пропустите его: обсудим позже. Заполнение займёт около 15–20 минут.',
+      saved: 'Ответы сохраняются в вашем браузере, поэтому можно закрыть страницу и вернуться по той же ссылке.',
+      required: 'обязательно',
+      answered: 'ЗАПОЛНЕНО',
+      of: 'из',
+      consent: 'Даю согласие на обработку персональных данных, чтобы получить расчёт и предложение. Подробнее в',
+      policy: 'политике конфиденциальности',
+      send: 'ОТПРАВИТЬ БРИФ →',
+      sending: 'Отправляю…',
+      fixRequired: 'Заполните, пожалуйста, обязательные поля. Я перешла к первому из них.',
+      doneTitle: 'Спасибо, бриф у меня',
+      doneText: 'Я внимательно его прочитаю и напишу вам в течение дня: с вопросами или с расчётом.',
+      failTitle: 'Не получилось отправить автоматически',
+      failText: 'Ничего страшного. Скопируйте ответы и отправьте их мне в Telegram, ничего не потеряется.',
+      copy: 'СКОПИРОВАТЬ ОТВЕТЫ',
+      copied: 'Скопировано. Вставьте текст в чат.',
+      tg: 'ОТКРЫТЬ TELEGRAM ↗',
+      greet: 'Здравствуйте',
+      nav: 'РАЗДЕЛЫ',
+    }
+  : {
+      title: 'Project brief — DEVENAS',
+      description: 'A detailed brief for website design and development.',
+      label: '[ WEBSITE DESIGN BRIEF ]',
+      h1: 'Tell me about your project',
+      lead: 'The more detail you give, the more accurate the structure and quote will be. If you don’t know an answer, skip it and we’ll discuss it later. It takes about 15–20 minutes.',
+      saved: 'Your answers are saved in your browser, so you can close the page and return to the same link.',
+      required: 'required',
+      answered: 'ANSWERED',
+      of: 'of',
+      consent: 'I consent to the processing of my personal data in order to receive a quote and proposal. Details in the',
+      policy: 'privacy policy',
+      send: 'SEND THE BRIEF →',
+      sending: 'Sending…',
+      fixRequired: 'Please fill in the required fields. I have moved you to the first one.',
+      doneTitle: 'Thank you, I have your brief',
+      doneText: 'I will read it carefully and get back to you within a day, with questions or a quote.',
+      failTitle: 'Could not send automatically',
+      failText: 'No worries. Copy your answers and send them to me on Telegram, nothing will be lost.',
+      copy: 'COPY ANSWERS',
+      copied: 'Copied. Paste it into the chat.',
+      tg: 'OPEN TELEGRAM ↗',
+      greet: 'Hello',
+      nav: 'SECTIONS',
+    };
+---
+
+<Base lang={lang} title={t.title} description={t.description} noindex={true}>
+  <Header lang={lang} {...data.header} />
+  <main class="fb" data-fb data-api={briefApi} data-lang={lang} data-total={total}
+    data-copy={JSON.stringify({ answered: t.answered, of: t.of, sending: t.sending, send: t.send, fix: t.fixRequired, copied: t.copied, greet: t.greet })}>
+    <div class="fb__intro">
+      <span class="mono fb__label">{t.label}</span>
+      <h1>{t.h1}</h1>
+      <p class="fb__greet" data-fb-greet hidden></p>
+      <p class="fb__lead">{t.lead}</p>
+      <p class="fb__saved mono">{t.saved}</p>
+    </div>
+
+    <div class="fb__layout">
+      <aside class="fb__side" aria-label={t.nav}>
+        <span class="mono fb__side-title">{t.nav}</span>
+        <ol>
+          {sections.map((section, i) => (
+            <li><a href={`#s-${section.id}`}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{section.title[lang]}</a></li>
+          ))}
+        </ol>
+        <div class="fb__progress">
+          <span class="mono"><span data-fb-count>{t.answered}: 0 {t.of} {total}</span></span>
+          <div class="fb__bar" aria-hidden="true"><i data-fb-bar></i></div>
+        </div>
+      </aside>
+
+      <form class="fb__form ym-hide-content" data-fb-form novalidate>
+        {sections.map((section, si) => (
+          <section class="fb__section" id={`s-${section.id}`} data-section-title={section.title[lang]}>
+            <header class="fb__legend"><span class="mono">{String(si + 1).padStart(2, '0')} / {String(sections.length).padStart(2, '0')}</span><h2>{section.title[lang]}</h2></header>
+            {section.intro && <p class="fb__intro-text">{section.intro[lang]}</p>}
+            {section.questions.map((q) => (
+              <div class="fb__q" data-q={q.id} data-label={q.label[lang]}>
+                <label class="fb__label-text" for={q.type === 'radio' || q.type === 'chips' ? undefined : `q-${q.id}`} id={`l-${q.id}`}>
+                  {q.label[lang]}{q.required && <em> *</em>}
+                </label>
+                {q.hint && <p class="fb__hint">{q.hint[lang]}</p>}
+                {q.type === 'text' && <input class="ym-disable-keys" type="text" id={`q-${q.id}`} name={q.id} placeholder={q.placeholder?.[lang]} required={q.required} maxlength="300" autocomplete="off" />}
+                {q.type === 'url' && <input class="ym-disable-keys" type="text" inputmode="url" id={`q-${q.id}`} name={q.id} placeholder={q.placeholder?.[lang]} required={q.required} maxlength="300" autocomplete="off" />}
+                {q.type === 'textarea' && <textarea class="ym-disable-keys" id={`q-${q.id}`} name={q.id} rows="4" required={q.required} maxlength="2500"></textarea>}
+                {q.type === 'select' && (
+                  <select class="ym-disable-keys" id={`q-${q.id}`} name={q.id} required={q.required}>
+                    <option value=""></option>
+                    {q.options!.map((opt) => <option value={opt[lang]}>{opt[lang]}</option>)}
+                  </select>
+                )}
+                {(q.type === 'radio' || q.type === 'chips') && (
+                  <div class="fb__opts" role={q.type === 'radio' ? 'radiogroup' : 'group'} aria-labelledby={`l-${q.id}`}>
+                    {q.options!.map((opt) => (
+                      <label class="fb__opt">
+                        <input type={q.type === 'radio' ? 'radio' : 'checkbox'} name={q.id} value={opt[lang]} required={q.required && q.type === 'radio'} />
+                        <span>{opt[lang]}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </section>
+        ))}
+
+        <div class="fb__submit">
+          <input class="fb__trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <label class="fb__consent">
+            <input type="checkbox" name="consent" required />
+            <span>{t.consent} <a href={`/${lang}/privacy/`} target="_blank" rel="noopener noreferrer">{t.policy}</a>.</span>
+          </label>
+          <p class="fb__error" data-fb-error role="alert" hidden></p>
+          <button class="btn btn-primary" type="submit" data-fb-send>{t.send}</button>
+        </div>
+      </form>
+    </div>
+
+    <section class="fb__panel fb__panel--done" data-fb-done hidden aria-live="polite">
+      <img src="/assets/avatar-480.webp" alt="" width="96" height="96" />
+      <h2>{t.doneTitle}</h2>
+      <p>{t.doneText}</p>
+    </section>
+
+    <section class="fb__panel fb__panel--fail" data-fb-fail hidden aria-live="polite">
+      <h2>{t.failTitle}</h2>
+      <p>{t.failText}</p>
+      <textarea class="ym-disable-keys" data-fb-text rows="10" readonly></textarea>
+      <div class="fb__actions">
+        <button class="btn btn-primary" type="button" data-fb-copy>{t.copy}</button>
+        <a class="btn btn-secondary" href={contacts.telegram} target="_blank" rel="noopener noreferrer">{t.tg}</a>
+      </div>
+      <p class="mono fb__copied" data-fb-copied></p>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .fb {
+    padding-bottom: 96px;
+  }
+  .fb__intro {
+    padding: 48px var(--gutter) 40px;
+    border-top: 1px solid var(--line);
+  }
+  .fb__label {
+    font-size: 11px;
+    color: var(--lime);
+  }
+  .fb h1 {
+    font: 600 clamp(32px, 6vw, 68px) / 1.08 var(--font-display);
+    letter-spacing: -0.04em;
+    margin: 18px 0 18px;
+  }
+  .fb__greet {
+    font: 600 clamp(20px, 2.6vw, 28px) / 1.2 var(--font-display);
+    letter-spacing: -0.025em;
+    color: var(--lime);
+    margin-bottom: 16px;
+  }
+  .fb__lead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.5;
+    color: var(--muted-strong);
+    max-width: 60ch;
+    margin-bottom: 18px;
+  }
+  .fb__saved {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 64ch;
+  }
+
+  .fb__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid var(--line);
+  }
+  .fb__layout[hidden],
+  .fb__intro[hidden] {
+    display: none;
+  }
+  .fb__side {
+    display: none;
+  }
+  .fb__form {
+    padding: 8px var(--gutter) 0;
+    min-width: 0;
+  }
+  .fb__section {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 40px 0 32px;
+    margin: 0;
+    min-width: 0;
+    display: grid;
+    gap: 28px;
+  }
+  .fb__legend {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .fb__legend span {
+    font-size: 11px;
+    color: var(--tomato);
+  }
+  .fb__legend h2 {
+    font: 600 clamp(26px, 3.4vw, 42px) / 1.12 var(--font-display);
+    letter-spacing: -0.035em;
+  }
+  .fb__intro-text {
+    color: var(--muted-strong);
+    line-height: 1.55;
+    max-width: 60ch;
+    margin: 0;
+  }
+  .fb__q {
+    display: grid;
+    gap: 10px;
+    max-width: 720px;
+  }
+  .fb__label-text {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .fb__label-text em {
+    font-style: normal;
+    color: var(--tomato);
+  }
+  .fb__hint {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+  }
+  .fb input[type='text'],
+  .fb textarea,
+  .fb select {
+    width: 100%;
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-bottom: 1px solid rgba(244, 241, 234, 0.5);
+    font: 17px / 1.5 var(--font-body);
+    padding: 10px 0;
+    outline: none;
+    border-radius: 0;
+  }
+  .fb textarea {
+    border: 1px solid rgba(244, 241, 234, 0.35);
+    padding: 12px 14px;
+    resize: vertical;
+    min-height: 110px;
+  }
+  .fb select option {
+    background: var(--surface, #17171a);
+    color: var(--ink);
+  }
+  .fb input[type='text']:focus,
+  .fb textarea:focus,
+  .fb select:focus {
+    border-color: var(--lime);
+  }
+  .fb .is-invalid input[type='text'],
+  .fb .is-invalid textarea,
+  .fb .is-invalid select {
+    border-color: var(--tomato);
+  }
+
+  .fb__opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .fb__opt {
+    position: relative;
+    cursor: pointer;
+  }
+  .fb__opt input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fb__opt span {
+    display: inline-block;
+    padding: 11px 16px;
+    border: 1px solid rgba(244, 241, 234, 0.4);
+    font-size: 15px;
+    line-height: 1.3;
+    transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .fb__opt:hover span {
+    box-shadow: 4px 4px 0 var(--lime);
+  }
+  .fb__opt input:focus-visible + span {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+  .fb__opt input:checked + span {
+    background: var(--lime);
+    border-color: var(--lime);
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .fb__submit {
+    display: grid;
+    gap: 20px;
+    padding: 40px 0 0;
+    max-width: 720px;
+  }
+  .fb__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .fb__consent {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted-strong);
+    cursor: pointer;
+  }
+  .fb__consent input {
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0;
+    accent-color: var(--lime);
+  }
+  .fb__consent a {
+    color: var(--lime);
+    border-bottom: 1px solid currentColor;
+  }
+  .fb__error {
+    margin: 0;
+    padding: 12px 14px;
+    background: var(--tomato);
+    color: var(--dark);
+    font-weight: 500;
+  }
+  .fb__submit .btn {
+    justify-self: start;
+  }
+
+  .fb__panel {
+    margin: 48px var(--gutter) 0;
+    padding: 32px;
+    max-width: 720px;
+    background: var(--ink);
+    color: var(--dark);
+    box-shadow: 10px 10px 0 var(--lime);
+    display: grid;
+    gap: 16px;
+  }
+  .fb__panel[hidden] {
+    display: none;
+  }
+  .fb__panel img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    background: var(--lime);
+    box-shadow: 5px 5px 0 var(--tomato);
+  }
+  .fb__panel h2 {
+    font: 600 clamp(24px, 3vw, 34px) / 1.15 var(--font-display);
+    letter-spacing: -0.03em;
+  }
+  .fb__panel p {
+    margin: 0;
+    line-height: 1.55;
+  }
+  .fb__panel textarea {
+    border: 1px solid rgba(10, 10, 10, 0.4);
+    color: var(--dark);
+    font-size: 14px;
+  }
+  .fb__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .fb__actions .btn-secondary {
+    color: var(--dark);
+    border-color: rgba(10, 10, 10, 0.5);
+  }
+  .fb__copied {
+    font-size: 11px;
+    min-height: 1em;
+  }
+
+  @media (min-width: 1000px) {
+    .fb__layout {
+      grid-template-columns: 300px minmax(0, 1fr);
+    }
+    .fb__side {
+      display: block;
+      position: sticky;
+      top: 160px;
+      align-self: start;
+      padding: 40px 0 40px var(--gutter);
+      border-right: 1px solid var(--line);
+    }
+    .fb__side-title {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .fb__side ol {
+      list-style: none;
+      margin: 0 0 28px;
+      padding: 0;
+      display: grid;
+      gap: 4px;
+    }
+    .fb__side a {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--muted-strong);
+    }
+    .fb__side a span {
+      font-size: 10px;
+      color: var(--muted);
+      padding-top: 3px;
+    }
+    .fb__side a:hover {
+      color: var(--lime);
+    }
+    .fb__progress {
+      display: grid;
+      gap: 10px;
+      padding-right: 28px;
+      font-size: 11px;
+    }
+    .fb__bar {
+      height: 6px;
+      background: rgba(244, 241, 234, 0.15);
+    }
+    .fb__bar i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--lime);
+      transition: width var(--dur-base) var(--ease-out);
+    }
+    .fb__form {
+      padding-left: 56px;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-fb]');
+  const form = document.querySelector<HTMLFormElement>('[data-fb-form]');
+  if (root && form) {
+    const api = root.dataset.api ?? '';
+    const lang = root.dataset.lang === 'en' ? 'en' : 'ru';
+    const total = Number(root.dataset.total);
+    const copy = JSON.parse(root.dataset.copy ?? '{}') as Record<string, string>;
+    const DRAFT = 'dv-fullbrief-draft';
+    const goal = (name: string) => window.dispatchEvent(new CustomEvent('dv:goal', { detail: name }));
+
+    // Кому отправлена ссылка: ?for=Имя
+    let client = '';
+    try { client = (new URLSearchParams(location.search).get('for') ?? '').trim().slice(0, 60); } catch { /* ignore */ }
+    const greet = document.querySelector<HTMLElement>('[data-fb-greet]');
+    if (client && greet) { greet.textContent = `${copy.greet}, ${client}!`; greet.hidden = false; }
+
+    const groups = () => Array.from(form.querySelectorAll<HTMLElement>('[data-q]'));
+    const valueOf = (box: HTMLElement) => {
+      const id = box.dataset.q!;
+      const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(`[name="${id}"]`));
+      const first = fields[0];
+      if (first instanceof HTMLInputElement && (first.type === 'radio' || first.type === 'checkbox')) {
+        return (fields as HTMLInputElement[]).filter((f) => f.checked).map((f) => f.value).join(', ');
+      }
+      return first?.value.trim() ?? '';
+    };
+
+    const updateProgress = () => {
+      const done = groups().filter((box) => valueOf(box)).length;
+      const count = document.querySelector('[data-fb-count]');
+      const bar = document.querySelector<HTMLElement>('[data-fb-bar]');
+      if (count) count.textContent = `${copy.answered}: ${done} ${copy.of} ${total}`;
+      if (bar) bar.style.width = `${(done / total) * 100}%`;
+    };
+
+    // Черновик хранится только в браузере клиента
+    const saveDraft = () => {
+      try {
+        const draft: Record<string, string | string[]> = {};
+        groups().forEach((box) => {
+          const id = box.dataset.q!;
+          const fields = Array.from(form.querySelectorAll<HTMLInputElement>(`[name="${id}"]`));
+          draft[id] = fields[0] && (fields[0].type === 'radio' || fields[0].type === 'checkbox')
+            ? fields.filter((f) => f.checked).map((f) => f.value)
+            : fields[0]?.value ?? '';
+        });
+        localStorage.setItem(DRAFT, JSON.stringify(draft));
+      } catch { /* private mode */ }
+    };
+    const restoreDraft = () => {
+      try {
+        const raw = localStorage.getItem(DRAFT);
+        if (!raw) return;
+        const draft = JSON.parse(raw) as Record<string, string | string[]>;
+        groups().forEach((box) => {
+          const id = box.dataset.q!;
+          const saved = draft[id];
+          const fields = Array.from(form.querySelectorAll<HTMLInputElement>(`[name="${id}"]`));
+          if (!fields.length || saved === undefined) return;
+          if (fields[0].type === 'radio' || fields[0].type === 'checkbox') {
+            const list = Array.isArray(saved) ? saved : [saved];
+            fields.forEach((f) => { f.checked = list.includes(f.value); });
+          } else {
+            fields[0].value = String(saved);
+          }
+        });
+      } catch { /* ignore */ }
+    };
+    restoreDraft();
+    updateProgress();
+
+    form.addEventListener('input', () => { saveDraft(); updateProgress(); });
+    form.addEventListener('change', () => { saveDraft(); updateProgress(); });
+
+    const sectionsData = () =>
+      Array.from(form.querySelectorAll<HTMLElement>('.fb__section'))
+        .map((section) => ({
+          title: section.dataset.sectionTitle ?? '',
+          fields: Array.from(section.querySelectorAll<HTMLElement>('[data-q]'))
+            .map((box) => ({ key: box.dataset.q ?? '', label: box.dataset.label ?? '', value: valueOf(box) }))
+            .filter((f) => f.value),
+        }))
+        .filter((section) => section.fields.length);
+
+    const plainText = () => {
+      const lines = [lang === 'ru' ? 'РАЗВЁРНУТЫЙ БРИФ' : 'DETAILED BRIEF', client ? `${lang === 'ru' ? 'Ссылка отправлена' : 'Link sent to'}: ${client}` : ''];
+      sectionsData().forEach((section) => {
+        lines.push('', `=== ${section.title.toUpperCase()} ===`, '');
+        section.fields.forEach((f) => lines.push(f.label, f.value, ''));
+      });
+      return lines.filter((line, i) => line !== '' || i > 1).join('\n');
+    };
+
+    const errorBox = document.querySelector<HTMLElement>('[data-fb-error]');
+    const showError = (message: string) => { if (!errorBox) return; errorBox.textContent = message; errorBox.hidden = !message; };
+    const sendButton = document.querySelector<HTMLButtonElement>('[data-fb-send]');
+    const done = document.querySelector<HTMLElement>('[data-fb-done]');
+    const fail = document.querySelector<HTMLElement>('[data-fb-fail]');
+
+    const firstInvalid = () => {
+      form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'));
+      const bad = Array.from(form.querySelectorAll<HTMLInputElement>('input:invalid, textarea:invalid, select:invalid')).filter((el) => el.name !== 'website');
+      bad.forEach((el) => el.closest('[data-q]')?.classList.add('is-invalid'));
+      return bad[0] ?? null;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      showError('');
+      const bad = firstInvalid();
+      if (bad) {
+        showError(copy.fix);
+        bad.closest('.fb__q, .fb__consent')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bad.focus({ preventScroll: true });
+        return;
+      }
+      const honeypot = (form.elements.namedItem('website') as HTMLInputElement | null)?.value ?? '';
+      const original = sendButton?.textContent ?? '';
+      if (sendButton) { sendButton.disabled = true; sendButton.textContent = copy.sending; }
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), 20000);
+      let ok = false;
+      try {
+        if (api) {
+          const response = await fetch(api, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ kind: 'full', lang, client, source: 'project-brief', sections: sectionsData(), website: honeypot }),
+            signal: controller.signal,
+          });
+          ok = response.ok && (await response.json()).ok === true;
+        }
+      } catch { ok = false; }
+      window.clearTimeout(timer);
+      if (sendButton) { sendButton.disabled = false; sendButton.textContent = original; }
+
+      form.hidden = true;
+      document.querySelector<HTMLElement>('.fb__layout')?.setAttribute('hidden', '');
+      document.querySelector<HTMLElement>('.fb__intro')?.setAttribute('hidden', '');
+      if (ok) {
+        try { localStorage.removeItem(DRAFT); } catch { /* ignore */ }
+        goal('fullbrief_sent');
+        if (done) done.hidden = false;
+        done?.scrollIntoView({ block: 'start' });
+      } else {
+        goal('fullbrief_fallback');
+        const box = document.querySelector<HTMLTextAreaElement>('[data-fb-text]');
+        if (box) box.value = plainText();
+        if (fail) fail.hidden = false;
+        fail?.scrollIntoView({ block: 'start' });
+      }
+    });
+
+    document.querySelector('[data-fb-copy]')?.addEventListener('click', async () => {
+      const box = document.querySelector<HTMLTextAreaElement>('[data-fb-text]');
+      const status = document.querySelector('[data-fb-copied]');
+      if (!box) return;
+      try { await navigator.clipboard.writeText(box.value); if (status) status.textContent = copy.copied; }
+      catch { box.select(); }
+    });
+  }
+</script>
