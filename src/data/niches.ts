@@ -72,7 +72,7 @@ export const niches: Niche[] = [
     },
     description: {
       ru: 'Дизайн и разработка интернет-магазина: каталог с фильтрами, карточка товара, корзина и оформление заказа. Кейсы EURASIA и МЯСО & БУЛКА. Цены открытые, от 120 000 ₽.',
-      en: 'Design and development of an online store: a catalog with filters, product pages, a cart and checkout. Cases: EURASIA and MYASO & BULKA. Open prices, from $2,200.',
+      en: 'Design and development of an online store: a catalog with filters, product pages, a cart and checkout. Cases: EURASIA and MYASO & BULKA. Open prices, from $2,200 (€1,900).',
     },
     breadcrumb: { ru: 'Сайт для интернет-магазина', en: 'Website for an online store' },
     label: { ru: '[ ИНТЕРНЕТ-МАГАЗИНЫ ]', en: '[ ONLINE STORES ]' },

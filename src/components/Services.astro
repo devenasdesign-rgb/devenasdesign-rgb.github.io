@@ -67,7 +67,7 @@ const { services, lang } = Astro.props;
             <span class="mono services__timeframe">{item.timeframe}</span>
 
             <div class="services__buy">
-              <span class="services__price">{item.price}</span>
+              <span class="services__price">{item.price.split(' / ')[0]}{item.price.includes(' / ') && <small> / {item.price.split(' / ')[1]}</small>}</span>
             </div>
           </div>
 
@@ -230,6 +230,12 @@ const { services, lang } = Astro.props;
     color: rgba(255, 255, 255, 0.94);
   }
 
+  .services__price small {
+    font-size: 0.62em;
+    font-weight: 700;
+    letter-spacing: 0;
+    opacity: 0.9;
+  }
   .services__price {
     grid-column: 2;
     font-family: var(--font-display);

@@ -101,7 +101,7 @@ export const sections: Section[] = [
     title: o('Сроки и бюджет', 'Timing and budget'),
     questions: [
       { id: 'deadline', type: 'text', label: o('Когда нужен запуск', 'When you need to launch'), hint: o('Есть ли жёсткая дата или событие, к которому сайт должен быть готов.', 'Whether there is a hard date or an event the site must be ready for.') },
-      { id: 'budget', type: 'select', label: o('Ориентир по бюджету', 'Budget range'), options: [o('До 55 000 ₽', 'Under $900'), o('55 000 – 80 000 ₽', '$900 – 1,400'), o('80 000 – 120 000 ₽', '$1,400 – 2,200'), o('От 120 000 ₽', 'From $2,200'), o('Пока не знаю, жду расчёт', 'Not sure yet, waiting for a quote')] },
+      { id: 'budget', type: 'select', label: o('Ориентир по бюджету', 'Budget range'), options: [o('До 55 000 ₽', 'Under $900 / €800'), o('55 000 – 80 000 ₽', '$900 – 1,400 / €800 – 1,200'), o('80 000 – 120 000 ₽', '$1,400 – 2,200 / €1,200 – 1,900'), o('От 120 000 ₽', 'From $2,200 / €1,900'), o('Пока не знаю, жду расчёт', 'Not sure yet, waiting for a quote')] },
       { id: 'decision', type: 'text', label: o('Кто принимает решения и согласует работу', 'Who makes decisions and approves the work'), hint: o('Сколько человек участвует в согласовании.', 'How many people take part in approvals.') },
       { id: 'extra', type: 'textarea', label: o('Что ещё важно знать', 'Anything else I should know') },
     ],
