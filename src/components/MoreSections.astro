@@ -123,7 +123,7 @@ const socials: [string, string][] = [
     <div class="footer__socials">{socials.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}</div>
   </div>
   <div class="footer__wordmark" data-footer-wordmark aria-hidden="true">DEVENAS</div>
-  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/checklist/`}>{ru ? 'ЧЕК-ЛИСТ' : 'CHECKLIST'}</a><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a><button type="button" data-cookie-settings>{ru ? 'COOKIES' : 'COOKIES'}</button>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
+  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/checklist/`}>{ru ? 'ЧЕК-ЛИСТ' : 'CHECKLIST'}</a><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a><a href={`/${lang}/consent/`}>{ru ? 'СОГЛАСИЕ НА ОБРАБОТКУ ДАННЫХ' : 'CONSENT'}</a><button type="button" data-cookie-settings>{ru ? 'COOKIES' : 'COOKIES'}</button>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
 </footer>
 
 <style>

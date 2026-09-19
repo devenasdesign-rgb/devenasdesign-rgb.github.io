@@ -1,0 +1,153 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { locales, getSiteData, type Locale } from '../../lib/i18n';
+import { contacts } from '../../data/proof';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const data = getSiteData(lang);
+const ru = lang === 'ru';
+
+const updated = ru ? '19 сентября 2026 г.' : 'September 19, 2026';
+
+const doc = ru
+  ? {
+      title: 'Согласие на обработку персональных данных — DEVENAS',
+      description: 'Согласие на обработку персональных данных, которое даёт посетитель сайта devenasdesign.com при отправке брифа, в соответствии с Федеральным законом № 152-ФЗ.',
+      back: '← НА ГЛАВНУЮ',
+      label: '[ ДОКУМЕНТ ]',
+      h1: 'Согласие на обработку персональных данных',
+      lead: 'Настоящее согласие в соответствии со статьёй 9 Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» даёт посетитель сайта devenasdesign.com (далее — Пользователь), когда отмечает поле согласия и отправляет бриф или другую форму на сайте.',
+      sections: [
+        ['1. Оператор персональных данных', ['Девентейчик Анастасия Сергеевна, самозанятая (плательщик налога на профессиональный доход), ИНН 741308448715, веб-дизайнер, бренд DEVENAS (далее — Оператор).', 'Связь с Оператором по любым вопросам о персональных данных: devenas.design@gmail.com или Telegram @devenas.']],
+        ['2. Кто даёт согласие', ['Пользователь принимает решение о предоставлении своих персональных данных и даёт согласие свободно, своей волей и в своём интересе. Если Пользователь указывает данные другого человека, он подтверждает, что получил на это согласие этого человека.', 'Специальные категории данных (о здоровье, убеждениях и т. п.) и биометрические данные Оператору не нужны, и указывать их в формах не следует.']],
+        ['3. Цели обработки', ['Связь с Пользователем, уточнение задачи, подготовка расчёта и коммерческого предложения, заключение и исполнение договора на разработку дизайна и сайта, ответы на вопросы Пользователя.']],
+        ['4. Какие данные обрабатываются', ['Имя; контакт для связи (Telegram, телефон, e-mail или другой); название компании или бренда и сфера деятельности; сведения о проекте, которые Пользователь указывает в брифе (задачи и цели, целевая аудитория, пожелания к дизайну, сроки, бюджет, ссылки на материалы и сайты); иные данные, которые Пользователь сообщает по собственной инициативе в комментариях.']],
+        ['5. Действия с данными', ['Сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передача (предоставление, доступ) лицам, указанным в разделе 6, обезличивание, блокирование, удаление, уничтожение.', 'Обработка осуществляется смешанным способом: с использованием средств автоматизации и без них.']],
+        ['6. Передача данных и трансграничная передача', ['Для получения заявок Оператор использует технические сервисы: мессенджер Telegram (Telegram Messenger Inc.), в который приходит заполненный бриф, и сервис Vercel (Vercel Inc.), который принимает данные формы и пересылает их Оператору. Эти сервисы могут находиться и обрабатывать данные за пределами Российской Федерации, в том числе в государствах, где не обеспечивается адекватная защита прав субъектов персональных данных.', 'Отмечая поле согласия, Пользователь в том числе даёт согласие на такую трансграничную передачу. Другим лицам данные не передаются, кроме случаев, предусмотренных законодательством Российской Федерации.']],
+        ['7. Срок действия согласия', ['Согласие действует со дня, когда Пользователь его дал, до достижения целей обработки или до его отзыва. После завершения сотрудничества данные, содержащиеся в документах по договору и учёту, хранятся в течение срока, установленного законодательством, затем удаляются или уничтожаются.']],
+        ['8. Как отозвать согласие', ['Согласие можно отозвать в любой момент, направив соответствующее требование на devenas.design@gmail.com или в Telegram @devenas. Оператор прекращает обработку и уничтожает данные в срок, установленный законом (не более 30 дней с получения отзыва), кроме случаев, когда их хранение требуется по закону или договору. Отзыв не влияет на законность обработки, которая была выполнена до отзыва.']],
+        ['9. Как оформляется согласие', ['Согласие даётся в электронной форме: Пользователь отмечает поле «Даю согласие на обработку персональных данных» в форме и отправляет её. Согласие является отдельным документом и не зависит от других соглашений на сайте.', 'Обработка данных, которые собирает Яндекс Метрика (cookies и аналитика), регулируется отдельным уведомлением о cookies и разделом 8 Политики конфиденциальности и не охватывается этим согласием.']],
+      ],
+      policy: 'Как сайт использует данные и как ими управлять, описано в',
+      policyLink: 'политике конфиденциальности',
+    }
+  : {
+      title: 'Consent to personal data processing — DEVENAS',
+      description: 'The consent to personal data processing that a visitor of devenasdesign.com gives when sending a brief, in line with Russian Federal Law No. 152-FZ.',
+      back: '← BACK TO HOME',
+      label: '[ DOCUMENT ]',
+      h1: 'Consent to personal data processing',
+      lead: 'This consent is given under Article 9 of Russian Federal Law No. 152-FZ “On Personal Data” of 27 July 2006 by the visitor of devenasdesign.com (the “User”) when they tick the consent box and send a brief or another form on the site. The Russian version is the governing one.',
+      sections: [
+        ['1. The data controller', ['Deventeichik Anastasia Sergeevna, a self-employed web designer (professional income tax payer), tax ID (INN) 741308448715, operating as DEVENAS (the “Controller”).', 'Contact the Controller about personal data at devenas.design@gmail.com or on Telegram @devenas.']],
+        ['2. Who gives consent', ['The User decides to provide their personal data and gives consent freely, of their own will and in their own interest. If the User enters another person’s data, they confirm they have that person’s consent.', 'Special categories of data (health, beliefs and similar) and biometric data are not needed and should not be entered in the forms.']],
+        ['3. Purposes', ['To contact the User, clarify the task, prepare a quote and proposal, conclude and perform a contract for design and website development, and answer the User’s questions.']],
+        ['4. Data processed', ['Name; a contact (Telegram, phone, e-mail or other); the company or brand name and field; project details the User enters in the brief (tasks and goals, target audience, design preferences, timing, budget, links to materials and websites); any other data the User provides on their own initiative in comments.']],
+        ['5. Actions with the data', ['Collection, recording, organising, accumulation, storage, clarification (updating, changing), retrieval, use, transfer (provision, access) to the parties named in section 6, anonymisation, blocking, deletion and destruction.', 'Processing is mixed: with and without automated means.']],
+        ['6. Transfer and cross-border transfer', ['To receive requests the Controller uses technical services: the Telegram messenger (Telegram Messenger Inc.), which receives the completed brief, and Vercel (Vercel Inc.), which accepts the form data and forwards it to the Controller. These services may be located and process data outside the Russian Federation, including in states that do not ensure adequate protection of personal data subjects’ rights.', 'By ticking the consent box, the User also consents to such cross-border transfer. Data is not shared with anyone else except where required by the laws of the Russian Federation.']],
+        ['7. Term of consent', ['The consent is valid from the day it is given until the purposes of processing are achieved or until it is withdrawn. After the collaboration ends, data contained in contract and accounting documents is kept for the period required by law, then deleted or destroyed.']],
+        ['8. How to withdraw consent', ['The consent may be withdrawn at any time by sending a request to devenas.design@gmail.com or on Telegram @devenas. The Controller stops processing and destroys the data within the period set by law (no more than 30 days from receiving the withdrawal), except where storage is required by law or a contract. Withdrawal does not affect the lawfulness of processing carried out before it.']],
+        ['9. How consent is given', ['Consent is given electronically: the User ticks the box “I consent to the processing of my personal data” in the form and sends it. This consent is a separate document and does not depend on other agreements on the site.', 'Data collected by Yandex Metrica (cookies and analytics) is governed by the separate cookie notice and section 8 of the Privacy Policy and is not covered by this consent.']],
+      ],
+      policy: 'How the site uses data and how you can manage it is described in the',
+      policyLink: 'privacy policy',
+    };
+---
+
+<Base lang={lang} title={doc.title} description={doc.description}>
+  <Header lang={lang} {...data.header} />
+  <main class="doc">
+    <a class="doc__back mono" href={`/${lang}/`}>{doc.back}</a>
+    <article class="doc__body">
+      <span class="mono doc__label">{doc.label}</span>
+      <h1>{doc.h1}</h1>
+      <p class="doc__meta mono">{ru ? 'ОБНОВЛЕНО:' : 'UPDATED:'} {updated}</p>
+      <p class="doc__lead">{doc.lead}</p>
+      {doc.sections.map(([heading, paragraphs]) => (
+        <section>
+          <h2>{heading}</h2>
+          {(paragraphs as string[]).map((text) => <p>{text}</p>)}
+        </section>
+      ))}
+      <p class="doc__see">{doc.policy} <a href={`/${lang}/privacy/`}>{doc.policyLink}</a>.</p>
+      <p class="doc__contact mono">{ru ? 'ВОПРОСЫ ПО ДАННЫМ →' : 'DATA QUESTIONS →'} <a href={contacts.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM @DEVENAS ↗</a></p>
+    </article>
+  </main>
+</Base>
+
+<style>
+  .doc {
+    min-height: 70vh;
+  }
+  .doc__back {
+    display: inline-block;
+    margin: 22px var(--gutter);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .doc__back:hover {
+    color: var(--lime);
+  }
+  .doc__body {
+    padding: 24px var(--gutter) 96px;
+    border-top: 1px solid var(--line);
+    max-width: 860px;
+  }
+  .doc__label {
+    font-size: 11px;
+    color: var(--lime);
+  }
+  .doc h1 {
+    font: 600 clamp(30px, 5.4vw, 58px) / 1.1 var(--font-display);
+    letter-spacing: -0.04em;
+    margin: 18px 0 14px;
+  }
+  .doc__meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .doc__lead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.5;
+    color: var(--muted-strong);
+    margin-bottom: 40px;
+  }
+  .doc h2 {
+    font: 600 clamp(19px, 2.4vw, 24px) / 1.2 var(--font-display);
+    letter-spacing: -0.02em;
+    margin: 36px 0 12px;
+  }
+  .doc section p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted-strong);
+    margin-bottom: 12px;
+    max-width: 68ch;
+  }
+  .doc__see {
+    margin-top: 40px;
+    color: var(--muted-strong);
+    line-height: 1.6;
+  }
+  .doc__see a {
+    color: var(--lime);
+    border-bottom: 1px solid currentColor;
+  }
+  .doc__contact {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .doc__contact a {
+    color: var(--lime);
+    margin-left: 8px;
+  }
+</style>

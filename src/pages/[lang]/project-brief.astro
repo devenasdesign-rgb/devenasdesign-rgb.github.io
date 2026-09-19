@@ -28,8 +28,9 @@ const t = ru
       required: 'обязательно',
       answered: 'ЗАПОЛНЕНО',
       of: 'из',
-      consent: 'Даю согласие на обработку персональных данных, чтобы получить расчёт и предложение. Подробнее в',
-      policy: 'политике конфиденциальности',
+      consent: 'Даю согласие на обработку персональных данных на условиях',
+      policy: 'Согласия',
+      policy2: 'политикой конфиденциальности',
       send: 'ОТПРАВИТЬ БРИФ →',
       sending: 'Отправляю…',
       fixRequired: 'Заполните, пожалуйста, обязательные поля. Я перешла к первому из них.',
@@ -53,8 +54,9 @@ const t = ru
       required: 'required',
       answered: 'ANSWERED',
       of: 'of',
-      consent: 'I consent to the processing of my personal data in order to receive a quote and proposal. Details in the',
-      policy: 'privacy policy',
+      consent: 'I consent to the processing of my personal data on the terms of the',
+      policy: 'Consent',
+      policy2: 'privacy policy',
       send: 'SEND THE BRIEF →',
       sending: 'Sending…',
       fixRequired: 'Please fill in the required fields. I have moved you to the first one.',
@@ -135,7 +137,7 @@ const t = ru
           <input class="fb__trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <label class="fb__consent">
             <input type="checkbox" name="consent" required />
-            <span>{t.consent} <a href={`/${lang}/privacy/`} target="_blank" rel="noopener noreferrer">{t.policy}</a>.</span>
+            <span>{t.consent} <a href={`/${lang}/consent/`} target="_blank" rel="noopener noreferrer">{t.policy}</a>. {ru ? 'С' : 'I have read the'} <a href={`/${lang}/privacy/`} target="_blank" rel="noopener noreferrer">{t.policy2}</a>{ru ? ' ознакомлен(а).' : '.'}</span>
           </label>
           <p class="fb__error" data-fb-error role="alert" hidden></p>
           <button class="btn btn-primary" type="submit" data-fb-send>{t.send}</button>
