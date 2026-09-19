@@ -1,0 +1,348 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import BriefModal from '../../components/BriefModal.astro';
+import FloatingContact from '../../components/FloatingContact.astro';
+import { locales, getSiteData, type Locale } from '../../lib/i18n';
+import { contacts } from '../../data/proof';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+const data = getSiteData(lang);
+const ru = lang === 'ru';
+
+type Group = { title: string; items: string[] };
+
+const doc = ru
+  ? {
+      title: 'Чек-лист: вызывает ли ваш сайт доверие — DEVENAS',
+      description: 'Бесплатный чек-лист из 12 пунктов: проверьте, снимает ли ваш сайт первые сомнения посетителя и почему он может уйти, не написав вам.',
+      back: '← НА ГЛАВНУЮ',
+      label: '[ ЧЕК-ЛИСТ · 12 ПУНКТОВ ]',
+      h1: 'Вызывает ли ваш сайт доверие?',
+      lead: 'Посетитель решает, писать вам или уйти, за считанные секунды. Пройдите по списку и отметьте то, что уже есть на вашем сайте. Это займёт около пяти минут.',
+      groups: [
+        { title: '01 · Понятно ли, чем вы занимаетесь', items: [
+          'За 5 секунд на первом экране ясно, что вы делаете и для кого.',
+          'Видно, что за сайтом реальный человек или команда: имя, лицо, история.',
+          'Сказано, чем вы отличаетесь от других, а не общими словами вроде «качество и надёжность».',
+        ] },
+        { title: '02 · Можно ли вам доверять', items: [
+          'Есть примеры работ или отзывы клиентов: с именами, логотипами, фотографиями.',
+          'Показано, как вы работаете: шаги от заявки до результата.',
+          'Указаны данные исполнителя (имя или ИНН) и есть политика конфиденциальности.',
+        ] },
+        { title: '03 · Что будет дальше', items: [
+          'Есть цена или хотя бы «от»: не нужно писать, чтобы узнать порядок сумм.',
+          'Собраны ответы на частые вопросы: оплата, сроки, что делать, если не понравится.',
+          'Понятно, что произойдёт после заявки и когда вы ответите.',
+        ] },
+        { title: '04 · Легко ли с вами связаться', items: [
+          'Кнопка связи видна на первом экране и в конце страницы.',
+          'Есть мессенджер, а форма короткая: только то, без чего не ответить.',
+          'Сайт быстро открывается и удобен на телефоне.',
+        ] },
+      ] as Group[],
+      score: 'ОТМЕЧЕНО',
+      of: 'из',
+      verdicts: [
+        ['Сайт пока не помогает вам', 'Посетитель, скорее всего, не находит ответов на свои первые вопросы и уходит. Начните с пунктов первой группы: они дают самый заметный эффект.'],
+        ['Есть основа, но много пробелов', 'Часть сомнений сайт закрывает, часть остаётся. Обратите внимание на неотмеченные пункты: именно там теряются обращения.'],
+        ['Почти всё на месте', 'Сайт закрывает большинство сомнений. Остались детали, которые довершат картину.'],
+        ['Отличный результат', 'Все первые вопросы посетителя закрыты. Дальше стоит смотреть на скорость, содержание и то, что именно вы говорите о себе.'],
+      ],
+      ctaTitle: 'Хотите обсудить, что поправить?',
+      ctaText: 'Расскажите про ваш проект. Подскажу, с чего начать, и предложу подходящий формат.',
+      cta: 'ЗАПОЛНИТЬ БРИФ →',
+      or: 'ИЛИ НАПИШИТЕ В TELEGRAM ↗',
+    }
+  : {
+      title: 'Checklist: does your website build trust — DEVENAS',
+      description: 'A free 12-point checklist: check whether your website removes a visitor’s first doubts, and why they may leave without contacting you.',
+      back: '← BACK TO HOME',
+      label: '[ CHECKLIST · 12 POINTS ]',
+      h1: 'Does your website build trust?',
+      lead: 'A visitor decides in seconds whether to contact you or leave. Go through the list and tick what your site already has. It takes about five minutes.',
+      groups: [
+        { title: '01 · Is it clear what you do', items: [
+          'Within 5 seconds, the first screen shows what you do and who for.',
+          'It is clear a real person or team is behind the site: a name, a face, a story.',
+          'It says how you differ from others, not with generic words like “quality and reliability”.',
+        ] },
+        { title: '02 · Can you be trusted', items: [
+          'There are examples of work or client reviews, with names, logos or photos.',
+          'It shows how you work: steps from request to result.',
+          'The provider’s details (a name or tax ID) and a privacy policy are shown.',
+        ] },
+        { title: '03 · What happens next', items: [
+          'There is a price, or at least a “from”: no need to write in to learn the ballpark.',
+          'Common questions are answered: payment, timing, what if you do not like the result.',
+          'It is clear what happens after a request and when you will reply.',
+        ] },
+        { title: '04 · Is it easy to reach you', items: [
+          'A contact button is visible on the first screen and at the end of the page.',
+          'There is a messenger, and the form is short: only what you need to reply.',
+          'The site loads fast and is easy to use on a phone.',
+        ] },
+      ] as Group[],
+      score: 'TICKED',
+      of: 'of',
+      verdicts: [
+        ['The site is not helping you yet', 'A visitor probably cannot find answers to their first questions and leaves. Start with the first group: it has the most visible effect.'],
+        ['A base is there, but with many gaps', 'The site closes some doubts and leaves others open. Look at the unticked points: that is where enquiries are lost.'],
+        ['Almost everything is in place', 'The site closes most doubts. A few details are left to complete the picture.'],
+        ['An excellent result', 'All of a visitor’s first questions are answered. Next, look at speed, content and what exactly you say about yourself.'],
+      ],
+      ctaTitle: 'Want to talk about what to fix?',
+      ctaText: 'Tell me about your project. I’ll suggest where to start and a suitable format.',
+      cta: 'FILL IN THE BRIEF →',
+      or: 'OR MESSAGE ON TELEGRAM ↗',
+    };
+
+const total = doc.groups.reduce((n, g) => n + g.items.length, 0);
+let counter = 0;
+---
+
+<Base lang={lang} title={doc.title} description={doc.description}>
+  <Header lang={lang} {...data.header} />
+  <main class="chk">
+    <a class="chk__back mono" href={`/${lang}/`}>{doc.back}</a>
+    <div class="chk__body">
+      <span class="mono chk__label">{doc.label}</span>
+      <h1>{doc.h1}</h1>
+      <p class="chk__lead">{doc.lead}</p>
+
+      <div class="chk__groups" data-chk data-total={total}>
+        {doc.groups.map((group) => (
+          <fieldset class="chk__group">
+            <legend class="mono">{group.title}</legend>
+            {group.items.map((item) => {
+              counter += 1;
+              return (
+                <label class="chk__item">
+                  <input type="checkbox" name={`c${counter}`} />
+                  <span class="chk__box" aria-hidden="true"></span>
+                  <span class="chk__text">{item}</span>
+                </label>
+              );
+            })}
+          </fieldset>
+        ))}
+      </div>
+
+      <aside class="chk__result" data-chk-result aria-live="polite">
+        <span class="mono chk__score">{doc.score}: <b data-chk-count>0</b> {doc.of} {total}</span>
+        <div class="chk__bar" aria-hidden="true"><i data-chk-bar></i></div>
+        <strong data-chk-title>{doc.verdicts[0][0]}</strong>
+        <p data-chk-text>{doc.verdicts[0][1]}</p>
+      </aside>
+
+      <section class="chk__cta">
+        <h2>{doc.ctaTitle}</h2>
+        <p>{doc.ctaText}</p>
+        <div class="chk__actions">
+          <button class="btn btn-primary" type="button" data-open-brief data-checklist-cta>{doc.cta}</button>
+          <a class="mono chk__tg" href={contacts.telegram} target="_blank" rel="noopener noreferrer" data-checklist-cta>{doc.or}</a>
+        </div>
+      </section>
+    </div>
+  </main>
+  <BriefModal lang={lang} />
+  <FloatingContact lang={lang} />
+  <script type="application/json" id="chk-verdicts" set:html={JSON.stringify(doc.verdicts)} />
+</Base>
+
+<style>
+  .chk {
+    min-height: 70vh;
+  }
+  .chk__back {
+    display: inline-block;
+    margin: 22px var(--gutter);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .chk__back:hover {
+    color: var(--lime);
+  }
+  .chk__body {
+    padding: 24px var(--gutter) 96px;
+    border-top: 1px solid var(--line);
+    max-width: 860px;
+  }
+  .chk__label {
+    font-size: 11px;
+    color: var(--lime);
+  }
+  .chk h1 {
+    font: 600 clamp(32px, 6vw, 64px) / 1.08 var(--font-display);
+    letter-spacing: -0.04em;
+    margin: 18px 0 18px;
+  }
+  .chk__lead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.5;
+    color: var(--muted-strong);
+    margin-bottom: 40px;
+    max-width: 62ch;
+  }
+  .chk__group {
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 20px 0 8px;
+    margin: 0 0 12px;
+    min-width: 0;
+  }
+  .chk__group legend {
+    padding: 0 12px 0 0;
+    font-size: 11px;
+    color: var(--tomato);
+  }
+  .chk__item {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    padding: 14px 0;
+    cursor: pointer;
+  }
+  .chk__item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .chk__box {
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--ink);
+    display: grid;
+    place-items: center;
+    transition: background var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .chk__box::after {
+    content: '✓';
+    font: 700 16px var(--font-mono);
+    color: var(--dark);
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+  }
+  .chk__item:hover .chk__box {
+    box-shadow: 4px 4px 0 var(--lime);
+  }
+  .chk__item input:focus-visible + .chk__box {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+  .chk__item input:checked + .chk__box {
+    background: var(--lime);
+    border-color: var(--lime);
+  }
+  .chk__item input:checked + .chk__box::after {
+    opacity: 1;
+    transform: none;
+  }
+  .chk__text {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .chk__result {
+    position: sticky;
+    bottom: 12px;
+    margin: 32px 0 0;
+    padding: 20px 22px;
+    background: var(--ink);
+    color: var(--dark);
+    box-shadow: 8px 8px 0 var(--tomato);
+    display: grid;
+    gap: 10px;
+    z-index: 5;
+  }
+  .chk__score {
+    font-size: 11px;
+  }
+  .chk__bar {
+    height: 8px;
+    background: rgba(10, 10, 10, 0.15);
+  }
+  .chk__bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--dark);
+    transition: width var(--dur-base) var(--ease-out);
+  }
+  .chk__result strong {
+    font: 600 clamp(18px, 2.4vw, 24px) / 1.2 var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  .chk__result p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 62ch;
+  }
+  .chk__cta {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .chk__cta h2 {
+    font: 600 clamp(24px, 3.4vw, 36px) / 1.15 var(--font-display);
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .chk__cta p {
+    color: var(--muted-strong);
+    line-height: 1.55;
+    max-width: 52ch;
+    margin-bottom: 24px;
+  }
+  .chk__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: center;
+  }
+  .chk__tg {
+    font-size: 11px;
+    color: var(--lime);
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-chk]');
+  if (root) {
+    const total = Number(root.dataset.total);
+    const verdicts: [string, string][] = JSON.parse(document.getElementById('chk-verdicts')?.textContent ?? '[]');
+    const count = document.querySelector('[data-chk-count]');
+    const bar = document.querySelector<HTMLElement>('[data-chk-bar]');
+    const title = document.querySelector('[data-chk-title]');
+    const text = document.querySelector('[data-chk-text]');
+    const boxes = Array.from(root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+    const goal = (name: string) => window.dispatchEvent(new CustomEvent('dv:goal', { detail: name }));
+    let started = false;
+    let finished = false;
+
+    const update = () => {
+      const n = boxes.filter((box) => box.checked).length;
+      const level = n <= 4 ? 0 : n <= 8 ? 1 : n < total ? 2 : 3;
+      if (count) count.textContent = String(n);
+      if (bar) bar.style.width = `${(n / total) * 100}%`;
+      if (title && verdicts[level]) title.textContent = verdicts[level][0];
+      if (text && verdicts[level]) text.textContent = verdicts[level][1];
+      if (n > 0 && !started) { started = true; goal('checklist_used'); }
+      if (n === total && !finished) { finished = true; goal('checklist_done'); }
+    };
+
+    boxes.forEach((box) => box.addEventListener('change', update));
+    document.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement | null)?.closest('[data-checklist-cta]')) goal('checklist_cta');
+    });
+    update();
+  }
+</script>
