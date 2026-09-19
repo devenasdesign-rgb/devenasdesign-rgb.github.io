@@ -12,7 +12,7 @@ export const seo = {
   sameAs: [
     'https://t.me/devenas',
     'https://vk.com/devenas.design',
-    'https://instagram.com/devenas.design',
+    'https://www.instagram.com/deven.a.s/',
     'https://behance.net/3649e2cc',
     'https://dprofile.ru/devenas',
     'https://experts.tilda.ru/devenas',
