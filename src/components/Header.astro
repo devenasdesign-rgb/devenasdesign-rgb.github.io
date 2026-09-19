@@ -43,7 +43,7 @@ const menuCopy = lang === 'ru' ? { close: 'ЗАКРЫТЬ', socials: 'НА СВ�
         <span>{menuCopy.socials}</span>
         <div>
           <a href={contacts.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM ↗</a>
-          <a href={contacts.vk} target="_blank" rel="noopener noreferrer">VK ↗</a>
+          {lang === 'ru' && <a href={contacts.vk} target="_blank" rel="noopener noreferrer">VK ↗</a>}
           <a href={contacts.instagram} target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
         </div>
       </div>

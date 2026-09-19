@@ -27,7 +27,8 @@ const content = ru
       faq: [
         ['How much does a website cost?', 'A one-page website starts at $900 and a multi-page website at $1,400. I send an exact quote after a short brief, based on scope and goals.'],
         ['How long does it take?', 'Most projects take 14–22 working days. We agree on the timing before the start, so you have a clear plan and launch date.'],
-        ['How does payment work?', 'I work on a 50/50 basis: 50% is paid upfront before we start, and 50% after the work is completed. Everything is set out in the contract, and I confirm payment with a receipt — I work officially as self-employed.'],
+        ['How does payment work?', 'I work on a 50/50 basis: 50% is paid upfront before we start, and 50% after the work is completed. Everything is set out in a contract. Clients outside Russia pay through the Easystaff platform, which takes care of the invoice and the payment.'],
+        ['Can we work remotely?', 'Yes. The whole process happens online: messages and calls, shared files and written approvals at every stage.'],
         ['How many revisions are included?', 'Each approval round (for example wireframe, design, development) includes two rounds of revisions. If your project needs a different setup, I will suggest what works best and we will agree on it upfront.'],
         ['Do you only work in Tilda?', 'No. I choose the right tool for the task: Tilda for speed and easy editing, code for a custom interface or complex functionality.'],
         ['What do I need to prepare?', 'Tell me about your business, goals and customers. I will help shape the structure, questions for the copy and a materials checklist.'],
@@ -39,7 +40,8 @@ const content = ru
       direct: 'OR MESSAGE ME DIRECTLY →', briefStep: '01 / 03 · ABOUT THE PROJECT', service: 'WHAT DO YOU NEED? *', serviceHint: 'Select a format', services: ['One-page website', 'Multi-page website', 'Online store', 'Website design'], niche: 'BUSINESS TYPE *', nicheHint: 'Select a field', niches: ['Cafes & restaurants', 'Beauty & health', 'Shop', 'Expert or specialist'], business: 'BUSINESS NAME', businessHint: 'E.g. “Corner Coffee Co.”', openBrief: 'CONTINUE THE BRIEF · 2 MIN →',
       footer: 'WEBSITES THAT WORK FOR BUSINESS', top: 'BACK TO TOP ↑'
     };
-const channels: [string, string, string][] = [
+const ruOnly = ['ВКОНТАКТЕ', 'VK', 'DPROFILE', 'DP'];
+const channelsAll: [string, string, string][] = [
   ['TELEGRAM', '@devenas', contacts.telegram],
   [ru ? 'WHATSAPP*' : 'WHATSAPP', ru ? 'написать' : 'message', contacts.whatsapp],
   [ru ? 'ВКОНТАКТЕ' : 'VK', 'devenas.design', contacts.vk],
@@ -47,7 +49,8 @@ const channels: [string, string, string][] = [
   ['BEHANCE', '3649e2cc', 'https://behance.net/3649e2cc'],
   ['DPROFILE', 'devenas', 'https://dprofile.ru/devenas'],
 ];
-const socials: [string, string][] = [
+const channels = lang === 'ru' ? channelsAll : channelsAll.filter(([label]) => !ruOnly.includes(label));
+const socialsAll: [string, string][] = [
   ['TG', contacts.telegram],
   [ru ? 'WA*' : 'WA', contacts.whatsapp],
   ['VK', contacts.vk],
@@ -55,6 +58,7 @@ const socials: [string, string][] = [
   ['BE', 'https://behance.net/3649e2cc'],
   ['DP', 'https://dprofile.ru/devenas'],
 ];
+const socials = lang === 'ru' ? socialsAll : socialsAll.filter(([label]) => !ruOnly.includes(label));
 ---
 
 <script
