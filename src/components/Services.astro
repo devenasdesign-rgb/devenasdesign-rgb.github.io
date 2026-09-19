@@ -1,5 +1,6 @@
 ---
 import SectionHeader from './SectionHeader.astro';
+import type { Locale } from '../lib/i18n';
 
 interface ServiceItem {
   id: string;
@@ -13,6 +14,7 @@ interface ServiceItem {
 }
 
 interface Props {
+  lang: Locale;
   services: {
     sectionLabel: string;
     columns: string[];
@@ -28,7 +30,7 @@ interface Props {
   };
 }
 
-const { services } = Astro.props;
+const { services, lang } = Astro.props;
 ---
 
 <section class="services" id="services">
@@ -39,6 +41,10 @@ const { services } = Astro.props;
       {services.heading.pre}<span class="marker-blue">{services.heading.marker}</span>{services.heading.post}
     </h2>
     <p class="services__subheading">{services.subheading}</p>
+    <p class="services__niches mono">
+      <a href={`/${lang}/for/experts/`}>{lang === 'ru' ? 'ДЛЯ ЭКСПЕРТОВ →' : 'FOR EXPERTS →'}</a>
+      <a href={`/${lang}/for/shops/`}>{lang === 'ru' ? 'ДЛЯ МАГАЗИНОВ →' : 'FOR ONLINE STORES →'}</a>
+    </p>
   </div>
 
   <div class="services__head mono" aria-hidden="true">
@@ -130,6 +136,22 @@ const { services } = Astro.props;
     max-width: 20ch;
   }
 
+  .services__niches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 18px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .services__niches a {
+    color: var(--lime);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+  }
+  .services__niches a:hover {
+    color: var(--ink);
+  }
   .services__subheading {
     color: var(--muted-strong);
     font-size: 15px;

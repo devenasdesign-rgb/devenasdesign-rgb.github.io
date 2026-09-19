@@ -1,0 +1,480 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import BriefModal from '../../../components/BriefModal.astro';
+import FloatingContact from '../../../components/FloatingContact.astro';
+import ProjectImage from '../../../components/ProjectImage.astro';
+import { locales, getSiteData, type Locale } from '../../../lib/i18n';
+import { niches, nicheBySlug } from '../../../data/niches';
+import { doubts } from '../../../data/doubts';
+import { contacts } from '../../../data/proof';
+import { seo } from '../../../data/seo';
+
+export function getStaticPaths() {
+  return locales.flatMap((lang) => niches.map((n) => ({ params: { lang, niche: n.slug } })));
+}
+
+const { lang, niche: slug } = Astro.params as { lang: Locale; niche: string };
+const niche = nicheBySlug[slug];
+const data = getSiteData(lang);
+const ru = lang === 'ru';
+
+const services = data.services.items;
+const pick = (id: string) => services.find((s) => s.id === id)!;
+const priceCards = [pick(niche.serviceId), ...(niche.altServiceId ? [pick(niche.altServiceId)] : [])];
+
+const caseItems = niche.cases.map((c) => ({ ...c, item: data.work.items.find((w) => w.slug === c.slug)! }));
+const doubtPairs = niche.doubts.map(([caseSlug, i]) => {
+  const pair = doubts[caseSlug][lang][i];
+  const name = data.work.items.find((w) => w.slug === caseSlug)!.name;
+  return { q: pair[0], a: pair[1], slug: caseSlug, name };
+});
+
+const t = ru
+  ? {
+      back: '← НА ГЛАВНУЮ',
+      brief: 'ОБСУДИТЬ ПРОЕКТ →',
+      checklist: 'ЧЕК-ЛИСТ: ВЫЗЫВАЕТ ЛИ ВАШ САЙТ ДОВЕРИЕ? →',
+      doubtsLabel: '[ ЧТО ОСТАНАВЛИВАЕТ ПОСЕТИТЕЛЯ ]',
+      doubtsTitle: 'Сомнения, на которые сайт должен ответить',
+      doubt: 'СОМНЕНИЕ',
+      answer: 'ОТВЕТ САЙТА',
+      from: 'ИЗ КЕЙСА',
+      casesLabel: '[ РАБОТЫ ПО ТЕМЕ ]',
+      casesTitle: 'Примеры',
+      open: 'СМОТРЕТЬ КЕЙС →',
+      priceLabel: '[ ЦЕНА И СРОКИ ]',
+      priceTitle: 'Открытые цены',
+      priceNote: 'Точную сумму называю после короткого брифа, в течение дня. Оплата 50/50: предоплата и постоплата. В каждый круг согласования входят две итерации правок.',
+      time: 'СРОК',
+      example: 'ПРИМЕР',
+      all: 'Все форматы и цены',
+      ctaTitle: 'Расскажите про ваш проект',
+      ctaText: 'Уточню задачу, предложу подходящий формат и пришлю расчёт. Если технического задания пока нет, помогу разобраться.',
+    }
+  : {
+      back: '← BACK TO HOME',
+      brief: 'DISCUSS A PROJECT →',
+      checklist: 'CHECKLIST: DOES YOUR SITE BUILD TRUST? →',
+      doubtsLabel: '[ WHAT STOPS A VISITOR ]',
+      doubtsTitle: 'Doubts the site has to answer',
+      doubt: 'THE DOUBT',
+      answer: 'THE SITE’S ANSWER',
+      from: 'FROM THE CASE',
+      casesLabel: '[ RELATED WORK ]',
+      casesTitle: 'Examples',
+      open: 'VIEW CASE →',
+      priceLabel: '[ PRICE AND TIMING ]',
+      priceTitle: 'Open prices',
+      priceNote: 'I give the exact quote after a short brief, within a day. Payment 50/50: an advance and a final payment. Each approval round includes two rounds of revisions.',
+      time: 'TIMING',
+      example: 'EXAMPLE',
+      all: 'All formats and prices',
+      ctaTitle: 'Tell me about your project',
+      ctaText: 'I’ll clarify the task, suggest a format and send a quote. No detailed specification yet? I’ll help you work it out.',
+    };
+
+const pageUrl = `${seo.origin}/${lang}/for/${slug}/`;
+const minPrice = { onepage: ru ? 55000 : 900, multipage: ru ? 80000 : 1400, store: ru ? 120000 : 2200 } as Record<string, number>;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: niche.breadcrumb[lang],
+    description: niche.description[lang],
+    url: pageUrl,
+    inLanguage: lang,
+    provider: { '@type': 'Person', name: ru ? 'Анастасия Девентейчик' : 'Anastasia Deventeichik', url: `${seo.origin}/${lang}/` },
+    offers: {
+      '@type': 'Offer',
+      priceSpecification: { '@type': 'PriceSpecification', minPrice: minPrice[niche.serviceId], priceCurrency: ru ? 'RUB' : 'USD' },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'DEVENAS', item: `${seo.origin}/${lang}/` },
+      { '@type': 'ListItem', position: 2, name: niche.breadcrumb[lang], item: pageUrl },
+    ],
+  },
+];
+---
+
+<Base lang={lang} title={niche.title[lang]} description={niche.description[lang]} jsonLd={jsonLd}>
+  <Header lang={lang} {...data.header} />
+  <main class="niche">
+    <a class="niche__back mono" href={`/${lang}/`}>{t.back}</a>
+
+    <section class="niche__hero">
+      <span class="mono niche__label">{niche.label[lang]}</span>
+      <h1>{niche.h1[lang]}</h1>
+      <p class="niche__lead">{niche.lead[lang]}</p>
+      <div class="niche__actions">
+        <button class="btn btn-primary" type="button" data-open-brief>{t.brief}</button>
+        <a class="mono niche__link" href={`/${lang}/checklist/`}>{t.checklist}</a>
+      </div>
+    </section>
+
+    <section class="niche__block" aria-labelledby="niche-doubts">
+      <div class="niche__head"><span class="mono niche__label">{t.doubtsLabel}</span><h2 id="niche-doubts">{t.doubtsTitle}</h2></div>
+      <ol class="niche__doubts">
+        {doubtPairs.map((d, i) => (
+          <li>
+            <span class="mono niche__num">({String(i + 1).padStart(2, '0')})</span>
+            <p class="niche__q"><span class="mono">{t.doubt}</span>{d.q}</p>
+            <p class="niche__a"><span class="mono">{t.answer}</span>{d.a}<a class="mono niche__src" href={`/${lang}/cases/${d.slug}/`}>{t.from}: {d.name} →</a></p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="niche__block niche__how" aria-labelledby="niche-how">
+      <div class="niche__head"><span class="mono niche__label">[ {ru ? 'ПОДХОД' : 'APPROACH'} ]</span><h2 id="niche-how">{niche.principlesTitle[lang]}</h2></div>
+      <ol class="niche__principles">
+        {niche.principles[lang].map(([title, text], i) => (
+          <li><span class="mono niche__num">({String(i + 1).padStart(2, '0')})</span><h3>{title}</h3><p>{text}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="niche__block" aria-labelledby="niche-cases">
+      <div class="niche__head"><span class="mono niche__label">{t.casesLabel}</span><h2 id="niche-cases">{t.casesTitle}</h2></div>
+      <ul class="niche__cases">
+        {caseItems.map(({ item, status }) => (
+          <li>
+            <a href={`/${lang}/cases/${item.slug}/`} data-case-link>
+              <span class="niche__cover"><ProjectImage src={item.cover} alt={item.name} sizes="(max-width: 767px) 100vw, 33vw" /></span>
+              <span class="niche__case-body">
+                <strong>{item.name}</strong>
+                <span class="niche__case-desc">{item.description}</span>
+                <span class="niche__tags mono">{item.tags.map((tag) => <i>{tag}</i>)}</span>
+                <span class="niche__status">{status[lang]}</span>
+                <span class="mono niche__open">{t.open}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="niche__block" aria-labelledby="niche-price">
+      <div class="niche__head"><span class="mono niche__label">{t.priceLabel}</span><h2 id="niche-price">{t.priceTitle}</h2></div>
+      <ul class="niche__prices">
+        {priceCards.map((s) => (
+          <li>
+            <strong>{s.title}</strong>
+            <span class="niche__price">{s.price}</span>
+            <span class="mono niche__meta">{t.time}: {s.timeframe}</span>
+            <span class="niche__for">{s.forWho}</span>
+            <span class="mono niche__meta">{t.example}: {s.example}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="niche__note">{t.priceNote} <a class="mono" href={`/${lang}/#services`}>{t.all} →</a></p>
+    </section>
+
+    <section class="niche__cta">
+      <h2>{t.ctaTitle}</h2>
+      <p>{t.ctaText}</p>
+      <div class="niche__actions">
+        <button class="btn btn-primary" type="button" data-open-brief>{t.brief}</button>
+        <a class="mono niche__link" href={contacts.telegram} target="_blank" rel="noopener noreferrer">TELEGRAM ↗</a>
+      </div>
+    </section>
+  </main>
+  <BriefModal lang={lang} />
+  <FloatingContact lang={lang} />
+</Base>
+
+<style>
+  .niche {
+    min-height: 70vh;
+  }
+  .niche__back {
+    display: inline-block;
+    margin: 22px var(--gutter);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .niche__back:hover {
+    color: var(--lime);
+  }
+  .niche__hero,
+  .niche__block,
+  .niche__cta {
+    padding: 40px var(--gutter);
+    border-top: 1px solid var(--line);
+  }
+  .niche__hero {
+    padding-top: 48px;
+    padding-bottom: 56px;
+  }
+  .niche__label {
+    font-size: 11px;
+    color: var(--lime);
+  }
+  .niche h1 {
+    font: 600 clamp(32px, 5.6vw, 76px) / 1.06 var(--font-display);
+    letter-spacing: -0.04em;
+    margin: 18px 0 22px;
+    max-width: 18ch;
+  }
+  .niche__lead {
+    font-size: clamp(17px, 2vw, 22px);
+    line-height: 1.5;
+    color: var(--muted-strong);
+    max-width: 60ch;
+    margin-bottom: 32px;
+  }
+  .niche__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    align-items: center;
+  }
+  .niche__link {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 4px;
+  }
+  .niche__link:hover {
+    color: var(--ink);
+  }
+  .niche__head {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .niche h2 {
+    font: 600 clamp(26px, 3.6vw, 44px) / 1.12 var(--font-display);
+    letter-spacing: -0.035em;
+    max-width: 24ch;
+  }
+  .niche__num {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .niche__doubts,
+  .niche__principles,
+  .niche__cases,
+  .niche__prices {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .niche__doubts li {
+    display: grid;
+    gap: 14px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+  .niche__q,
+  .niche__a {
+    margin: 0;
+  }
+  .niche__q span,
+  .niche__a span {
+    display: block;
+    font-size: 10px;
+    margin-bottom: 8px;
+    color: var(--tomato);
+  }
+  .niche__a span {
+    color: var(--lime);
+  }
+  .niche__q {
+    font: 600 clamp(19px, 2.2vw, 26px) / 1.25 var(--font-display);
+    letter-spacing: -0.02em;
+  }
+  .niche__a {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted-strong);
+  }
+  .niche__src {
+    display: block;
+    margin-top: 12px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .niche__src:hover {
+    color: var(--lime);
+  }
+
+  .niche__principles {
+    display: grid;
+    gap: 0;
+  }
+  .niche__principles li {
+    display: grid;
+    gap: 10px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .niche__principles h3 {
+    font: 600 clamp(20px, 2.2vw, 26px) / 1.2 var(--font-display);
+    letter-spacing: -0.025em;
+  }
+  .niche__principles p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted-strong);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  .niche__cases {
+    display: grid;
+    gap: 24px;
+  }
+  .niche__cases a {
+    display: grid;
+    height: 100%;
+    background: var(--surface, #17171a);
+    border: 1px solid var(--line);
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+  .niche__cases a:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--lime);
+  }
+  .niche__cover {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .niche__cover :global(picture),
+  .niche__cover :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .niche__case-body {
+    display: grid;
+    gap: 10px;
+    padding: 20px;
+    align-content: start;
+  }
+  .niche__case-body strong {
+    font: 600 22px / 1.15 var(--font-display);
+    letter-spacing: -0.03em;
+  }
+  .niche__case-desc {
+    color: var(--muted-strong);
+  }
+  .niche__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .niche__tags i {
+    font-style: normal;
+    font-size: 10px;
+    padding: 4px 8px;
+    border: 1px solid rgba(244, 241, 234, 0.4);
+  }
+  .niche__status {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted-strong);
+  }
+  .niche__open {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    margin-top: 6px;
+  }
+
+  .niche__prices {
+    display: grid;
+    gap: 20px;
+  }
+  .niche__prices li {
+    display: grid;
+    gap: 10px;
+    padding: 24px;
+    background: var(--ink);
+    color: var(--dark);
+    box-shadow: 8px 8px 0 var(--tomato);
+  }
+  .niche__prices strong {
+    font: 600 22px / 1.15 var(--font-display);
+    letter-spacing: -0.03em;
+  }
+  .niche__price {
+    font: 600 clamp(28px, 3.6vw, 40px) / 1.1 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+  .niche__meta {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+  .niche__for {
+    line-height: 1.5;
+  }
+  .niche__note {
+    margin: 32px 0 0;
+    color: var(--muted-strong);
+    line-height: 1.6;
+    max-width: 64ch;
+  }
+  .niche__note a {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 11px;
+    color: var(--lime);
+    border-bottom: 1px solid currentColor;
+  }
+
+  .niche__cta {
+    padding-bottom: 96px;
+  }
+  .niche__cta h2 {
+    margin-bottom: 14px;
+  }
+  .niche__cta p {
+    color: var(--muted-strong);
+    line-height: 1.55;
+    max-width: 52ch;
+    margin-bottom: 26px;
+  }
+
+  @media (min-width: 900px) {
+    .niche__head {
+      grid-template-columns: 260px minmax(0, 1fr);
+      align-items: start;
+      gap: 40px;
+    }
+    .niche__head h2 {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .niche__head .niche__label {
+      grid-column: 1;
+      grid-row: 1;
+      padding-top: 10px;
+    }
+    .niche__doubts li {
+      grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1fr);
+      gap: 40px;
+    }
+    .niche__principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 48px;
+    }
+    .niche__cases {
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    }
+    .niche__prices {
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      max-width: 900px;
+      gap: 32px;
+    }
+  }
+</style>
