@@ -1,6 +1,7 @@
 ---
 // Корень сайта: мгновенно ведёт на язык посетителя (русский по умолчанию).
 // GitHub Pages не умеет серверные редиректы, поэтому это статическая страница с тёмным фоном без текста.
+import { seo } from '../data/seo';
 ---
 
 <!doctype html>
@@ -10,6 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DEVENAS — веб-дизайнер Анастасия Девентейчик</title>
     <meta name="theme-color" content="#0e0e10" />
+    {seo.verification.yandex && <meta name="yandex-verification" content={seo.verification.yandex} />}
+    {seo.verification.google && <meta name="google-site-verification" content={seo.verification.google} />}
     <link rel="canonical" href="https://devenasdesign.com/ru/" />
     <link rel="alternate" hreflang="ru" href="https://devenasdesign.com/ru/" />
     <link rel="alternate" hreflang="en" href="https://devenasdesign.com/en/" />
