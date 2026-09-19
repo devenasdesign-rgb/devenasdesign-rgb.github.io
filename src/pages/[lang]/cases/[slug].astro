@@ -8,6 +8,7 @@ import ProjectImage from '../../../components/ProjectImage.astro';
 import { projects } from '../../../data/proof';
 import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
 import { seo } from '../../../data/seo';
+import { doubts } from '../../../data/doubts';
 
 export function getStaticPaths() {
   return locales.flatMap((lang) => getSiteData(lang).work.items.map((item) => ({ params: { lang, slug: item.slug } })));
@@ -40,6 +41,8 @@ const text = ru ? {
   back: '← ALL WORK', number: '[ CASE STUDY ]', taskLabel: 'THE TASK', solutionLabel: 'THE SOLUTION', outcomeLabel: 'THE OUTCOME', roleLabel: 'MY ROLE', timelineLabel: 'TIMELINE',
   details: 'PROJECT DETAILS', next: 'DISCUSS A SIMILAR PROJECT ↗', more: 'NEXT CASE →'
 };
+const caseDoubts = doubts[slug]?.[lang] ?? [];
+const doubtsCopy = ru ? { label: '[ КАКИЕ СОМНЕНИЯ СНИМАЕТ САЙТ ]', title: 'Что беспокоит посетителя — и как сайт отвечает', doubt: 'СОМНЕНИЕ', answer: 'ОТВЕТ САЙТА' } : { label: '[ DOUBTS THIS SITE ANSWERS ]', title: 'What worries a visitor — and how the site responds', doubt: 'THE DOUBT', answer: 'THE SITE’S ANSWER' };
 const index = data.work.items.findIndex((entry) => entry.slug === slug);
 const next = data.work.items[(index + 1) % data.work.items.length];
 const pageTitle = ru ? `${item.name} — кейс: ${item.description} | DEVENAS` : `${item.name} — case study: ${item.description} | DEVENAS`;
@@ -79,6 +82,23 @@ const jsonLd = [
       <div class="case__title"><span class="mono">{text.number} · 0{index + 1}/07</span><h1>{item.name}</h1><p>{item.description}</p><div class="case__tags mono">{item.tags.map((tag) => <span>{tag}</span>)}</div><p class="case__status mono">{story.status}</p>{projectHref && <a class="case__live mono" href={projectHref} target="_blank" rel="noopener noreferrer">{project.linkLabel?.[lang] ?? (ru ? 'Открыть сайт проекта ↗' : 'Visit the live website ↗')}</a>}</div>
       <ProjectImage class="case__cover" src={gallery[0]} alt={item.name} loading="eager" />
     </section>
+    {caseDoubts.length > 0 && (
+      <section class="case__doubts" aria-labelledby="doubts-title">
+        <div class="case__doubts-head">
+          <span class="mono case__doubts-label">{doubtsCopy.label}</span>
+          <h2 id="doubts-title">{doubtsCopy.title}</h2>
+        </div>
+        <ol class="case__doubts-list">
+          {caseDoubts.map(([question, answer], i) => (
+            <li>
+              <span class="mono case__doubts-num">({String(i + 1).padStart(2, '0')})</span>
+              <p class="case__doubts-q"><span class="mono">{doubtsCopy.doubt}</span>{question}</p>
+              <p class="case__doubts-a"><span class="mono">{doubtsCopy.answer}</span>{answer}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
     <section class="case__story" aria-label={ru ? 'О кейсе' : 'Case details'}>
       <article class="case__task"><span class="mono">{text.taskLabel}</span><h2>{story.task}</h2></article>
       <article><span class="mono">{text.solutionLabel}</span><p>{story.solution}</p></article>
@@ -106,4 +126,20 @@ const jsonLd = [
   .case__gallery{display:grid;grid-template-columns:1fr;gap:24px;padding:0 var(--gutter) 56px}.case__gallery-cap{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}.case__shot{margin:0;position:relative;border:1px solid var(--line);background:var(--surface)}.case__shot img{width:100%;min-height:320px;height:100%;object-fit:cover;object-position:top}.case__shot figcaption{position:absolute;top:10px;left:10px;background:var(--lime);color:var(--dark);padding:3px 6px;font-size:10px}
   .case__cta{padding:64px var(--gutter);background:var(--blue);color:var(--white)}.case__cta p{font-size:11px;margin-bottom:18px}.case__cta h2{font-size:clamp(36px,6vw,76px);line-height:1.04;white-space:pre-line;margin:0 0 28px}.case__next{display:flex;justify-content:space-between;align-items:center;padding:26px var(--gutter);border-bottom:1px solid var(--line)}.case__next span{font-size:11px;color:var(--muted)}.case__next strong{font:600 clamp(18px,3vw,34px) var(--font-display)}.case__next:hover{background:var(--lime);color:var(--dark)}
   @media(min-width:800px){.case__hero{grid-template-columns:1fr 1.1fr;align-items:end;padding-top:72px;padding-bottom:72px}.case__story{grid-template-columns:1fr 1fr;column-gap:80px;row-gap:56px;padding-top:88px;padding-bottom:88px}.case__outcome,.case__facts{grid-column:1/-1}.case__outcome{display:grid;grid-template-columns:1fr 1fr;column-gap:80px}.case__outcome p{grid-column:2}.case__facts{grid-template-columns:1fr 1fr}.case__facts article{padding:24px 28px 24px 0}.case__facts article+article{padding-left:28px;border-left:1px solid var(--line)}.case__gallery{grid-template-columns:1fr 1fr}.case__gallery-cap,.case__shot--wide{grid-column:1/-1}.case__shot--wide img{max-height:760px}.case__shot:not(.case__shot--wide) img{max-height:560px}.case__cta{padding:88px var(--gutter)}}
+
+  .case__doubts{padding:56px var(--gutter);border-bottom:1px solid var(--line)}
+  .case__doubts-label{font-size:11px;color:var(--lime)}
+  .case__doubts h2{font:600 clamp(24px,3.6vw,44px)/1.15 var(--font-display);letter-spacing:-.03em;margin:14px 0 36px;max-width:22ch}
+  .case__doubts-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line)}
+  .case__doubts-list li{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:26px 0;border-bottom:1px solid var(--line)}
+  .case__doubts-num{font-size:11px;color:var(--muted)}
+  .case__doubts-q,.case__doubts-a{margin:0;min-width:0}
+  .case__doubts-q span,.case__doubts-a span{display:block;font-size:10px;margin-bottom:8px}
+  .case__doubts-q span{color:var(--tomato)}
+  .case__doubts-a span{color:var(--lime)}
+  .case__doubts-q{font:600 clamp(18px,2vw,24px)/1.25 var(--font-display);letter-spacing:-.02em}
+  .case__doubts-q span{font:700 10px var(--font-mono);letter-spacing:.02em}
+  .case__doubts-a{font-size:16px;line-height:1.6;color:var(--muted-strong);max-width:56ch}
+  .case__doubts-a span{font:700 10px var(--font-mono);letter-spacing:.02em}
+  @media(min-width:900px){.case__doubts-list li{grid-template-columns:60px minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:start}}
 </style>
