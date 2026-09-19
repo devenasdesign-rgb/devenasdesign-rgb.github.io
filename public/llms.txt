@@ -17,6 +17,12 @@
 
 Знакомство → предложение → договор → анализ → прототип → мудборд → концепции → дизайн → вёрстка (Tilda или код) → запуск и поддержка (1–2 недели бесплатно).
 
+## Условия работы / Terms
+
+- Оплата 50/50: 50% предоплата перед стартом, 50% постоплата после завершения работы; договор и чеки (самозанятая). / Payment 50/50: 50% upfront, 50% after completion; contract and receipts.
+- В каждый круг согласования входят две итерации правок. / Each approval round includes two rounds of revisions.
+- После запуска: инструкция и 1–2 недели бесплатной поддержки. / After launch: a guide and 1–2 weeks of free support.
+
 ## Проекты / Case studies
 
 - [PerfectMatch](https://devenasdesign.com/ru/cases/perfectmatch/): двуязычный сайт HR-консалтинга в коде, логотип и гайдлайн. [EN](https://devenasdesign.com/en/cases/perfectmatch/)
@@ -37,6 +43,7 @@
 ## Связаться / Contact
 
 - Telegram: https://t.me/devenas
+- WhatsApp: https://wa.me/message/ZQVNHFSNQYJVO1
 - ВКонтакте: https://vk.com/devenas.design
 - Instagram: https://instagram.com/devenas.design (Meta признана в РФ экстремистской организацией и запрещена)
 - Behance: https://behance.net/3649e2cc

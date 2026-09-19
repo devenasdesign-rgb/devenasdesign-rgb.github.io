@@ -10,9 +10,12 @@ const content = ru
       faq: [
         ['Сколько стоит сайт?', 'Одностраничный сайт — от 55 000 ₽, многостраничный — от 80 000 ₽. Точную стоимость считаю после короткого брифа: она зависит от структуры, контента и задач.'],
         ['Сколько длится работа?', 'В среднем 14–22 рабочих дня. Срок фиксируем до старта — так у вас есть понятный план и дата запуска.'],
+        ['Как проходит оплата?', 'Работаю по схеме 50/50: 50% — предоплата перед стартом, 50% — постоплата после завершения работы. Всё фиксируем в договоре, оплату подтверждаю чеком: работаю официально как самозанятая.'],
+        ['Сколько правок входит в работу?', 'В каждый круг согласования (например, прототип, дизайн, вёрстка) входят две итерации правок. Если вашей задаче нужна другая схема, подскажу, как лучше, и мы договоримся об этом заранее.'],
         ['Вы работаете только на Tilda?', 'Нет. Выбираю инструмент под задачу: Tilda — когда важна скорость и самостоятельное редактирование, код — когда нужен особый интерфейс или сложная логика.'],
         ['Что нужно подготовить с моей стороны?', 'Достаточно рассказать о бизнесе, целях и клиентах. Структуру, вопросы к текстам и список материалов я помогу собрать по ходу работы.'],
         ['Можно начать, если пока нет фирменного стиля?', 'Да. На этапе мудборда определим визуальное направление, а при необходимости начнём с логотипа и базовых носителей.'],
+        ['Что будет после запуска?', 'Передаю сайт с инструкцией. Первые 1–2 недели поддержки — бесплатно, дальше остаюсь на связи.'],
       ],
       contactLabel: '[05] КОНТАКТ', contactMeta: 'ОТВЕЧАЮ В БУДНИ 08:00–19:00', contactTitle: 'Расскажите\nо своём\nпроекте',
       contactText: 'Короткий бриф займёт пару минут. Изучу задачу и пришлю расчёт в течение дня.',
@@ -24,9 +27,12 @@ const content = ru
       faq: [
         ['How much does a website cost?', 'A one-page website starts at $900 and a multi-page website at $1,400. I send an exact quote after a short brief, based on scope and goals.'],
         ['How long does it take?', 'Most projects take 14–22 working days. We agree on the timing before the start, so you have a clear plan and launch date.'],
+        ['How does payment work?', 'I work on a 50/50 basis: 50% is paid upfront before we start, and 50% after the work is completed. Everything is set out in the contract, and I confirm payment with a receipt — I work officially as self-employed.'],
+        ['How many revisions are included?', 'Each approval round (for example wireframe, design, development) includes two rounds of revisions. If your project needs a different setup, I will suggest what works best and we will agree on it upfront.'],
         ['Do you only work in Tilda?', 'No. I choose the right tool for the task: Tilda for speed and easy editing, code for a custom interface or complex functionality.'],
         ['What do I need to prepare?', 'Tell me about your business, goals and customers. I will help shape the structure, questions for the copy and a materials checklist.'],
         ['Can we start without a brand identity?', 'Yes. We can define the visual direction at the moodboard stage, and start with a logo and essentials if needed.'],
+        ['What happens after launch?', 'I hand the site over with a guide. The first 1–2 weeks of support are free, and I stay in touch after that.'],
       ],
       contactLabel: '[05] CONTACT', contactMeta: 'WEEKDAYS 08:00–19:00', contactTitle: 'Tell me\nabout your\nproject',
       contactText: 'The short brief takes a couple of minutes. I will review the task and send a quote within a day.',
@@ -35,6 +41,7 @@ const content = ru
     };
 const channels: [string, string, string][] = [
   ['TELEGRAM', '@devenas', contacts.telegram],
+  ['WHATSAPP', ru ? 'написать' : 'message', contacts.whatsapp],
   [ru ? 'ВКОНТАКТЕ' : 'VK', 'devenas.design', contacts.vk],
   [ru ? 'INSTAGRAM*' : 'INSTAGRAM', 'devenas.design', contacts.instagram],
   ['BEHANCE', '3649e2cc', 'https://behance.net/3649e2cc'],
@@ -42,12 +49,27 @@ const channels: [string, string, string][] = [
 ];
 const socials: [string, string][] = [
   ['TG', contacts.telegram],
+  ['WA', contacts.whatsapp],
   ['VK', contacts.vk],
   [ru ? 'IG*' : 'IG', contacts.instagram],
   ['BE', 'https://behance.net/3649e2cc'],
   ['DP', 'https://dprofile.ru/devenas'],
 ];
 ---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: lang,
+    mainEntity: content.faq.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  })}
+/>
 
 <section class="faq" id="faq">
   <div class="section-cap"><span class="mono">{content.faqLabel}</span><span class="mono">{content.faqMeta}</span></div>

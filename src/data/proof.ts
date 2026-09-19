@@ -5,6 +5,7 @@ export const briefApi = 'https://devenas-brief-api.vercel.app/api/brief';
 
 export const contacts = {
   telegram: 'https://t.me/devenas',
+  whatsapp: 'https://wa.me/message/ZQVNHFSNQYJVO1',
   vk: 'https://vk.com/devenas.design',
   instagram: 'https://instagram.com/devenas.design',
   avito: 'https://www.avito.ru/brands/333645e3b1490aeda808d57516b0f9c0',
