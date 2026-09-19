@@ -41,7 +41,7 @@ const content = ru
     };
 const channels: [string, string, string][] = [
   ['TELEGRAM', '@devenas', contacts.telegram],
-  ['WHATSAPP', ru ? 'написать' : 'message', contacts.whatsapp],
+  [ru ? 'WHATSAPP*' : 'WHATSAPP', ru ? 'написать' : 'message', contacts.whatsapp],
   [ru ? 'ВКОНТАКТЕ' : 'VK', 'devenas.design', contacts.vk],
   [ru ? 'INSTAGRAM*' : 'INSTAGRAM', 'devenas.design', contacts.instagram],
   ['BEHANCE', '3649e2cc', 'https://behance.net/3649e2cc'],
@@ -49,7 +49,7 @@ const channels: [string, string, string][] = [
 ];
 const socials: [string, string][] = [
   ['TG', contacts.telegram],
-  ['WA', contacts.whatsapp],
+  [ru ? 'WA*' : 'WA', contacts.whatsapp],
   ['VK', contacts.vk],
   [ru ? 'IG*' : 'IG', contacts.instagram],
   ['BE', 'https://behance.net/3649e2cc'],

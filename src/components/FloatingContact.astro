@@ -9,9 +9,10 @@ const ru = lang === 'ru';
 <div class="fc" data-fc>
   <ul class="fc__menu mono" id="fc-menu" hidden>
     <li><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><b>Telegram</b><span>{ru ? 'быстрее всего' : 'fastest'}</span><i aria-hidden="true">↗</i></a></li>
-    <li><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><b>WhatsApp</b><span></span><i aria-hidden="true">↗</i></a></li>
+    <li><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><b>WhatsApp{ru ? '*' : ''}</b><span></span><i aria-hidden="true">↗</i></a></li>
     <li><button type="button" data-open-brief><b>{ru ? 'Заполнить бриф' : 'Fill in the brief'}</b><span>{ru ? '2 мин' : '2 min'}</span><i aria-hidden="true">→</i></button></li>
     <li><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><b>{ru ? 'ВКонтакте' : 'VK'}</b><span></span><i aria-hidden="true">↗</i></a></li>
+    {ru && <li class="fc__note">*Meta — организация, запрещённая в РФ</li>}
   </ul>
   <button class="fc__btn mono" type="button" aria-expanded="false" aria-controls="fc-menu" data-fc-toggle aria-label={ru ? 'Написать мне' : 'Message me'}>
     <img src="/assets/avatar-480.webp" alt="" width="44" height="44" />
@@ -88,6 +89,12 @@ const ru = lang === 'ru';
   .fc__menu span {
     font-size: 10px;
     opacity: 0.6;
+  }
+  .fc__menu .fc__note {
+    padding: 10px 16px;
+    font-size: 9px;
+    opacity: 0.6;
+    text-transform: none;
   }
   .fc__menu i {
     font-style: normal;
