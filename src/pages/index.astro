@@ -11,6 +11,22 @@ import { seo } from '../data/seo';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DEVENAS — веб-дизайнер Анастасия Девентейчик</title>
     <meta name="theme-color" content="#0e0e10" />
+    <meta name="description" content="Анастасия Девентейчик — веб-дизайнер. Создаю лендинги, многостраничные сайты и интернет-магазины для малого бизнеса и экспертов на Tilda и в коде. Цены открытые, расчёт за 1 день." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={seo.siteName} />
+    <meta property="og:title" content="DEVENAS — веб-дизайнер Анастасия Девентейчик" />
+    <meta property="og:description" content="Анастасия Девентейчик — веб-дизайнер. Создаю лендинги, многостраничные сайты и интернет-магазины для малого бизнеса и экспертов на Tilda и в коде. Цены открытые, расчёт за 1 день." />
+    <meta property="og:url" content="https://devenasdesign.com/" />
+    <meta property="og:image" content={`${seo.origin}${seo.ogImage}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DEVENAS — веб-дизайнер Анастасия Девентейчик" />
+    <meta name="twitter:description" content="Анастасия Девентейчик — веб-дизайнер. Создаю лендинги, многостраничные сайты и интернет-магазины для малого бизнеса и экспертов на Tilda и в коде. Цены открытые, расчёт за 1 день." />
+    <meta name="twitter:image" content={`${seo.origin}${seo.ogImage}`} />
     {seo.verification.yandex && <meta name="yandex-verification" content={seo.verification.yandex} />}
     {seo.verification.google && <meta name="google-site-verification" content={seo.verification.google} />}
     <link rel="canonical" href="https://devenasdesign.com/ru/" />
