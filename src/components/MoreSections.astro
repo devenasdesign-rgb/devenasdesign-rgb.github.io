@@ -100,7 +100,7 @@ const socials: [string, string][] = [
     <div class="footer__socials">{socials.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}</div>
   </div>
   <div class="footer__wordmark" data-footer-wordmark aria-hidden="true">DEVENAS</div>
-  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
+  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a><button type="button" data-cookie-settings>{ru ? 'COOKIES' : 'COOKIES'}</button>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
 </footer>
 
 <style>
@@ -146,7 +146,7 @@ const socials: [string, string][] = [
   .footer{background:var(--bg);border-top:1px solid var(--line)}
   .footer__top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;padding:22px var(--gutter);border-bottom:1px solid var(--line);font-size:11px}.footer__top nav,.footer__socials{display:flex;flex-wrap:wrap;gap:12px 28px}.footer__top a:hover{color:var(--lime)}.footer__socials a{font-weight:700}
   .footer__wordmark{padding:0;font:900 16vw/.8 var(--font-display);letter-spacing:-.05em;white-space:nowrap;color:var(--ink);overflow:hidden;margin:24px 0 16px;text-align:left}
-  .footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:16px var(--gutter);border-top:1px solid var(--line);font-size:10px;color:var(--muted)}.footer__bottom a{color:var(--ink)}.footer__bottom a:hover{color:var(--lime)}
+  .footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding:16px var(--gutter);border-top:1px solid var(--line);font-size:10px;color:var(--muted)}.footer__bottom a{color:var(--ink)}.footer__bottom a:hover,.footer__bottom button:hover{color:var(--lime)}.footer__bottom button{color:var(--muted);font:inherit;text-transform:inherit;letter-spacing:inherit;text-decoration:underline;text-underline-offset:3px}
   @media(min-width:900px){.faq__layout{grid-template-columns:560px 1fr}.faq__side{border-bottom:0;border-right:1px solid var(--line)}.faq__list{border-bottom:0}.faq__item{padding:24px 32px}.contact__grid{grid-template-columns:1fr 1fr}.contact__copy{padding:72px var(--gutter) 72px;border-right:1px solid rgba(255,255,255,.28)}.contact__card{padding:64px var(--gutter) 72px 56px}.contact__links{grid-template-columns:1fr 1fr;column-gap:56px}.contact__links a{grid-template-columns:auto 1fr auto}}
 </style>
 

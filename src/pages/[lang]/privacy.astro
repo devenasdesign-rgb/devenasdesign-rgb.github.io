@@ -31,7 +31,7 @@ const doc = ru
         ['5. Кому передаются данные', ['Заявка из брифа отправляется в мой личный Telegram. Для этого используются технические сервисы: Telegram (мессенджер), Vercel (обработка запроса формы) и GitHub Pages (хостинг сайта). Эти сервисы могут находиться за пределами России. Данные не передаются никому другому, кроме случаев, предусмотренных законом.']],
         ['6. Сколько хранятся данные', ['Пока это необходимо для связи и выполнения работы, либо до тех пор, пока вы не отзовёте согласие. По завершении сотрудничества данные хранятся в течение срока, требуемого законом для отчётности и договоров.']],
         ['7. Ваши права', ['Вы можете запросить, какие данные о вас есть, исправить их, потребовать удаления и отозвать согласие. Для этого напишите в Telegram @devenas — ответ придёт в течение рабочих дней.']],
-        ['8. Cookies и аналитика', ['Сейчас сайт не использует cookies для рекламы. При подключении веб-аналитики (например, Яндекс Метрики) на сайте появится уведомление, а эта политика будет обновлена. Часть данных, например прогресс заполнения брифа, может сохраняться только в вашем браузере и никуда не отправляется.']],
+        ['8. Cookies и аналитика', ['Сайт использует Яндекс Метрику (сервис веб-аналитики ООО «Яндекс»), включая Вебвизор и карту кликов. Метрика загружается только после вашего согласия в уведомлении о cookies и собирает обезличенные данные о посещении: страницы, клики, прокрутку, тип устройства и браузера, примерный регион. Содержимое полей брифа для записи сессий скрыто и в Метрику не передаётся. Отказаться можно в уведомлении или позже по ссылке «Cookies» внизу сайта; в этом случае Метрика не загружается.', 'Рекламных cookies сайт не использует. Часть данных, например прогресс заполнения брифа и ваш выбор в уведомлении, сохраняется только в вашем браузере и никуда не отправляется.']],
         ['9. Изменения', ['Политика может обновляться. Актуальная версия всегда находится на этой странице, дата последнего обновления указана вверху.']],
       ],
     }
@@ -50,7 +50,7 @@ const doc = ru
         ['5. Who receives the data', ['A brief is delivered to my personal Telegram. Technical services are used for this: Telegram (messenger), Vercel (processing the form request) and GitHub Pages (site hosting). These services may be located outside your country. Data is not shared with anyone else except where required by law.']],
         ['6. How long data is kept', ['For as long as needed to communicate and do the work, or until you withdraw consent. After the collaboration ends, data is kept for the period required by law for accounting and contracts.']],
         ['7. Your rights', ['You may ask what data I hold about you, correct it, request deletion and withdraw your consent. Write to me on Telegram @devenas and I will reply within business days.']],
-        ['8. Cookies and analytics', ['The site currently uses no advertising cookies. If web analytics (for example Yandex Metrica) is added, a notice will appear on the site and this policy will be updated. Some data, such as your progress through the brief, may be stored only in your browser and is not sent anywhere.']],
+        ['8. Cookies and analytics', ['The site uses Yandex Metrica (a web analytics service), including Webvisor and click maps. Metrica loads only after you agree in the cookie notice and collects anonymized visit data: pages, clicks, scrolling, device and browser type, approximate region. The contents of the brief fields are hidden from session recording and are not sent to Metrica. You can decline in the notice or later via the “Cookies” link at the bottom of the site; in that case Metrica is not loaded.', 'The site uses no advertising cookies. Some data, such as your progress through the brief and your choice in the notice, is stored only in your browser and is not sent anywhere.']],
         ['9. Changes', ['This policy may be updated. The current version is always on this page, with the last update date shown at the top.']],
       ],
     };
@@ -67,7 +67,7 @@ const doc = ru
       <p class="doc__lead">{doc.lead}</p>
       {doc.sections.map(([heading, paragraphs]) => (
         <section>
-          <h2>{heading}</h2>
+          <h2 id={String(heading).startsWith('8.') ? 'cookies' : undefined}>{heading}</h2>
           {(paragraphs as string[]).map((text) => <p>{text}</p>)}
         </section>
       ))}

@@ -23,7 +23,7 @@ const taskCopy = ru ? {
 };
 ---
 
-<dialog class="brief" data-brief-modal aria-labelledby="brief-title">
+<dialog class="brief ym-hide-content" data-brief-modal aria-labelledby="brief-title">
   <button class="brief__close mono" type="button" data-close-brief>× {text.close}</button>
   <div class="brief__content">
     <div data-site-brief>
@@ -176,6 +176,8 @@ const taskCopy = ru ? {
   const telegramLink = modal?.querySelector<HTMLAnchorElement>('[data-brief-telegram]');
   const copyStatus = modal?.querySelector<HTMLElement>('[data-copy-status]');
   const ru = document.documentElement.lang === 'ru';
+  const goal = (name: string) => window.dispatchEvent(new CustomEvent('dv:goal', { detail: name }));
+  modal?.querySelectorAll<HTMLElement>('input, select, textarea').forEach((field) => field.classList.add('ym-disable-keys'));
   let currentStep = 0;
   let mode: 'site' | 'task' = 'site';
   let caseName = '';
@@ -189,6 +191,8 @@ const taskCopy = ru ? {
     if (next) next.hidden = index === steps.length - 1;
     if (send) send.hidden = index !== steps.length - 1;
     if (progress) progress.textContent = `0${index + 1} / 03`;
+    if (index === 1) goal('brief_step2');
+    if (index === 2) goal('brief_step3');
     if (focus) steps[index]?.querySelector<HTMLElement>('input, select')?.focus();
   };
   const validStep = () => {
@@ -282,7 +286,8 @@ const taskCopy = ru ? {
     } catch { ok = false; }
     window.clearTimeout(timer);
     if (button) { button.disabled = false; button.textContent = originalLabel; }
-    if (ok) { showDone(); return; }
+    if (ok) { goal('brief_sent'); showDone(); return; }
+    goal('brief_fallback');
     prepareMessage(source);
     if (copyStatus) copyStatus.textContent = ru ? 'Не удалось отправить автоматически. Отправьте это сообщение мне в Telegram — так заявка точно дойдёт.' : 'Automatic sending failed. Please send this message to me on Telegram so your request reaches me.';
   };

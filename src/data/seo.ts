@@ -3,6 +3,8 @@ export const seo = {
   siteName: 'DEVENAS',
   origin: 'https://devenasdesign.com',
   ogImage: '/og-image.png',
+  // Яндекс Метрика: загружается только после согласия посетителя (см. components/Analytics.astro).
+  metrikaId: 112797680,
   verification: {
     yandex: '',
     google: '',

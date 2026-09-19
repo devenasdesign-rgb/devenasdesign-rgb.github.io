@@ -95,7 +95,13 @@ const ru = lang === 'ru';
   .fc__menu button:hover {
     background: var(--lime);
   }
+  :global(html[data-ck-open]) .fc {
+    bottom: calc(190px + env(safe-area-inset-bottom, 0px));
+  }
   @media (min-width: 768px) {
+    :global(html[data-ck-open]) .fc {
+      bottom: 24px;
+    }
     .fc {
       right: 24px;
       bottom: 24px;
