@@ -80,10 +80,8 @@ const { lang, work } = Astro.props;
               <span class="work__tag">{t}</span>
             ))}
           </span>
-          <div class="work__row-links mono">
-            <a href={`/${lang}/cases/${item.slug}/`}>{lang === 'ru' ? 'Кейс →' : 'Case study →'}</a>
-            {projects[item.slug]?.url && <a href={projects[item.slug].url} target="_blank" rel="noopener noreferrer">{projects[item.slug].linkLabel?.[lang] ?? (lang === 'ru' ? 'Открыть сайт ↗' : 'Live website ↗')}</a>}
-          </div>
+          <span class="work__row-arrow" aria-hidden="true">↗</span>
+          <a class="work__row-cover" href={`/${lang}/cases/${item.slug}/`} tabindex="-1" aria-hidden="true"></a>
           <span class="work__preview" data-preview aria-hidden="true">
             <ProjectImage src={item.cover} alt="" sizes="320px" />
             <span class="work__preview-caption mono">
@@ -259,8 +257,18 @@ const { lang, work } = Astro.props;
     white-space: nowrap;
   }
 
+  .work__row-cover {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
   .work__row-arrow {
+    position: absolute;
+    top: 20px;
+    right: var(--gutter);
     font-size: 18px;
+    justify-self: end;
     transition: transform var(--dur-base) var(--ease-out);
   }
 
@@ -431,12 +439,10 @@ const { lang, work } = Astro.props;
     gap: 12px;
   }
 
-  .work__row-links{display:flex;gap:16px;grid-column:2;font-size:10px;flex-wrap:wrap}.work__row-links a{padding:8px 0;border-bottom:1px solid currentColor}.work__row-links a:hover{text-decoration:underline;text-underline-offset:4px}
   @media (min-width: 1024px) {
     .work__row {
       grid-template-columns: 44px minmax(0,1fr) auto auto;
     }
-    .work__row-links{grid-column:auto;flex-direction:column;gap:0;min-width:144px}
     .work__row-tags {
       display: flex;
       grid-column: auto;
@@ -503,12 +509,15 @@ const { lang, work } = Astro.props;
       padding-top: 8px;
     }
     .work__row {
-      grid-template-columns: 60px minmax(0, 1.5fr) minmax(0, 1.1fr) minmax(0, 1fr) 150px;
+      grid-template-columns: 60px minmax(0, 1.5fr) minmax(0, 1.1fr) minmax(0, 1fr) 60px;
       padding-top: 26px;
       padding-bottom: 26px;
     }
     .work__row-main {
       display: contents;
+    }
+    .work__row-arrow {
+      position: static;
     }
     .work__row-desc {
       font-size: 17px;
