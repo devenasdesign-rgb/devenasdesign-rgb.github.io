@@ -386,6 +386,32 @@ const { lang, work } = Astro.props;
     text-transform: uppercase;
   }
 
+  /* Список «Сфера бизнеса»: видно, что это выпадающий список, и текст в нём читается */
+  .work__field select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 12px 44px 12px 14px;
+    border: 1px solid rgba(244, 241, 234, 0.6);
+    background: #17171a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23D4FF3A' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 16px center / 14px 9px;
+    color: #f4f1ea;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .work__field select:hover {
+    border-color: var(--lime);
+    box-shadow: 4px 4px 0 var(--lime);
+  }
+  .work__field select option {
+    background: #17171a;
+    color: #f4f1ea;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: none;
+  }
+
   .work__field input:focus,
   .work__field select:focus {
     outline: none;
@@ -540,6 +566,7 @@ const { lang, work } = Astro.props;
   .yours { display: grid; gap: 28px; min-width: 0; }
   .yours__panel { display: flex; flex-direction: column; gap: 20px; }
   .yours__panel .work__field { flex: none; }
+  .yours__panel .work__field { color: var(--muted-strong); font-size: 11px; }
   .yours__panel .work__yoursite-heading { margin: 0; }
   .yours__stage { min-width: 0; }
   .yours__label { display: block; font-size: 10px; color: var(--lime); margin-bottom: 10px; }
