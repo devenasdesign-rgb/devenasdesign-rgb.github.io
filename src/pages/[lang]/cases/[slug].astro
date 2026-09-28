@@ -10,8 +10,10 @@ import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
 import { seo } from '../../../data/seo';
 import { doubts } from '../../../data/doubts';
 
+// «Простые системы» — развёрнутая версия кейса, один в один с макетом из Фигмы;
+// у неё собственная страница (prostye-sistemy.astro), поэтому здесь она пропускается.
 export function getStaticPaths() {
-  return locales.flatMap((lang) => getSiteData(lang).work.items.map((item) => ({ params: { lang, slug: item.slug } })));
+  return locales.flatMap((lang) => getSiteData(lang).work.items.filter((item) => item.slug !== 'prostye-sistemy').map((item) => ({ params: { lang, slug: item.slug } })));
 }
 
 const { lang: rawLang, slug } = Astro.params;

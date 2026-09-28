@@ -1,0 +1,538 @@
+---
+// Развёрнутая версия кейса «Простые системы» — один в один с макетом из Фигмы,
+// со всеми материалами процесса (варианты логотипа, прототипы, карта сайта, итоговая панель, отзыв).
+// Фото и графика экспортированы из Фигмы: public/assets/cases/prostye-sistemy/figma/*
+// (исходники также лежат в папке «Простые системы» в корне проекта).
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import BriefModal from '../../../components/BriefModal.astro';
+import FloatingContact from '../../../components/FloatingContact.astro';
+import Reviews from '../../../components/Reviews.astro';
+import { projects } from '../../../data/proof';
+import { doubts } from '../../../data/doubts';
+import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
+import { seo } from '../../../data/seo';
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+
+const { lang: rawLang } = Astro.params;
+if (!rawLang || !isLocale(rawLang)) throw new Error('Unknown locale');
+const lang = rawLang as Locale;
+const ru = lang === 'ru';
+const data = getSiteData(lang);
+const slug = 'prostye-sistemy';
+const item = data.work.items.find((entry) => entry.slug === slug)!;
+const project = projects[slug];
+const story = project[lang];
+const index = data.work.items.findIndex((entry) => entry.slug === slug);
+const next = data.work.items[(index + 1) % data.work.items.length];
+const caseDoubts = doubts[slug]?.[lang] ?? [];
+
+const img = (name: string) => `/assets/cases/prostye-sistemy/figma/${name}`;
+
+const t = ru
+  ? {
+      back: '← ВСЕ РАБОТЫ',
+      label: '[ КЕЙС ] · САЙТ И ЛОГОТИП',
+      title: 'Простые системы',
+      subtitle: 'Инженерные системы',
+      lead: 'Разработка проекта под ключ от логотипа до многостраничного сайта',
+      tags: ['РЕАЛЬНЫЙ', 'TILDA'],
+      status: 'КЛИЕНТСКИЙ ПРОЕКТ · ОПУБЛИКОВАН',
+      openSite: 'ОТКРЫТЬ САЙТ ПРОЕКТА ↗',
+      counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
+
+      aboutLabel: 'О ПРОЕКТЕ',
+      aboutHeading: 'Монтажная компания без понятной подачи в интернете',
+      aboutBody: 'Компания из Подмосковья проектирует и монтирует отопление, водоснабжение, канализацию и водоочистку. Работает с владельцами загородных домов, коммерческими объектами и застройщиками — для них важно, чтобы системы работали без аварий, а подрядчик был надёжным.',
+
+      part01: 'ЧАСТЬ 01',
+      part01Title: 'Логотип и фирменный стиль',
+      ideaLabel: 'ИДЕЯ',
+      ideaHeading: 'С чего начали: дом из трёх решений',
+      ideaBody: 'Старый логотип компании нельзя было зарегистрировать как товарный знак — типичная проблема готовых шаблонов. Отталкивалась от сути бизнеса: «Простые системы» делают три вещи — отопление, электрику и воду. Идея — показать это одним знаком, не текстом. Так родился силуэт дома, собранный из трёх геометрических форм.',
+      variantsLabel: 'ВАРИАНТЫ',
+      variantsHeading: 'Предложила три направления — выбрали одно',
+      variantsBody: 'От абстрактного знака до буквального силуэта дома. Заказчик выбрал средний вариант — узнаваемый, но не буквальный.',
+      variantsCaption: 'Поиск знака: от абстрактных вариантов к силуэту дома. Финальный вариант сразу проверяли на светлом и тёмном фоне.',
+      logoLabel: 'ЛОГОТИП',
+      logoHeading: 'Знак, который можно зарегистрировать',
+      logoBody: 'Силуэт дома из трёх геометрических элементов — простая форма, которую легко узнать и юридически защитить.',
+      colors: [
+        ['ЗЕЛЁНЫЙ', 'ЭНЕРГИЯ И ЭЛЕКТРИЧЕСТВО'],
+        ['ЖЁЛТЫЙ', 'ТЕПЛО'],
+        ['СИНИЙ', 'ВОДА'],
+      ],
+      badge: 'Товарный знак зарегистрирован',
+
+      part02: 'ЧАСТЬ 02',
+      part02Title: 'Сайт',
+      goalLabel: 'ЦЕЛЬ',
+      goalHeading: 'Сайт, которому доверяют с первого экрана',
+      goalBody: 'С готовым знаком перешла к сайту. Цель — с десятками технически сложных услуг клиент должен за 5 секунд понять, что делает компания, и за 2 клика оставить заявку. Начала не с экранов, а со структуры.',
+      structLabel: 'СТРУКТУРА',
+      structHeading: 'От цели — к карте сайта',
+      structBody: 'Каждое направление услуг получило отдельную страницу — под неё можно настраивать SEO и рекламу.',
+      sitemapCaption: 'Каждое направление получило отдельную страницу — под неё можно настраивать SEO и рекламу по конкретной услуге.',
+      processLabel: 'ПРОЦЕСС',
+      processHeading: 'Как искали логотип и собирали структуру сайта',
+      processCaption: 'Чёрно-белые прототипы без цвета и фото: проверяла логику страниц — от сетки услуг до контактов — ещё до того, как добавила фирменный стиль.',
+      insightLabel: 'ПРОМЕЖУТОЧНЫЙ ВЫВОД',
+      insightHeading: 'К чему пришла после анализа',
+      insights: [
+        ['Связь в один клик', 'Кнопки Telegram и мессенджеров на первом экране рядом с формой — написать проще, чем звонить незнакомому номеру.'],
+        ['Десятки услуг — пять понятных направлений', 'На главной услуги сгруппированы в 5 блоков, у каждого направления своя страница. Клиент сразу находит свою задачу.'],
+        ['Ставка на доверие', 'Слово директора с фото, лицензии, реальные объекты и путь работы из 10 шагов — страница «О компании» стала второй по посещаемости после главной.'],
+      ],
+
+      finalLabel: 'ФИНАЛЬНЫЙ ДИЗАЙН',
+      finalHeading: 'Главная страница: десктоп и мобильная версия',
+      finalCaption: 'Больше половины посетителей главной заходили с телефона, поэтому мобильную версию собирали отдельно: крупные кнопки связи и короткие блоки.',
+      finalDesktopLabel: 'ДЕСКТОП',
+      finalMobileLabel: 'МОБИЛЬНАЯ ВЕРСИЯ',
+      viewFull: 'СМОТРЕТЬ СТРАНИЦУ ЦЕЛИКОМ',
+
+      outcomeLabel: 'ИТОГ',
+      outcomeHeading: 'Было → стало → что дало',
+      outcome: [
+        ['БЫЛО', 'Логотип вне закона', 'Нельзя было зарегистрировать как товарный знак — компания без понятной подачи в интернете.'],
+        ['СТАЛО', 'Единая система', 'Товарный знак, гайдлайн и сайт с отдельной страницей под каждое направление услуг.'],
+        ['ЧТО ДАЛО', 'Бренду есть чем доверять', 'Защищённое имя и сайт, который приводит клиентов из поиска без рекламного бюджета.'],
+      ],
+      outcomeBadge: 'Товарный знак зарегистрирован',
+      stat1: ['1 300+', 'переходов из поиска Яндекса без рекламы'],
+      stat2: ['№ 2', 'по посещаемости — страница «О компании»'],
+
+      reviewLabel: 'ОТЗЫВ КЛИЕНТА',
+      reviewHeading: 'О работе — из первых рук',
+
+      doubtsLabel: '[ КАКИЕ СОМНЕНИЯ СНИМАЕТ САЙТ ]',
+      doubtsHeading: 'Что беспокоит посетителя — и как сайт отвечает',
+      doubtQ: 'СОМНЕНИЕ',
+      doubtA: 'ОТВЕТ САЙТА',
+
+      more: 'СЛЕДУЮЩИЙ КЕЙС →',
+    }
+  : {
+      back: '← ALL WORK',
+      label: '[ CASE STUDY ] · WEBSITE & LOGO',
+      title: 'Prostye Sistemy',
+      subtitle: 'Engineering systems',
+      lead: 'A turnkey project: from logo to a multi-page website',
+      tags: ['LIVE', 'TILDA'],
+      status: 'CLIENT PROJECT · PUBLISHED',
+      openSite: 'OPEN THE LIVE SITE ↗',
+      counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
+
+      aboutLabel: 'THE PROJECT',
+      aboutHeading: 'An installation company with no clear online presence',
+      aboutBody: 'A company near Moscow designs and installs heating, water supply, sewage and water-treatment systems. It works with owners of country houses, commercial facilities and developers, for whom it matters that systems run without failures and the contractor can be trusted.',
+
+      part01: 'PART 01',
+      part01Title: 'Logo and brand identity',
+      ideaLabel: 'THE IDEA',
+      ideaHeading: 'Where it started: a house of three solutions',
+      ideaBody: 'The company’s old logo could not be registered as a trademark — a typical problem with template logos. I started from the essence of the business: Prostye Sistemy does three things — heating, electricity and water. The idea was to show this with one mark, not with text. That is how a house silhouette, built from three geometric shapes, was born.',
+      variantsLabel: 'OPTIONS',
+      variantsHeading: 'I proposed three directions — one was chosen',
+      variantsBody: 'From an abstract mark to a literal house silhouette. The client chose the middle option: recognisable, but not too literal.',
+      variantsCaption: 'Searching for the mark: from abstract options to a house silhouette. The final version was checked on light and dark backgrounds from the start.',
+      logoLabel: 'THE LOGO',
+      logoHeading: 'A mark that could be registered',
+      logoBody: 'A house silhouette made of three geometric elements: a simple shape that is easy to recognise and to protect legally.',
+      colors: [
+        ['GREEN', 'ENERGY AND ELECTRICITY'],
+        ['YELLOW', 'HEAT'],
+        ['BLUE', 'WATER'],
+      ],
+      badge: 'Trademark registered',
+
+      part02: 'PART 02',
+      part02Title: 'Website',
+      goalLabel: 'THE GOAL',
+      goalHeading: 'A site trusted from the first screen',
+      goalBody: 'With the mark ready, I moved on to the website. The goal: with dozens of technically complex services, a visitor should understand what the company does within 5 seconds, and leave a request in 2 clicks. I started not with screens, but with structure.',
+      structLabel: 'STRUCTURE',
+      structHeading: 'From the goal to a sitemap',
+      structBody: 'Each service direction got its own page, which can be optimised for SEO and ads individually.',
+      sitemapCaption: 'Each direction got its own page, so SEO and ads can be configured for that specific service.',
+      processLabel: 'PROCESS',
+      processHeading: 'How the logo and the site’s structure were shaped',
+      processCaption: 'Black-and-white prototypes with no colour or photos: I tested the logic of the pages — from the services grid to contacts — before adding the brand identity.',
+      insightLabel: 'WHAT THE ANALYSIS SHOWED',
+      insightHeading: 'What the analysis led to',
+      insights: [
+        ['Contact in one click', 'Telegram and messenger buttons on the first screen, next to the form: messaging is easier than calling an unfamiliar number.'],
+        ['Dozens of services — five clear directions', 'On the homepage, services are grouped into 5 blocks, each with its own page. A client finds their task right away.'],
+        ['Betting on trust', 'The director’s word with a photo, licenses, real project photos and a 10-step path — the “About” page became the second most visited page after the homepage.'],
+      ],
+
+      finalLabel: 'FINAL DESIGN',
+      finalHeading: 'Homepage: desktop and mobile',
+      finalCaption: 'More than half of homepage visitors came from a phone, so the mobile version was built separately: large contact buttons and short blocks.',
+      finalDesktopLabel: 'DESKTOP',
+      finalMobileLabel: 'MOBILE',
+      viewFull: 'VIEW THE FULL PAGE',
+
+      outcomeLabel: 'OUTCOME',
+      outcomeHeading: 'Before → after → what it gave',
+      outcome: [
+        ['BEFORE', 'A logo outside the law', 'It could not be registered as a trademark — a company with no clear online presence.'],
+        ['AFTER', 'One coherent system', 'A registered trademark, a brand guideline and a website with a dedicated page for every service direction.'],
+        ['WHAT IT GAVE', 'A brand people can trust', 'A protected name and a website that brings in clients from search with no ad budget.'],
+      ],
+      outcomeBadge: 'Trademark registered',
+      stat1: ['1,300+', 'visits from Yandex search, with no ads'],
+      stat2: ['#2', 'by traffic — the “About” page'],
+
+      reviewLabel: 'CLIENT REVIEW',
+      reviewHeading: 'About the work — first-hand',
+
+      doubtsLabel: '[ DOUBTS THIS SITE ANSWERS ]',
+      doubtsHeading: 'What worries a visitor — and how the site responds',
+      doubtQ: 'THE DOUBT',
+      doubtA: 'THE SITE’S ANSWER',
+
+      more: 'NEXT CASE →',
+    };
+
+const pageTitle = ru ? `${item.name} — кейс: ${item.description} | DEVENAS` : `${item.name} — case study: ${item.description} | DEVENAS`;
+const pageDescription = ru
+  ? 'Разворот кейса «Простые системы»: логотип и товарный знак, карта сайта, прототипы и финальный дизайн многостраничного сайта на Tilda.'
+  : 'The full Prostye Sistemy case: the logo and trademark, the sitemap, prototypes and the final design of a multi-page Tilda website.';
+const caseUrl = `${seo.origin}/${lang}/cases/${slug}/`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: item.name,
+    description: pageDescription,
+    url: caseUrl,
+    image: `${seo.origin}${item.cover}`,
+    inLanguage: lang,
+    author: { '@type': 'Person', name: ru ? 'Анастасия Девентейчик' : 'Anastasia Deventeichik', url: `${seo.origin}/${lang}/` },
+    sameAs: project.url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'DEVENAS', item: `${seo.origin}/${lang}/` },
+      { '@type': 'ListItem', position: 2, name: ru ? 'Работы' : 'Work', item: `${seo.origin}/${lang}/#work` },
+      { '@type': 'ListItem', position: 3, name: item.name, item: caseUrl },
+    ],
+  },
+];
+---
+
+<Base lang={lang} title={pageTitle} description={pageDescription} image={`/social/cases/${slug}-${lang}.png`} type="article" jsonLd={jsonLd}>
+  <Header lang={lang} {...data.header} />
+  <main class="ps">
+    <a class="ps__back mono" href={`/${lang}/#work`}>{t.back}</a>
+
+    <!-- Hero -->
+    <section class="ps__hero">
+      <div class="ps__hero-copy">
+        <span class="mono ps__label ps__lime">{t.label}</span>
+        <h1>{t.title}</h1>
+        <p class="ps__subtitle">{t.subtitle}</p>
+        <p class="ps__lead">{t.lead}</p>
+        <div class="ps__tags mono">{t.tags.map((tag) => <span>{tag}</span>)}</div>
+        <p class="ps__status mono">{t.status}</p>
+        <a class="btn btn-primary ps__cta" href={project.url} target="_blank" rel="noopener noreferrer">{t.openSite}</a>
+      </div>
+      <img class="ps__hero-img" src={img('01-hero-laptop.png')} width="900" height="639" alt={t.title} loading="eager" />
+    </section>
+
+    <!-- About -->
+    <section class="ps__about">
+      <div>
+        <h2>{t.aboutHeading}</h2>
+        <span class="mono ps__tomato ps__eyebrow">{t.aboutLabel}</span>
+        <p>{t.aboutBody}</p>
+      </div>
+      <img class="ps__about-logo" src={img('02-logo-lockup-dark.png')} width="330" height="380" alt="Простые системы" loading="lazy" />
+    </section>
+
+    <!-- Part 01 -->
+    <div class="ps__band ps__band--lime">
+      <span class="mono">{t.part01}</span>
+      <h2>{t.part01Title}</h2>
+    </div>
+
+    <section class="ps__block">
+      <span class="mono ps__tomato ps__eyebrow">[ {t.ideaLabel} ]</span>
+      <h3>{t.ideaHeading}</h3>
+      <p>{t.ideaBody}</p>
+    </section>
+
+    <section class="ps__block">
+      <span class="mono ps__lime ps__eyebrow">[ {t.variantsLabel} ]</span>
+      <h3>{t.variantsHeading}</h3>
+      <p>{t.variantsBody}</p>
+      <div class="ps__logo-row">
+        <img src={img('03-logo-card-light.png')} width="399" height="376" alt="" loading="lazy" />
+        <img src={img('04-logo-card-dark.png')} width="397" height="375" alt="" loading="lazy" />
+        <img class="ps__logo-variants" src={img('05-logo-variants-grid.png')} width="439" height="316" alt="" loading="lazy" />
+      </div>
+      <p class="ps__caption">{t.variantsCaption}</p>
+    </section>
+
+    <section class="ps__block ps__logo-final">
+      <div class="ps__logo-final-copy">
+        <span class="mono ps__lime ps__eyebrow">[ {t.logoLabel} ]</span>
+        <h3>{t.logoHeading}</h3>
+        <p>{t.logoBody}</p>
+        <ul class="ps__colors">
+          {t.colors.map(([name, label]) => (
+            <li><span class={`ps__swatch ps__swatch--${name.toLowerCase()}`} aria-hidden="true"></span><span>{ru ? `${name} — ${label}` : `${name} — ${label}`}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="ps__workwear-wrap">
+        <img class="ps__workwear" src={img('07-workwear-photo.png')} width="662" height="689" alt="" loading="lazy" />
+        <span class="ps__badge mono">® {t.badge}</span>
+      </div>
+    </section>
+
+    <!-- Part 02 -->
+    <div class="ps__band ps__band--blue">
+      <span class="mono">{t.part02}</span>
+      <h2>{t.part02Title}</h2>
+    </div>
+
+    <section class="ps__block">
+      <span class="mono ps__lime ps__eyebrow">[ {t.goalLabel} ]</span>
+      <h3>{t.goalHeading}</h3>
+      <p>{t.goalBody}</p>
+    </section>
+
+    <section class="ps__block">
+      <span class="mono ps__lime ps__eyebrow">[ {t.structLabel} ]</span>
+      <h3>{t.structHeading}</h3>
+      <p>{t.structBody}</p>
+      <img class="ps__sitemap" src={img('08-sitemap-card.png')} width="1279" height="499" alt={t.sitemapCaption} loading="lazy" />
+    </section>
+
+    <section class="ps__block">
+      <span class="mono ps__lime ps__eyebrow">[ {t.processLabel} ]</span>
+      <h3>{t.processHeading}</h3>
+      <div class="ps__wireframes">
+        <img src={img('09-wireframe-01.png')} width="627" height="399" alt="" loading="lazy" />
+        <img src={img('10-wireframe-02.png')} width="626" height="399" alt="" loading="lazy" />
+        <img src={img('11-wireframe-03.png')} width="627" height="399" alt="" loading="lazy" />
+        <img src={img('12-wireframe-04.png')} width="616" height="392" alt="" loading="lazy" />
+      </div>
+      <p class="ps__caption">{t.processCaption}</p>
+    </section>
+
+    <section class="ps__block">
+      <span class="mono ps__tomato ps__eyebrow">[ {t.insightLabel} ]</span>
+      <h3>{t.insightHeading}</h3>
+      <ol class="ps__insights">
+        {t.insights.map(([h, p], i) => (
+          <li><span class="mono">({String(i + 1).padStart(2, '0')})</span><div><strong>{h}</strong><p>{p}</p></div></li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Final design -->
+    <section class="ps__block ps__final">
+      <span class="mono ps__lime ps__eyebrow">[ {t.finalLabel} ]</span>
+      <h3>{t.finalHeading}</h3>
+      <img class="ps__phones" src={img('16-phone-mockups-banner.png')} width="1440" height="835" alt="" loading="lazy" />
+      <p class="ps__caption">{t.finalCaption}</p>
+      <div class="ps__final-shots">
+        <figure>
+          <figcaption class="mono">{t.finalDesktopLabel}</figcaption>
+          <a class="ps__shot-frame" href="/assets/cases/prostye-sistemy/desktop-1440.png" target="_blank" rel="noopener noreferrer">
+            <img src="/assets/cases/prostye-sistemy/desktop-1440.png" alt={`${t.title} — ${t.finalDesktopLabel.toLowerCase()}`} loading="lazy" />
+          </a>
+          <a class="mono ps__shot-link" href="/assets/cases/prostye-sistemy/desktop-1440.png" target="_blank" rel="noopener noreferrer">{t.viewFull} ↗</a>
+        </figure>
+        <figure class="ps__final-mobile">
+          <figcaption class="mono">{t.finalMobileLabel}</figcaption>
+          <a class="ps__shot-frame ps__shot-frame--mobile" href="/assets/cases/prostye-sistemy/mobile-390.png" target="_blank" rel="noopener noreferrer">
+            <img src="/assets/cases/prostye-sistemy/mobile-390.png" alt={`${t.title} — ${t.finalMobileLabel.toLowerCase()}`} loading="lazy" />
+          </a>
+          <a class="mono ps__shot-link" href="/assets/cases/prostye-sistemy/mobile-390.png" target="_blank" rel="noopener noreferrer">{t.viewFull} ↗</a>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Outcome -->
+    <section class="ps__outcome">
+      <span class="mono ps__lime ps__eyebrow">[ {t.outcomeLabel} ]</span>
+      <h2>{t.outcomeHeading}</h2>
+      <div class="ps__outcome-grid">
+        {t.outcome.map(([kicker, h, p], i) => (
+          <div class={`ps__outcome-card ps__outcome-card--${i}`}>
+            <span class="ps__outcome-icon" aria-hidden="true">{['✕', '✓', '↑'][i]}</span>
+            <span class="mono">{kicker}</span>
+            <strong>{h}</strong>
+            <p>{p}</p>
+          </div>
+        ))}
+      </div>
+      <div class="ps__stats">
+        <div class="ps__stat ps__stat--badge"><span class="ps__badge-icon" aria-hidden="true">®</span><strong>{ru ? 'ЗАЩИЩЁН' : 'PROTECTED'}</strong><span>{t.outcomeBadge}</span></div>
+        <div class="ps__stat"><strong>{t.stat1[0]}</strong><span>{t.stat1[1]}</span></div>
+        <div class="ps__stat"><strong>{t.stat2[0]}</strong><span>{t.stat2[1]}</span></div>
+      </div>
+    </section>
+
+    <!-- Review -->
+    <section class="ps__review">
+      <span class="mono ps__lime ps__eyebrow">[ {t.reviewLabel} ]</span>
+      <h2>{t.reviewHeading}</h2>
+      <img class="ps__chat" src={img('17-chat-review-bubble.png')} width="1279" height="359" alt={ru ? 'Отзыв клиента в переписке' : 'Client review from a chat'} loading="lazy" />
+      {!ru && <p class="ps__chat-translation">“Hello! Yes, very happy 🤝 I liked everything, thank you so much!”</p>}
+    </section>
+
+    {caseDoubts.length > 0 && (
+      <section class="ps__doubts" aria-labelledby="doubts-title">
+        <div class="ps__doubts-head">
+          <span class="mono ps__lime">{t.doubtsLabel}</span>
+          <h2 id="doubts-title">{t.doubtsHeading}</h2>
+        </div>
+        <ol class="ps__doubts-list">
+          {caseDoubts.map(([question, answer], i) => (
+            <li>
+              <span class="mono ps__doubts-num">({String(i + 1).padStart(2, '0')})</span>
+              <p class="ps__doubts-q"><span class="mono ps__tomato">{t.doubtQ}</span>{question}</p>
+              <p class="ps__doubts-a"><span class="mono ps__lime">{t.doubtA}</span>{answer}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    <Reviews lang={lang} slug={slug} />
+    <a class="ps__next" href={`/${lang}/cases/${next.slug}/`}><span class="mono">{t.more}</span><strong>{next.name} ↗</strong></a>
+  </main>
+  <BriefModal lang={lang} />
+  <FloatingContact lang={lang} />
+</Base>
+
+<style>
+  .ps { color: var(--ink); }
+  .ps__back { display: inline-block; margin: 22px var(--gutter); font-size: 11px; color: var(--muted); }
+  .ps__back:hover { color: var(--lime); }
+  .ps__lime { color: var(--lime); }
+  .ps__tomato { color: var(--tomato); }
+  .ps__label { font-size: 11px; }
+  .ps__eyebrow { display: block; font-size: 11px; margin-bottom: 14px; }
+
+  .ps__hero { display: grid; gap: 28px; padding: 0 var(--gutter) 48px; border-top: 1px solid var(--line); padding-top: 24px; }
+  .ps__hero h1 { font: 600 clamp(40px, 9vw, 76px) / 1.05 var(--font-display); letter-spacing: -0.04em; margin: 16px 0 6px; }
+  .ps__subtitle { font-size: clamp(18px, 3vw, 24px); color: var(--muted-strong); margin-bottom: 20px; }
+  .ps__lead { max-width: 40ch; color: var(--muted-strong); line-height: 1.5; margin-bottom: 20px; }
+  .ps__tags { display: flex; gap: 10px; margin-bottom: 16px; }
+  .ps__tags span { border: 1px solid var(--line); padding: 6px 12px; font-size: 11px; }
+  .ps__status { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+  .ps__cta { display: inline-flex; }
+  .ps__hero-img { width: 100%; height: auto; border-radius: 0; background: var(--surface); }
+
+  .ps__about { padding: 56px var(--gutter); border-top: 1px solid var(--line); display: grid; gap: 32px; align-items: center; }
+  .ps__about h2 { font: 600 clamp(26px, 4vw, 40px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin-bottom: 14px; max-width: 20ch; }
+  .ps__about p { color: var(--muted-strong); line-height: 1.6; max-width: 56ch; }
+  .ps__about-logo { justify-self: center; width: 180px; height: auto; }
+
+  .ps__band { padding: 40px var(--gutter); color: var(--dark); }
+  .ps__band--lime { background: var(--lime); }
+  .ps__band--blue { background: var(--blue); color: var(--ink); }
+  .ps__band span { font-size: 12px; opacity: 0.7; }
+  .ps__band h2 { font: 700 clamp(36px, 7vw, 64px) / 1 var(--font-display); letter-spacing: -0.04em; margin-top: 10px; }
+
+  .ps__block { padding: 48px var(--gutter); border-top: 1px solid var(--line); }
+  .ps__block h3 { font: 600 clamp(24px, 3.6vw, 38px) / 1.2 var(--font-display); letter-spacing: -0.03em; margin-bottom: 16px; max-width: 24ch; }
+  .ps__block > p { color: var(--muted-strong); line-height: 1.6; max-width: 62ch; margin-bottom: 8px; }
+  .ps__caption { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 64ch; margin-top: 18px; }
+
+  .ps__logo-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-top: 28px; max-width: 900px; }
+  .ps__logo-row img { width: 100%; height: auto; border-radius: 12px; }
+  .ps__logo-variants { align-self: center; }
+
+  .ps__logo-final { display: grid; gap: 36px; }
+  .ps__colors { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; max-width: 360px; }
+  .ps__colors li { display: flex; align-items: center; gap: 14px; font-size: 13px; letter-spacing: 0.02em; }
+  .ps__swatch { width: 40px; height: 40px; flex: none; border-radius: 8px; }
+  .ps__swatch--green,.ps__swatch--зелёный { background: #2f9e5c; }
+  .ps__swatch--yellow,.ps__swatch--жёлтый { background: #f0a83c; }
+  .ps__swatch--blue,.ps__swatch--синий { background: #3d5afe; }
+  .ps__workwear-wrap { position: relative; justify-self: center; }
+  .ps__workwear { width: 100%; max-width: 460px; height: auto; border-radius: 16px; }
+  .ps__badge { position: absolute; left: -10px; bottom: -16px; background: var(--lime); color: var(--dark); padding: 10px 18px; font-size: 11px; box-shadow: 5px 5px 0 var(--tomato); }
+
+  .ps__sitemap { width: 100%; max-width: 960px; height: auto; border-radius: 16px; margin-top: 28px; }
+
+  .ps__wireframes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; max-width: 1000px; }
+  .ps__wireframes img { width: 100%; height: auto; border-radius: 12px; }
+
+  .ps__insights { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; max-width: 760px; }
+  .ps__insights li { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .ps__insights span.mono { color: var(--tomato); font-size: 13px; }
+  .ps__insights strong { display: block; font: 600 19px/1.3 var(--font-display); margin-bottom: 8px; }
+  .ps__insights p { color: var(--muted-strong); line-height: 1.55; margin: 0; }
+
+  .ps__final .ps__phones { width: 100%; height: auto; border-radius: 16px; margin-top: 24px; }
+  .ps__final-shots { display: grid; gap: 40px; margin-top: 32px; }
+  .ps__final-shots figcaption { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .ps__shot-frame { position: relative; display: block; max-height: 520px; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); }
+  .ps__shot-frame::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(to bottom, transparent, var(--bg)); pointer-events: none; }
+  .ps__shot-frame img { width: 100%; height: auto; display: block; }
+  .ps__shot-frame--mobile { max-width: 300px; max-height: 560px; }
+  .ps__shot-link { display: inline-block; margin-top: 12px; font-size: 11px; color: var(--lime); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  .ps__shot-link:hover { color: var(--ink); }
+
+  .ps__outcome { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
+  .ps__outcome h2 { font: 600 clamp(30px, 5vw, 48px) / 1.1 var(--font-display); letter-spacing: -0.03em; margin-bottom: 28px; }
+  .ps__outcome-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); background: var(--surface); border: 1px solid var(--line); padding: 28px; }
+  .ps__outcome-card { display: grid; gap: 8px; align-content: start; }
+  .ps__outcome-icon { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; margin-bottom: 6px; }
+  .ps__outcome-card--0 .ps__outcome-icon { background: rgba(244,241,234,0.14); color: var(--ink); }
+  .ps__outcome-card--1 .ps__outcome-icon { background: var(--lime); color: var(--dark); }
+  .ps__outcome-card--2 .ps__outcome-icon { background: var(--tomato); color: var(--ink); }
+  .ps__outcome-card span.mono { font-size: 11px; color: var(--muted); }
+  .ps__outcome-card strong { font: 600 20px/1.25 var(--font-display); letter-spacing: -0.02em; }
+  .ps__outcome-card p { color: var(--muted-strong); font-size: 14px; line-height: 1.5; margin: 0; }
+  .ps__stats { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 20px; }
+  .ps__stat { background: #1a1109; border: 1px solid rgba(255, 74, 28, 0.25); padding: 22px; display: grid; gap: 6px; }
+  .ps__stat strong { font: 700 clamp(26px, 3.4vw, 34px) / 1 var(--font-display); color: var(--ink); }
+  .ps__stat span { font-size: 13px; color: var(--muted-strong); }
+  .ps__stat--badge { display: flex; align-items: center; gap: 14px; }
+  .ps__badge-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--lime); color: var(--dark); display: grid; place-items: center; font-size: 15px; flex: none; }
+  .ps__stat--badge strong { font-size: 13px; }
+  .ps__stat--badge span { font-size: 12px; }
+
+  .ps__review { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
+  .ps__review h2 { font: 600 clamp(26px, 4vw, 40px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin-bottom: 28px; }
+  .ps__chat { width: 100%; max-width: 900px; height: auto; border-radius: 16px; }
+  .ps__chat-translation { margin-top: 14px; color: var(--muted-strong); font-style: italic; max-width: 60ch; }
+
+  .ps__doubts { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
+  .ps__doubts-head h2 { font: 600 clamp(24px, 3.6vw, 44px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin: 14px 0 36px; max-width: 22ch; }
+  .ps__doubts-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .ps__doubts-list li { display: grid; gap: 14px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .ps__doubts-num { font-size: 11px; color: var(--muted); }
+  .ps__doubts-q, .ps__doubts-a { margin: 0; }
+  .ps__doubts-q span, .ps__doubts-a span { display: block; font-size: 10px; margin-bottom: 8px; }
+  .ps__doubts-q { font: 600 clamp(18px, 2vw, 24px) / 1.25 var(--font-display); letter-spacing: -0.02em; }
+  .ps__doubts-a { font-size: 16px; line-height: 1.55; color: var(--muted-strong); }
+
+  .ps__next { display: flex; justify-content: space-between; align-items: center; padding: 40px var(--gutter) 80px; border-top: 1px solid var(--line); gap: 12px; }
+  .ps__next span { font-size: 11px; color: var(--muted); }
+  .ps__next strong { font: 600 22px var(--font-display); }
+  .ps__next:hover strong { color: var(--lime); }
+
+  @media (min-width: 900px) {
+    .ps__hero { grid-template-columns: 1fr 1.1fr; align-items: end; padding-top: 56px; }
+    .ps__about { grid-template-columns: 1fr auto; }
+    .ps__logo-final { grid-template-columns: 1fr 1fr; }
+    .ps__final-shots { grid-template-columns: 1fr auto; align-items: start; }
+    .ps__doubts-list li { grid-template-columns: 60px minmax(0,1fr) minmax(0,1fr); gap: 40px; }
+    .ps__doubts-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
+  }
+</style>
