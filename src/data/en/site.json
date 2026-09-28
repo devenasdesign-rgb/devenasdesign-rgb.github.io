@@ -56,7 +56,7 @@
     ],
     "featured": {
       "label": "(03) FEATURED",
-      "index": "1/7",
+      "index": "1/8",
       "name": "Perfect Match",
       "meta": "HR CONSULTING · RU/EN · CODE"
     },
@@ -107,7 +107,7 @@
     "trustLine": "WORKING OFFICIALLY: CONTRACT · INVOICE"
   },
   "work": {
-    "sectionLabel": "[01] WORK — 07 PROJECTS",
+    "sectionLabel": "[01] WORK — 08 PROJECTS",
     "heading": {
       "line1": "Projects that",
       "pre": "speak ",
@@ -234,6 +234,20 @@
         ],
         "cover": "/assets/cases/annafit/macbook-pro-14-22.png",
         "domain": null
+      },
+      {
+        "slug": "prostye-sistemy",
+        "name": "Prostye Sistemy",
+        "description": "Engineering systems",
+        "tags": [
+          "LIVE",
+          "TILDA"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/prostye-sistemy/desktop-1440.png",
+        "domain": "prostiesistemi.tilda.ws"
       }
     ],
     "yourSite": {

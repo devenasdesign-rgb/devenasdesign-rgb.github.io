@@ -79,7 +79,7 @@ const jsonLd = [
     <a class="case__back mono" href={`/${lang}/#work`}>{text.back}</a>
     <section class="case__hero">
       <div class="case__grid" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="case__title"><span class="mono">{text.number} · 0{index + 1}/07</span><h1>{item.name}</h1><p>{item.description}</p><div class="case__tags mono">{item.tags.map((tag) => <span>{tag}</span>)}</div><p class="case__status mono">{story.status}</p>{projectHref && <a class="case__live mono" href={projectHref} target="_blank" rel="noopener noreferrer">{project.linkLabel?.[lang] ?? (ru ? 'Открыть сайт проекта ↗' : 'Visit the live website ↗')}</a>}</div>
+      <div class="case__title"><span class="mono">{text.number} · {String(index + 1).padStart(2, '0')}/{String(data.work.items.length).padStart(2, '0')}</span><h1>{item.name}</h1><p>{item.description}</p><div class="case__tags mono">{item.tags.map((tag) => <span>{tag}</span>)}</div><p class="case__status mono">{story.status}</p>{projectHref && <a class="case__live mono" href={projectHref} target="_blank" rel="noopener noreferrer">{project.linkLabel?.[lang] ?? (ru ? 'Открыть сайт проекта ↗' : 'Visit the live website ↗')}</a>}</div>
       <ProjectImage class="case__cover" src={gallery[0]} alt={item.name} loading="eager" />
     </section>
     {caseDoubts.length > 0 && (

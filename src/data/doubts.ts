@@ -103,4 +103,18 @@ export const doubts: Record<string, Doubts> = {
       ['Which format should I pick, and can I start without buying?', 'Three plans with different levels of commitment (the most accessible entry is the private Telegram channel) and a free healthy-eating guide for those not ready to buy yet.'],
     ],
   },
+  'prostye-sistemy': {
+    ru: [
+      ['У вас столько разных услуг — не потеряюсь ли я в поиске нужной?', 'На главной услуги сгруппированы в пять понятных направлений: отопление, водоснабжение, канализация, дымоходы и автоматика. У каждого направления своя страница, и клиент сразу находит свою задачу.'],
+      ['Можно ли доверять малоизвестной монтажной компании?', 'Слово директора с фото, реальные лицензии и примеры объектов, а ещё путь работы из 10 шагов: страница «О компании» стала второй по посещаемости после главной.'],
+      ['У меня авария или срочный вопрос — как быстрее всего с вами связаться?', 'Кнопки Telegram и мессенджеров стоят на первом экране рядом с формой заявки: написать проще, чем звонить незнакомому номеру.'],
+      ['Это надёжная компания или очередная фирма с логотипом из шаблона?', 'Фирменный знак — не шаблон, а зарегистрированный товарный знак: силуэт дома, собранный из трёх геометрических форм, которые отражают отопление, электрику и воду.'],
+    ],
+    en: [
+      ['You have so many services — will I get lost looking for the right one?', 'On the homepage, services are grouped into five clear directions: heating, water supply, sewage, chimneys and automation. Each direction has its own page, so a client finds their task right away.'],
+      ['Can I trust a little-known installation company?', 'The director’s word with a photo, real licenses and project photos, plus a 10-step path to cooperation: the “About” page became the second most visited page after the homepage.'],
+      ['I have an emergency or an urgent question — what’s the fastest way to reach you?', 'Telegram and messenger buttons sit on the first screen next to the request form: messaging is easier than calling an unfamiliar number.'],
+      ['Is this a reliable company, or just another firm with a template logo?', 'The brand mark is not a template but a registered trademark: a house silhouette built from three geometric shapes that stand for heating, electricity and water.'],
+    ],
+  },
 };

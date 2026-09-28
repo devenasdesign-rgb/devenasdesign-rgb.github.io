@@ -56,7 +56,7 @@
     ],
     "featured": {
       "label": "(03) ИЗБРАННОЕ",
-      "index": "1/7",
+      "index": "1/8",
       "name": "Perfect Match",
       "meta": "HR-КОНСАЛТИНГ · RU/EN · CODE"
     },
@@ -107,7 +107,7 @@
     "trustLine": "РАБОТАЮ ОФИЦИАЛЬНО: САМОЗАНЯТАЯ · ДОГОВОР · ЧЕКИ"
   },
   "work": {
-    "sectionLabel": "[01] РАБОТЫ — 07 ПРОЕКТОВ",
+    "sectionLabel": "[01] РАБОТЫ — 08 ПРОЕКТОВ",
     "heading": {
       "line1": "Проекты, которые",
       "pre": "говорят ",
@@ -234,6 +234,20 @@
         ],
         "cover": "/assets/cases/annafit/macbook-pro-14-22.png",
         "domain": null
+      },
+      {
+        "slug": "prostye-sistemy",
+        "name": "Простые системы",
+        "description": "Инженерные системы",
+        "tags": [
+          "РЕАЛЬНЫЙ",
+          "TILDA"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/prostye-sistemy/desktop-1440.png",
+        "domain": "prostiesistemi.tilda.ws"
       }
     ],
     "yourSite": {

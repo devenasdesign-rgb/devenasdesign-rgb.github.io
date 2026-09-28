@@ -6,7 +6,7 @@
 ## Услуги и цены / Services and pricing (цены открытые, расчёт за 1 день / open pricing, quote within a day)
 
 - Одностраничный сайт / One-page website: от 45 000 ₽ / from $900 (€800), от 14 рабочих дней. Примеры: NTGUILTY, AnnaFit.
-- Многостраничный сайт / Multi-page website: от 70 000 ₽ / from $1,400 (€1,200), от 22 рабочих дней. Примеры: PerfectMatch, Adventure Bro.
+- Многостраничный сайт / Multi-page website: от 70 000 ₽ / from $1,400 (€1,200), от 22 рабочих дней. Примеры: PerfectMatch, Adventure Bro, Простые системы.
 - Интернет-магазин / Online store: от 100 000 ₽ / from $2,200 (€1,900), от 22 рабочих дней. Примеры: EURASIA, МЯСО & БУЛКА.
 - Дизайн-макет / Website design (Figma): от 35 000 ₽ / from $700 (€600), от 7 рабочих дней.
 - Другой дизайн (логотип, презентация, соцсети, упаковка, реклама) — индивидуально / Other design work — on request.
@@ -32,6 +32,7 @@
 - [EURASIA](https://devenasdesign.com/ru/cases/eurasia/): магазин профессиональной косметики (клиентский сайт 2024 и концепт в коде). [EN](https://devenasdesign.com/en/cases/eurasia/)
 - [Центр интимной эстетики](https://devenasdesign.com/ru/cases/intimate-aesthetics-center/): от логотипа до платформы. [EN](https://devenasdesign.com/en/cases/intimate-aesthetics-center/)
 - [AnnaFit](https://devenasdesign.com/ru/cases/annafit/): концепт лендинга персонального тренера (концепт). [EN](https://devenasdesign.com/en/cases/annafit/)
+- [Простые системы](https://devenasdesign.com/ru/cases/prostye-sistemy/): логотип, фирменный стиль и многостраничный сайт монтажной компании инженерных систем, Tilda. [EN](https://devenasdesign.com/en/cases/prostye-sistemy/)
 
 Каждый проект на сайте помечен как реальный, клиентский или концепт.
 
