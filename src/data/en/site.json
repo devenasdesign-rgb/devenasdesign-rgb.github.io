@@ -265,6 +265,13 @@
     "exampleLabel": "EXAMPLE",
     "popularLabel": "MOST POPULAR",
     "discussButton": "Discuss ↗",
+    "notIncludedLabel": "NOT INCLUDED",
+    "notIncludedText": "copywriting and photos (I can help find them), the domain, Tilda's monthly subscription.",
+    "priceExample": "Example: the Adventure Bro website cost [TODO: amount].",
+    "guarantee": {
+      "label": "GUARANTEE",
+      "text": "[TODO: guarantee terms, e.g. a discount if a deadline is missed through my fault, or a free redo of the first screen]"
+    },
     "items": [
       {
         "id": "onepage",

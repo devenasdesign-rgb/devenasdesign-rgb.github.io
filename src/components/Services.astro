@@ -25,6 +25,10 @@ interface Props {
     exampleLabel: string;
     popularLabel: string;
     discussButton: string;
+    notIncludedLabel: string;
+    notIncludedText: string;
+    priceExample: string;
+    guarantee: { label: string; text: string };
     items: ServiceItem[];
     other: { index: string; title: string; text: string; button: string };
   };
@@ -92,10 +96,19 @@ const { services, lang } = Astro.props;
             <p class="mono services__example">
               {services.exampleLabel}: {item.example}
             </p>
+            <p class="services__not-included"><span class="mono">{services.notIncludedLabel}:</span> {services.notIncludedText}</p>
           </div>
         </div>
       ))
     }
+  </div>
+
+  <div class="services__extra">
+    <p class="services__price-example">{services.priceExample}</p>
+    <div class="services__guarantee">
+      <span class="mono services__guarantee-label">{services.guarantee.label}</span>
+      <p>{services.guarantee.text}</p>
+    </div>
   </div>
 
   <div class="services__other">
@@ -300,6 +313,55 @@ const { services, lang } = Astro.props;
 
   .services__item--popular .services__example {
     color: rgba(255, 255, 255, 0.94);
+  }
+
+  .services__not-included {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted-strong);
+  }
+
+  .services__not-included .mono {
+    color: var(--tomato);
+  }
+
+  .services__item--popular .services__not-included {
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .services__extra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 28px var(--gutter);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .services__price-example {
+    flex: 1 1 240px;
+    font-size: 13px;
+    color: var(--muted-strong);
+  }
+
+  .services__guarantee {
+    flex: 1 1 280px;
+    padding: 16px 18px;
+    border: 1px solid rgba(212, 255, 58, 0.35);
+    background: rgba(212, 255, 58, 0.06);
+  }
+
+  .services__guarantee-label {
+    display: block;
+    font-size: 10px;
+    color: var(--lime);
+    margin-bottom: 8px;
+  }
+
+  .services__guarantee p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted-strong);
   }
 
   .services__other {
