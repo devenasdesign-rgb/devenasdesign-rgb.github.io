@@ -7,7 +7,6 @@ import Base from '../../../layouts/Base.astro';
 import Header from '../../../components/Header.astro';
 import BriefModal from '../../../components/BriefModal.astro';
 import FloatingContact from '../../../components/FloatingContact.astro';
-import Reviews from '../../../components/Reviews.astro';
 import { projects } from '../../../data/proof';
 import { doubts } from '../../../data/doubts';
 import { locales, getSiteData, isLocale, type Locale } from '../../../lib/i18n';
@@ -383,10 +382,14 @@ const jsonLd = [
           <figcaption class="mono">{t.finalDesktopLabel}</figcaption>
           <img src="/assets/cases/prostye-sistemy/desktop-1440.png" alt={`${t.title} — ${t.finalDesktopLabel.toLowerCase()}`} loading="lazy" />
         </figure>
-        <figure class="ps__final-mobile">
-          <figcaption class="mono">{t.finalMobileLabel}</figcaption>
-          <img src="/assets/cases/prostye-sistemy/mobile-390.png" alt={`${t.title} — ${t.finalMobileLabel.toLowerCase()}`} loading="lazy" />
-        </figure>
+      </div>
+      <div class="ps__final-mobile-row">
+        <span class="mono">{t.finalMobileLabel}</span>
+        <div class="ps__mobile-screens">
+          <img class="ps__mobile-screen" src={img('18-mobile-screen-hero.png')} width="390" height="844" alt="" loading="lazy" />
+          <img class="ps__mobile-screen" src={img('19-mobile-screen-trust.png')} width="390" height="1200" alt="" loading="lazy" />
+          <img class="ps__mobile-screen" src={img('20-mobile-screen-gallery.png')} width="390" height="1000" alt="" loading="lazy" />
+        </div>
       </div>
     </section>
 
@@ -437,7 +440,6 @@ const jsonLd = [
       </section>
     )}
 
-    <Reviews lang={lang} slug={slug} />
     <a class="ps__next" href={`/${lang}/cases/${next.slug}/`}><span class="mono">{t.more}</span><strong>{next.name} ↗</strong></a>
   </main>
   <BriefModal lang={lang} />
@@ -524,10 +526,14 @@ const jsonLd = [
   .ps__insights p { color: var(--muted-strong); font-size: 14px; line-height: 1.55; margin: 0; }
 
   .ps__final .ps__phones { width: 100%; height: auto; border-radius: 16px; margin-top: 24px; }
-  .ps__final-shots { display: grid; gap: 40px; margin-top: 32px; }
-  .ps__final-shots figcaption { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+  .ps__final-shots { margin-top: 32px; }
+  .ps__final-shots figcaption { font-size: 11px; color: var(--muted); margin-bottom: 10px; display: block; }
   .ps__final-shots img { width: 100%; height: auto; border-radius: 12px; display: block; border: 1px solid var(--line); }
-  .ps__final-mobile img { max-width: 340px; }
+
+  .ps__final-mobile-row { margin-top: 40px; }
+  .ps__final-mobile-row > span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+  .ps__mobile-screens { display: flex; gap: 20px; overflow-x: auto; padding: 4px 4px 12px; margin: 0 -4px; -webkit-overflow-scrolling: touch; }
+  .ps__mobile-screen { flex: none; width: 220px; height: auto; border-radius: 20px; border: 6px solid #1a1a1a; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45); background: #1a1a1a; }
 
   .ps__outcome { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
   .ps__outcome h2 { font: 600 clamp(30px, 5vw, 48px) / 1.1 var(--font-display); letter-spacing: -0.03em; margin-bottom: 28px; }
@@ -551,7 +557,7 @@ const jsonLd = [
 
   .ps__review { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
   .ps__review h2 { font: 600 clamp(26px, 4vw, 40px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin-bottom: 28px; }
-  .ps__chat { width: 100%; max-width: 900px; height: auto; border-radius: 16px; }
+  .ps__chat { width: 100%; height: auto; border-radius: 16px; }
   .ps__chat-translation { margin-top: 14px; color: var(--muted-strong); font-style: italic; max-width: 60ch; }
 
   .ps__doubts { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
@@ -573,7 +579,6 @@ const jsonLd = [
     .ps__hero { grid-template-columns: 1fr 1.1fr; align-items: end; padding-top: 56px; }
     .ps__about { grid-template-columns: 1fr auto; }
     .ps__logo-final { grid-template-columns: 1fr 1fr; }
-    .ps__final-shots { grid-template-columns: 1fr auto; align-items: start; }
     .ps__doubts-list li { grid-template-columns: 60px minmax(0,1fr) minmax(0,1fr); gap: 40px; }
     .ps__doubts-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
   }
