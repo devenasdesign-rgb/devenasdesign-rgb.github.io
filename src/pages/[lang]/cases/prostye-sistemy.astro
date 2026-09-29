@@ -443,6 +443,24 @@ const jsonLd = [
       <p class="ps__caption">{t.finalCaption}</p>
     </section>
 
+    {caseDoubts.length > 0 && (
+      <section class="ps__doubts" aria-labelledby="doubts-title">
+        <div class="ps__doubts-head">
+          <span class="mono ps__lime">{t.doubtsLabel}</span>
+          <h2 id="doubts-title">{t.doubtsHeading}</h2>
+        </div>
+        <ol class="ps__doubts-list">
+          {caseDoubts.map(([question, answer], i) => (
+            <li>
+              <span class="mono ps__doubts-num">({String(i + 1).padStart(2, '0')})</span>
+              <p class="ps__doubts-q"><span class="mono ps__tomato">{t.doubtQ}</span>{question}</p>
+              <p class="ps__doubts-a"><span class="mono ps__lime">{t.doubtA}</span>{answer}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
     <!-- Outcome -->
     <section class="ps__outcome">
       <span class="mono ps__lime ps__eyebrow">[ {t.outcomeLabel} ]</span>
@@ -468,8 +486,8 @@ const jsonLd = [
     <section class="ps__review">
       <span class="mono ps__lime ps__eyebrow">[ {t.reviewLabel} ]</span>
       <h2>{t.reviewHeading}</h2>
-      <img class=”ps__chat” src={img('17-chat-review-bubble.webp')} width=”1279” height=”345” alt={ru ? 'Отзыв клиента в переписке' : 'Client review from a chat'} loading=”lazy” />
-      {!ru && <p class=”ps__chat-translation”>”Hello! Yes, very happy 🤝 I liked everything, thank you so much!”</p>}
+      <img class="ps__chat" src={img('17-chat-review-bubble.webp')} width="1279" height="345" alt={ru ? 'Отзыв клиента в переписке' : 'Client review from a chat'} loading="lazy" />
+      {!ru && <p class="ps__chat-translation">"Hello! Yes, very happy 🤝 I liked everything, thank you so much!"</p>}
     </section>
 
     <!-- Closing CTA -->
@@ -485,24 +503,6 @@ const jsonLd = [
         <p class="ps__ctaband-note">{t.ctaMetaNote}</p>
       </div>
     </section>
-
-    {caseDoubts.length > 0 && (
-      <section class="ps__doubts" aria-labelledby="doubts-title">
-        <div class="ps__doubts-head">
-          <span class="mono ps__lime">{t.doubtsLabel}</span>
-          <h2 id="doubts-title">{t.doubtsHeading}</h2>
-        </div>
-        <ol class="ps__doubts-list">
-          {caseDoubts.map(([question, answer], i) => (
-            <li>
-              <span class="mono ps__doubts-num">({String(i + 1).padStart(2, '0')})</span>
-              <p class="ps__doubts-q"><span class="mono ps__tomato">{t.doubtQ}</span>{question}</p>
-              <p class="ps__doubts-a"><span class="mono ps__lime">{t.doubtA}</span>{answer}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-    )}
 
     <a class="ps__next" href={`/${lang}/cases/${next.slug}/`}><span class="mono">{t.more}</span><strong>{next.name} ↗</strong></a>
   </main>
