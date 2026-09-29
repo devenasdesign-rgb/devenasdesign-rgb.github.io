@@ -2,7 +2,7 @@
 // Развёрнутая версия кейса «Простые системы» — один в один с макетом из Фигмы,
 // со всеми материалами процесса (варианты логотипа, прототипы, карта сайта, итоговая панель, отзыв).
 // Фото и графика экспортированы из Фигмы: public/assets/cases/prostye-sistemy/figma/*
-// (исходники также лежат в папке «Простые системы» в корне проекта).
+// (исходники также лежат в папке «кейс простые системы» в корне проекта).
 import Base from '../../../layouts/Base.astro';
 import Header from '../../../components/Header.astro';
 import BriefModal from '../../../components/BriefModal.astro';
@@ -118,6 +118,12 @@ const t = ru
       reviewLabel: 'ОТЗЫВ КЛИЕНТА',
       reviewHeading: 'О работе — из первых рук',
 
+      ctaHeading: 'Напишите слово «ЛОГОТИП», и я разберу, что мешает вашему текущему сайту продавать',
+      ctaTelegram: 'TELEGRAM',
+      ctaInstagram: 'INSTAGRAM*',
+      ctaEmail: 'ПОЧТА',
+      ctaMetaNote: '*Meta — организация, запрещённая в РФ',
+
       doubtsLabel: '[ КАКИЕ СОМНЕНИЯ СНИМАЕТ САЙТ ]',
       doubtsHeading: 'Что беспокоит посетителя — и как сайт отвечает',
       doubtQ: 'СОМНЕНИЕ',
@@ -210,6 +216,12 @@ const t = ru
 
       reviewLabel: 'CLIENT REVIEW',
       reviewHeading: 'About the work — first-hand',
+
+      ctaHeading: 'Send me the word "LOGO" and I’ll tell you what’s stopping your current site from selling',
+      ctaTelegram: 'TELEGRAM',
+      ctaInstagram: 'INSTAGRAM*',
+      ctaEmail: 'EMAIL',
+      ctaMetaNote: '*Meta is recognised as an extremist organisation and is banned in Russia',
 
       doubtsLabel: '[ DOUBTS THIS SITE ANSWERS ]',
       doubtsHeading: 'What worries a visitor — and how the site responds',
@@ -353,10 +365,10 @@ const jsonLd = [
       <span class="mono ps__lime ps__eyebrow">[ {t.processLabel} ]</span>
       <h3>{t.processHeading}</h3>
       <div class="ps__wireframes">
-        <img src={img('09-wireframe-01.png')} width="627" height="399" alt="" loading="lazy" />
-        <img src={img('10-wireframe-02.png')} width="626" height="399" alt="" loading="lazy" />
-        <img src={img('11-wireframe-03.png')} width="627" height="399" alt="" loading="lazy" />
-        <img src={img('12-wireframe-04.png')} width="616" height="392" alt="" loading="lazy" />
+        <img src={img('09-wireframe-01.webp')} width="627" height="392" alt="" loading="lazy" />
+        <img src={img('10-wireframe-02.webp')} width="627" height="392" alt="" loading="lazy" />
+        <img src={img('11-wireframe-03.webp')} width="627" height="393" alt="" loading="lazy" />
+        <img src={img('12-wireframe-04.webp')} width="627" height="393" alt="" loading="lazy" />
       </div>
       <p class="ps__caption">{t.processCaption}</p>
     </section>
@@ -375,22 +387,22 @@ const jsonLd = [
     <section class="ps__block ps__final">
       <span class="mono ps__lime ps__eyebrow">[ {t.finalLabel} ]</span>
       <h3>{t.finalHeading}</h3>
-      <img class="ps__phones" src={img('16-phone-mockups-banner.png')} width="1440" height="835" alt="" loading="lazy" />
-      <p class="ps__caption">{t.finalCaption}</p>
       <div class="ps__final-shots">
         <figure>
           <figcaption class="mono">{t.finalDesktopLabel}</figcaption>
-          <img src="/assets/cases/prostye-sistemy/desktop-1440.png" alt={`${t.title} — ${t.finalDesktopLabel.toLowerCase()}`} loading="lazy" />
+          <img src="/assets/cases/prostye-sistemy/desktop-full.webp" alt={`${t.title} — ${t.finalDesktopLabel.toLowerCase()}`} loading="lazy" />
         </figure>
       </div>
       <div class="ps__final-mobile-row">
         <span class="mono">{t.finalMobileLabel}</span>
+        <img class="ps__mobile-mockup" src={img('21-mobile-mockup.webp')} width="900" height="778" alt="" loading="lazy" />
         <div class="ps__mobile-screens">
           <img class="ps__mobile-screen" src={img('18-mobile-screen-hero.png')} width="390" height="844" alt="" loading="lazy" />
           <img class="ps__mobile-screen" src={img('19-mobile-screen-trust.png')} width="390" height="1200" alt="" loading="lazy" />
           <img class="ps__mobile-screen" src={img('20-mobile-screen-gallery.png')} width="390" height="1000" alt="" loading="lazy" />
         </div>
       </div>
+      <p class="ps__caption">{t.finalCaption}</p>
     </section>
 
     <!-- Outcome -->
@@ -418,8 +430,22 @@ const jsonLd = [
     <section class="ps__review">
       <span class="mono ps__lime ps__eyebrow">[ {t.reviewLabel} ]</span>
       <h2>{t.reviewHeading}</h2>
-      <img class="ps__chat" src={img('17-chat-review-bubble.png')} width="1279" height="359" alt={ru ? 'Отзыв клиента в переписке' : 'Client review from a chat'} loading="lazy" />
-      {!ru && <p class="ps__chat-translation">“Hello! Yes, very happy 🤝 I liked everything, thank you so much!”</p>}
+      <img class=”ps__chat” src={img('17-chat-review-bubble.webp')} width=”1279” height=”345” alt={ru ? 'Отзыв клиента в переписке' : 'Client review from a chat'} loading=”lazy” />
+      {!ru && <p class=”ps__chat-translation”>”Hello! Yes, very happy 🤝 I liked everything, thank you so much!”</p>}
+    </section>
+
+    <!-- Closing CTA -->
+    <section class="ps__ctaband">
+      <img class="ps__ctaband-photo" src={img('22-portrait-cta.webp')} width="900" height="675" alt="Anastasia Deventeichik" loading="lazy" />
+      <div class="ps__ctaband-body">
+        <h2>{t.ctaHeading}</h2>
+        <div class="ps__ctaband-links mono">
+          <a href="https://t.me/devenas" target="_blank" rel="noopener noreferrer"><span>{t.ctaTelegram}</span><strong>@devenas ↗</strong></a>
+          <a href="https://www.instagram.com/deven.a.s/" target="_blank" rel="noopener noreferrer"><span>{t.ctaInstagram}</span><strong>deven.a.s ↗</strong></a>
+          <a href="mailto:devenas.design@gmail.com"><span>{t.ctaEmail}</span><strong>devenas.design@gmail.com ↗</strong></a>
+        </div>
+        <p class="ps__ctaband-note">{t.ctaMetaNote}</p>
+      </div>
     </section>
 
     {caseDoubts.length > 0 && (
@@ -525,13 +551,13 @@ const jsonLd = [
   .ps__insights strong { display: block; font: 600 19px/1.3 var(--font-display); }
   .ps__insights p { color: var(--muted-strong); font-size: 14px; line-height: 1.55; margin: 0; }
 
-  .ps__final .ps__phones { width: 100%; height: auto; border-radius: 16px; margin-top: 24px; }
-  .ps__final-shots { margin-top: 32px; }
+  .ps__final-shots { margin-top: 28px; }
   .ps__final-shots figcaption { font-size: 11px; color: var(--muted); margin-bottom: 10px; display: block; }
   .ps__final-shots img { width: 100%; height: auto; border-radius: 12px; display: block; border: 1px solid var(--line); }
 
-  .ps__final-mobile-row { margin-top: 40px; }
+  .ps__final-mobile-row { margin-top: 48px; }
   .ps__final-mobile-row > span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+  .ps__mobile-mockup { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 auto 28px; }
   .ps__mobile-screens { display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap; gap: 20px; overflow-x: auto; padding: 4px 4px 12px; margin: 0 -4px; -webkit-overflow-scrolling: touch; }
   .ps__mobile-screen { flex: none; width: 220px; height: auto; border-radius: 20px; border: 6px solid #1a1a1a; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45); background: #1a1a1a; display: block; }
 
@@ -560,6 +586,16 @@ const jsonLd = [
   .ps__chat { width: 100%; height: auto; border-radius: 16px; }
   .ps__chat-translation { margin-top: 14px; color: var(--muted-strong); font-style: italic; max-width: 60ch; }
 
+  .ps__ctaband { margin: 0 var(--gutter) 56px; padding: 32px; border: 1px dashed var(--line); border-radius: 20px; display: grid; gap: 28px; }
+  .ps__ctaband-photo { width: 100%; height: auto; border-radius: 14px; display: block; }
+  .ps__ctaband-body h2 { font: 600 clamp(24px, 4vw, 36px) / 1.25 var(--font-display); letter-spacing: -0.03em; margin-bottom: 24px; }
+  .ps__ctaband-links { display: grid; gap: 10px; }
+  .ps__ctaband-links a { display: flex; flex-direction: column; gap: 4px; background: var(--lime); color: var(--dark); padding: 14px 18px; border-radius: 10px; transition: transform var(--dur-fast) var(--ease-out); }
+  .ps__ctaband-links a:hover { transform: translateY(-2px); }
+  .ps__ctaband-links a span { font-size: 10px; opacity: 0.65; }
+  .ps__ctaband-links a strong { font-size: 14px; font-weight: 600; }
+  .ps__ctaband-note { margin-top: 14px; font-size: 11px; color: var(--muted); }
+
   .ps__doubts { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
   .ps__doubts-head h2 { font: 600 clamp(24px, 3.6vw, 44px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin: 14px 0 36px; max-width: 22ch; }
   .ps__doubts-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
@@ -579,6 +615,9 @@ const jsonLd = [
     .ps__hero { grid-template-columns: 1fr 1.1fr; align-items: end; padding-top: 56px; }
     .ps__about { grid-template-columns: 1fr auto; }
     .ps__logo-final { grid-template-columns: 1fr 1fr; }
+    .ps__ctaband { grid-template-columns: 1fr 1fr; align-items: center; padding: 48px; }
+    .ps__ctaband-photo { max-width: 420px; justify-self: end; order: 2; }
+    .ps__ctaband-body { order: 1; }
     .ps__doubts-list li { grid-template-columns: 60px minmax(0,1fr) minmax(0,1fr); gap: 40px; }
     .ps__doubts-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
   }
