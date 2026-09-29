@@ -403,8 +403,10 @@ const jsonLd = [
       <div class="ps__final-mobile-row">
         <span class="mono">{t.finalMobileLabel}</span>
         <div class="ps__mobile-mockups">
-          <img class="ps__mobile-mockup" src={img('23-mobile-mockup-2.webp')} width="900" height="675" alt="" loading="lazy" />
-          <img class="ps__mobile-mockup" src={img('21-mobile-mockup.webp')} width="900" height="778" alt="" loading="lazy" />
+          <img class="ps__mobile-mockup ps__mobile-mockup--small" src={img('23-mobile-mockup-2.webp')} width="900" height="675" alt="" loading="lazy" />
+          <div class="ps__mobile-mockup-card">
+            <img class="ps__mobile-mockup ps__mobile-mockup--large" src={img('21-mobile-mockup.webp')} width="1100" height="825" alt="" loading="lazy" />
+          </div>
         </div>
         <div class="ps__mobile-screens">
           <img class="ps__mobile-screen" src={img('18-mobile-screen-hero.png')} width="390" height="844" alt="" loading="lazy" />
@@ -569,8 +571,18 @@ const jsonLd = [
 
   .ps__final-mobile-row { margin-top: 48px; }
   .ps__final-mobile-row > span { display: block; font-size: 11px; color: var(--muted); margin-bottom: 14px; }
-  .ps__mobile-mockups { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 28px; }
-  .ps__mobile-mockup { display: block; width: 100%; max-width: 280px; height: auto; }
+  .ps__mobile-mockups { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 16px; margin-bottom: 28px; }
+  .ps__mobile-mockup { display: block; width: 100%; height: auto; }
+  .ps__mobile-mockup--small { max-width: 200px; }
+  .ps__mobile-mockup-card {
+    flex: 1 1 320px;
+    max-width: 420px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #e8891f;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80'%3E%3Cpath d='M10 42 L35 15 L60 42 L60 68 L40 68 L40 45 L30 45 L30 68 L10 68 Z' fill='none' stroke='rgba(10,10,10,0.12)' stroke-width='2.5'/%3E%3C/svg%3E");
+  }
+  .ps__mobile-mockup--large { max-width: none; }
   .ps__mobile-screens { display: flex; align-items: flex-start; justify-content: center; flex-wrap: wrap; gap: 20px; overflow-x: auto; padding: 4px 4px 12px; margin: 0 -4px; -webkit-overflow-scrolling: touch; }
   .ps__mobile-screen { flex: none; width: 220px; height: auto; border-radius: 20px; border: 6px solid #1a1a1a; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45); background: #1a1a1a; display: block; }
 
