@@ -135,6 +135,20 @@
     "viewCase": "СМОТРЕТЬ КЕЙС →",
     "items": [
       {
+        "slug": "prostye-sistemy",
+        "name": "Простые системы",
+        "description": "Инженерные системы",
+        "tags": [
+          "РЕАЛЬНЫЙ",
+          "TILDA"
+        ],
+        "categories": [
+          "sites"
+        ],
+        "cover": "/assets/cases/prostye-sistemy/desktop-full.webp",
+        "domain": "prostiesistemi.tilda.ws"
+      },
+      {
         "slug": "perfectmatch",
         "name": "Perfect Match",
         "description": "HR-консалтинг",
@@ -234,20 +248,6 @@
         ],
         "cover": "/assets/cases/annafit/macbook-pro-14-22.png",
         "domain": null
-      },
-      {
-        "slug": "prostye-sistemy",
-        "name": "Простые системы",
-        "description": "Инженерные системы",
-        "tags": [
-          "РЕАЛЬНЫЙ",
-          "TILDA"
-        ],
-        "categories": [
-          "sites"
-        ],
-        "cover": "/assets/cases/prostye-sistemy/desktop-1440.png",
-        "domain": "prostiesistemi.tilda.ws"
       }
     ],
     "yourSite": {
