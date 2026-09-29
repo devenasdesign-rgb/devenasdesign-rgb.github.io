@@ -492,7 +492,7 @@ const jsonLd = [
 
     <!-- Closing CTA -->
     <section class="ps__ctaband">
-      <img class="ps__ctaband-photo" src={img('22-portrait-cta.webp')} width="900" height="675" alt="Anastasia Deventeichik" loading="lazy" />
+      <img class="ps__ctaband-photo" src={img('22-portrait-cta.webp')} width="1448" height="1086" alt="Anastasia Deventeichik" loading="lazy" />
       <div class="ps__ctaband-body">
         <h2>{t.ctaHeading}</h2>
         <div class="ps__ctaband-links mono">
@@ -637,7 +637,14 @@ const jsonLd = [
   .ps__chat-translation { margin-top: 14px; color: var(--muted-strong); font-style: italic; max-width: 60ch; }
 
   .ps__ctaband { margin: 0 var(--gutter) 56px; padding: 32px; border: 1px dashed var(--line); border-radius: 20px; display: grid; gap: 28px; }
-  .ps__ctaband-photo { width: 100%; height: auto; border-radius: 14px; display: block; }
+  .ps__ctaband-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--lime);
+    filter: contrast(1.08) saturate(1.08);
+  }
   .ps__ctaband-body h2 { font: 600 clamp(24px, 4vw, 36px) / 1.25 var(--font-display); letter-spacing: -0.03em; margin-bottom: 24px; }
   .ps__ctaband-links { display: grid; gap: 10px; }
   .ps__ctaband-links a { display: flex; flex-direction: column; gap: 4px; background: var(--lime); color: var(--dark); padding: 14px 18px; border-radius: 10px; transition: transform var(--dur-fast) var(--ease-out); }
