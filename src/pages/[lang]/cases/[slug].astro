@@ -38,10 +38,10 @@ const media: Record<string, string[]> = {
 const gallery = media[slug] ?? [item.cover];
 const text = ru ? {
   back: '← ВСЕ РАБОТЫ', number: '[ КЕЙС ]', taskLabel: 'ЗАДАЧА', solutionLabel: 'РЕШЕНИЕ', outcomeLabel: 'ЧТО ПОЛУЧИЛОСЬ', roleLabel: 'МОЯ РОЛЬ', timelineLabel: 'СРОКИ РАЗРАБОТКИ',
-  details: 'ДЕТАЛИ ПРОЕКТА', next: 'ОБСУДИТЬ ПОХОЖУЮ ЗАДАЧУ ↗', more: 'СЛЕДУЮЩИЙ КЕЙС →'
+  details: 'ДЕТАЛИ ПРОЕКТА', next: 'ПОЛУЧИТЬ РАСЧЁТ ЗА 1 ДЕНЬ ↗', more: 'СЛЕДУЮЩИЙ КЕЙС →'
 } : {
   back: '← ALL WORK', number: '[ CASE STUDY ]', taskLabel: 'THE TASK', solutionLabel: 'THE SOLUTION', outcomeLabel: 'THE OUTCOME', roleLabel: 'MY ROLE', timelineLabel: 'TIMELINE',
-  details: 'PROJECT DETAILS', next: 'DISCUSS A SIMILAR PROJECT ↗', more: 'NEXT CASE →'
+  details: 'PROJECT DETAILS', next: 'GET A QUOTE IN A DAY ↗', more: 'NEXT CASE →'
 };
 const caseDoubts = doubts[slug]?.[lang] ?? [];
 const doubtsCopy = ru ? { label: '[ КАКИЕ СОМНЕНИЯ СНИМАЕТ САЙТ ]', title: 'Что беспокоит посетителя — и как сайт отвечает', doubt: 'СОМНЕНИЕ', answer: 'ОТВЕТ САЙТА' } : { label: '[ DOUBTS THIS SITE ANSWERS ]', title: 'What worries a visitor — and how the site responds', doubt: 'THE DOUBT', answer: 'THE SITE’S ANSWER' };

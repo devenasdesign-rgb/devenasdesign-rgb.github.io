@@ -12,10 +12,11 @@ const content = ru
         ['Сколько длится работа?', 'В среднем 14–22 рабочих дня. Срок фиксируем до старта — так у вас есть понятный план и дата запуска.'],
         ['Как проходит оплата?', 'Работаю по схеме 50/50: 50% — предоплата перед стартом, 50% — постоплата после завершения работы. Всё фиксируем в договоре, оплату подтверждаю чеком: работаю официально как самозанятая.'],
         ['Сколько правок входит в работу?', 'В каждый круг согласования (например, прототип, дизайн, вёрстка) входят две итерации правок. Если вашей задаче нужна другая схема, подскажу, как лучше, и мы договоримся об этом заранее.'],
-        ['Вы работаете только на Tilda?', 'Нет. Выбираю инструмент под задачу: Tilda — когда важна скорость и самостоятельное редактирование, код — когда нужен особый интерфейс или сложная логика.'],
+        ['Вы работаете только на Tilda?', 'Нет. Выбираю инструмент под задачу: Tilda — сможете сами менять тексты и цены без программиста, код — когда нужен нестандартный функционал: запись, калькулятор, каталог.'],
         ['Что нужно подготовить с моей стороны?', 'Достаточно рассказать о бизнесе, целях и клиентах. Структуру, вопросы к текстам и список материалов я помогу собрать по ходу работы.'],
         ['Можно начать, если пока нет фирменного стиля?', 'Да. На этапе мудборда определим визуальное направление, а при необходимости начнём с логотипа и базовых носителей.'],
         ['Что будет после запуска?', 'Передаю сайт с инструкцией. Первые 1–2 недели поддержки — бесплатно, дальше остаюсь на связи.'],
+        ['Что не входит в стоимость?', 'В стоимость не входят тексты и фото (могу помочь с подбором), домен и ежемесячная подписка Tilda — это отдельные расходы, которые вы оплачиваете сами.'],
       ],
       contactLabel: '[07] КОНТАКТ', contactMeta: 'НА СВЯЗИ КАЖДЫЙ ДЕНЬ', contactTitle: 'Расскажите\nо своём\nпроекте',
       contactText: 'Короткий бриф займёт пару минут. Изучу задачу и пришлю расчёт в течение дня.',
@@ -30,10 +31,11 @@ const content = ru
         ['How does payment work?', 'I work on a 50/50 basis: 50% is paid upfront before we start, and 50% after the work is completed. Everything is set out in a contract. Clients outside Russia pay through the Easystaff platform, which takes care of the invoice and the payment.'],
         ['Can we work remotely?', 'Yes. The whole process happens online: messages and calls, shared files and written approvals at every stage.'],
         ['How many revisions are included?', 'Each approval round (for example wireframe, design, development) includes two rounds of revisions. If your project needs a different setup, I will suggest what works best and we will agree on it upfront.'],
-        ['Do you only work in Tilda?', 'No. I choose the right tool for the task: Tilda for speed and easy editing, code for a custom interface or complex functionality.'],
+        ['Do you only work in Tilda?', 'No. I choose the right tool for the task: Tilda — you can edit copy and prices yourself, no developer needed; code — when you need custom functionality like bookings, calculators or a catalog.'],
         ['What do I need to prepare?', 'Tell me about your business, goals and customers. I will help shape the structure, questions for the copy and a materials checklist.'],
         ['Can we start without a brand identity?', 'Yes. We can define the visual direction at the moodboard stage, and start with a logo and essentials if needed.'],
         ['What happens after launch?', 'I hand the site over with a guide. The first 1–2 weeks of support are free, and I stay in touch after that.'],
+        ['What’s not included in the price?', 'The price doesn’t include copywriting and photos (I can help find them), the domain, or Tilda’s monthly subscription — those are separate costs you cover yourself.'],
       ],
       contactLabel: '[07] CONTACT', contactMeta: 'AVAILABLE EVERY DAY', contactTitle: 'Tell me\nabout your\nproject',
       contactText: 'The short brief takes a couple of minutes. I will review the task and send a quote within a day.',
@@ -46,8 +48,6 @@ const channelsAll: [string, string, string][] = [
   [ru ? 'WHATSAPP*' : 'WHATSAPP', ru ? 'написать' : 'message', contacts.whatsapp],
   [ru ? 'ВКОНТАКТЕ' : 'VK', 'devenas.design', contacts.vk],
   [ru ? 'INSTAGRAM*' : 'INSTAGRAM', 'deven.a.s', contacts.instagram],
-  ['BEHANCE', '3649e2cc', 'https://behance.net/3649e2cc'],
-  ['DPROFILE', 'devenas', 'https://dprofile.ru/devenas'],
 ];
 const channels = lang === 'ru' ? channelsAll : channelsAll.filter(([label]) => !ruOnly.includes(label));
 const socialsAll: [string, string][] = [
@@ -123,11 +123,11 @@ const socials = lang === 'ru' ? socialsAll : socialsAll.filter(([label]) => !ruO
 
 <footer class="footer">
   <div class="footer__top mono">
-    <nav aria-label={ru ? 'Меню в подвале' : 'Footer menu'}><a href="#work">{ru ? '[01] РАБОТЫ' : '[01] WORK'}</a><a href="#services">{ru ? '[02] УСЛУГИ' : '[02] SERVICES'}</a><a href="#process">{ru ? '[03] ПРОЦЕСС' : '[03] PROCESS'}</a><a href="#faq">[04] FAQ</a><a href="#contact">{ru ? '[05] КОНТАКТ' : '[05] CONTACT'}</a></nav>
+    <nav aria-label={ru ? 'Меню в подвале' : 'Footer menu'}><a href="#work">{ru ? '[01] РАБОТЫ' : '[01] WORK'}</a><a href="#services">{ru ? '[03] УСЛУГИ' : '[03] SERVICES'}</a><a href="#process">{ru ? '[05] ПРОЦЕСС' : '[05] PROCESS'}</a><a href="#faq">[06] FAQ</a><a href="#contact">{ru ? '[07] КОНТАКТ' : '[07] CONTACT'}</a></nav>
     <div class="footer__socials">{socials.map(([label, href]) => <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}</div>
   </div>
   <div class="footer__wordmark" data-footer-wordmark aria-hidden="true">DEVENAS</div>
-  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/checklist/`}>{ru ? 'ЧЕК-ЛИСТ' : 'CHECKLIST'}</a><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a><a href={`/${lang}/consent/`}>{ru ? 'СОГЛАСИЕ НА ОБРАБОТКУ ДАННЫХ' : 'CONSENT'}</a><button type="button" data-cookie-settings>{ru ? 'COOKIES' : 'COOKIES'}</button>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
+  <div class="footer__bottom mono"><span>©2026 DEVENAS</span><a href={`/${lang}/privacy/`}>{ru ? 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ' : 'PRIVACY POLICY'}</a><a href={`/${lang}/consent/`}>{ru ? 'СОГЛАСИЕ НА ОБРАБОТКУ ДАННЫХ' : 'CONSENT'}</a><button type="button" data-cookie-settings>{ru ? 'COOKIES' : 'COOKIES'}</button>{ru ? <span>*МЕТА — ЗАПРЕЩЁННАЯ В РФ ОРГАНИЗАЦИЯ</span> : <span>{content.footer}</span>}<a href="#top">{content.top}</a></div>
 </footer>
 
 <style>

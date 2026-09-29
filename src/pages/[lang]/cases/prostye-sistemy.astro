@@ -134,11 +134,12 @@ const t = ru
       reviewLabel: 'ОТЗЫВ КЛИЕНТА',
       reviewHeading: 'О работе — из первых рук',
 
-      ctaHeading: 'Напишите слово «ЛОГОТИП», и я разберу, что мешает вашему текущему сайту продавать',
+      ctaHeading: 'Напишите слово «АУДИТ» в Telegram, и я бесплатно разберу, что мешает вашему сайту продавать',
       ctaTelegram: 'TELEGRAM',
       ctaInstagram: 'INSTAGRAM*',
       ctaEmail: 'ПОЧТА',
       ctaMetaNote: '*Meta — организация, запрещённая в РФ',
+      ctaBrief: 'ПОЛУЧИТЬ РАСЧЁТ ЗА 1 ДЕНЬ →',
 
       doubtsLabel: '[ КАКИЕ СОМНЕНИЯ СНИМАЕТ САЙТ ]',
       doubtsHeading: 'Что беспокоит посетителя — и как сайт отвечает',
@@ -249,11 +250,12 @@ const t = ru
       reviewLabel: 'CLIENT REVIEW',
       reviewHeading: 'About the work — first-hand',
 
-      ctaHeading: 'Send me the word "LOGO" and I’ll tell you what’s stopping your current site from selling',
+      ctaHeading: 'Send me the word "AUDIT" on Telegram and I’ll tell you, for free, what’s stopping your site from selling',
       ctaTelegram: 'TELEGRAM',
       ctaInstagram: 'INSTAGRAM*',
       ctaEmail: 'EMAIL',
       ctaMetaNote: '*Meta is recognised as an extremist organisation and is banned in Russia',
+      ctaBrief: 'GET A QUOTE IN A DAY →',
 
       doubtsLabel: '[ DOUBTS THIS SITE ANSWERS ]',
       doubtsHeading: 'What worries a visitor — and how the site responds',
@@ -533,6 +535,7 @@ const jsonLd = [
           <a href="mailto:devenas.design@gmail.com"><span>{t.ctaEmail}</span><strong>devenas.design@gmail.com ↗</strong></a>
         </div>
         <p class="ps__ctaband-note">{t.ctaMetaNote}</p>
+        <button type="button" class="btn btn-primary hard-shadow-lime ps__ctaband-btn" data-open-brief data-case="Простые системы">{t.ctaBrief}</button>
       </div>
     </section>
 
@@ -693,6 +696,7 @@ const jsonLd = [
   .ps__ctaband-links a span { font-size: 10px; opacity: 0.65; }
   .ps__ctaband-links a strong { font-size: 14px; font-weight: 600; }
   .ps__ctaband-note { margin-top: 14px; font-size: 11px; color: var(--muted); }
+  .ps__ctaband-btn { margin-top: 24px; }
 
   .ps__doubts { padding: 56px var(--gutter); border-top: 1px solid var(--line); }
   .ps__doubts-head h2 { font: 600 clamp(24px, 3.6vw, 44px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin: 14px 0 36px; max-width: 22ch; }

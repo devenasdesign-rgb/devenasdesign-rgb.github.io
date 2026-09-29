@@ -286,13 +286,13 @@
             "Kickoff & brief",
             "Niche, competitor and audience research",
             "Structure and interaction logic",
-            "Wireframe"
+            "Wireframe — a page map: what goes where, before design"
           ],
           [
-            "Visual concept & moodboard",
+            "Moodboard — I'll show what the site will look like before work begins",
             "2–3 first-screen design concepts",
             "Design mockup",
-            "Development on Tilda or in code"
+            "Development on Tilda (you can edit copy and prices yourself) or in code (for custom functionality)"
           ],
           [
             "Responsive on every device",
@@ -318,10 +318,10 @@
             "Structure and interaction logic"
           ],
           [
-            "Wireframe",
-            "Visual concept & moodboard",
+            "Wireframe — a page map: what goes where, before design",
+            "Moodboard — I'll show what the site will look like before work begins",
             "Design mockup for every block and page",
-            "Development on Tilda or in code"
+            "Development on Tilda (you can edit copy and prices yourself) or in code (for custom functionality)"
           ],
           [
             "Responsive on every device",
@@ -347,10 +347,10 @@
             "Structure and interaction logic"
           ],
           [
-            "Wireframe",
-            "Visual concept & moodboard",
+            "Wireframe — a page map: what goes where, before design",
+            "Moodboard — I'll show what the site will look like before work begins",
             "Design mockup for every block and page",
-            "Development on Tilda or in code"
+            "Development on Tilda (you can edit copy and prices yourself) or in code (for custom functionality)"
           ],
           [
             "Responsive on every device",
@@ -376,8 +376,8 @@
             "Copy review and help"
           ],
           [
-            "Wireframe",
-            "Moodboard",
+            "Wireframe — a page map: what goes where, before design",
+            "Moodboard — I'll show what the site will look like before work begins",
             "2–3 first-screen design concepts"
           ],
           [
@@ -393,7 +393,7 @@
       "index": "(05)",
       "title": "Need a different kind of design?",
       "text": "Logo, presentation, social media, packaging or ads — tell me about your task and I'll suggest a solution.",
-      "button": "Discuss a task ↗"
+      "button": "Get a quote in a day ↗"
     },
     "columns": [
       "(№)",
