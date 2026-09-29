@@ -23,7 +23,7 @@
         "href": "#contact"
       }
     ],
-    "cta": "DISCUSS A PROJECT ↗",
+    "cta": "GET A QUOTE IN A DAY ↗",
     "menuButton": "MENU",
     "meta": {
       "tag": "(WEB DESIGN / TILDA / CODE)",
@@ -33,39 +33,27 @@
     }
   },
   "hero": {
-    "wordmark": "DEVENAS",
     "caption": "Web designer Anastasia Deventeichik",
     "avatarSticker": "← THAT'S ME",
-    "slogan": {
-      "line1": "I build websites that",
-      "line2": "tell your story better",
-      "line3": "than you ever could"
+    "heading": {
+      "pre": "Websites for experts and small businesses that ",
+      "marker": "bring in leads",
+      "post": ", not just look good"
     },
-    "primaryButton": "Discuss a project ↗",
-    "secondaryButton": "See my work ↗",
-    "subheading": "Websites for small businesses and experts, built to make your offer clear and the next step easy. I handle structure, design and launch — on Tilda or in code.",
-    "stats": [
-      {
-        "value": "10+",
-        "label": "PROJECTS"
-      },
-      {
-        "value": "3+",
-        "label": "YEARS IN DESIGN"
-      }
-    ],
-    "featured": {
-      "label": "(03) FEATURED",
-      "index": "1/8",
-      "name": "Perfect Match",
-      "meta": "HR CONSULTING · RU/EN · CODE"
+    "subheading": "A designer with a background in economics: I calculate how a website pays for itself. Landing pages from $900 (€800) in 14 days, multi-page sites from $1,400 (€1,200).",
+    "reassurance": "I work on a contract, with invoices.",
+    "proof": {
+      "text": "1,300+ visits from Yandex search with no ads — an engineering company's case →",
+      "href": "/cases/prostye-sistemy/"
     },
-    "marquee": "Landing pages ✦ Multi-page websites ✦ Online stores ✦ Website design ✦ Graphic design",
-    "buildStages": [
-      "PROTOTYPE",
-      "MOODBOARD",
-      "DESIGN",
-      "SITE READY"
+    "statsLine": "10+ projects · 3+ years in design",
+    "primaryButton": "Get a quote in a day",
+    "secondaryButton": "Message on Telegram",
+    "viewWorkLink": "See my work ↗",
+    "segments": [
+      { "label": "I'm an expert", "href": "/for/experts/" },
+      { "label": "I run a store", "href": "/for/shops/" },
+      { "label": "I need services or a company site", "href": "#work" }
     ]
   },
   "about": {
@@ -90,18 +78,6 @@
       {
         "title": "Results > looks",
         "text": "Every block on the page answers a customer's question and leads to an inquiry."
-      }
-    ],
-    "numbers": [
-      {
-        "value": "10+",
-        "label": "PROJECTS FOR BUSINESSES AND EXPERTS",
-        "color": "lime"
-      },
-      {
-        "value": "3+",
-        "label": "YEARS FROM LOGOS TO STORES",
-        "color": "blue"
       }
     ],
     "trustLine": "WORKING OFFICIALLY: CONTRACT · INVOICE"

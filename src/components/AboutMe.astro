@@ -13,7 +13,6 @@ interface Props {
     heading: { line1: string; markerPrefix: string; marker: string; line3: string };
     text: string;
     facts: { title: string; text: string }[];
-    numbers: { value: string; label: string; color: string }[];
     trustLine: string;
   };
 }
@@ -53,17 +52,6 @@ const letters = ['A', 'B'];
               <span class="mono about__fact-index">({letters[i]})</span>
               <h3 class="about__fact-title">{fact.title}</h3>
               <p class="about__fact-text">{fact.text}</p>
-            </div>
-          ))
-        }
-      </div>
-
-      <div class="about__numbers">
-        {
-          about.numbers.map((n) => (
-            <div class={`about__number about__number--${n.color}`}>
-              <span class="about__number-value">{n.value}</span>
-              <span class="mono about__number-label">{n.label}</span>
             </div>
           ))
         }
