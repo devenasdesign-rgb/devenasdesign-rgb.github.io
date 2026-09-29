@@ -373,14 +373,14 @@ const jsonLd = [
       <h3>{t.processHeading}</h3>
       <div class="ps__wireframes">
         {[
-          ['09-wireframe-01.webp', 392],
-          ['10-wireframe-02.webp', 392],
-          ['11-wireframe-03.webp', 393],
-          ['12-wireframe-04.webp', 393],
+          ['09-wireframe-01.webp', 475],
+          ['10-wireframe-02.webp', 475],
+          ['11-wireframe-03.webp', 476],
+          ['12-wireframe-04.webp', 476],
         ].map(([file, h], i) => (
           <figure class="ps__wireframe">
             <span class="mono ps__wireframe-num">{String(i + 1).padStart(2, '0')}</span>
-            <img src={img(file as string)} width="627" height={h} alt="" loading="lazy" />
+            <img src={img(file as string)} width="760" height={h} alt="" loading="lazy" />
           </figure>
         ))}
       </div>
@@ -404,7 +404,7 @@ const jsonLd = [
       <div class="ps__final-shots">
         <figcaption class="mono">{t.finalDesktopLabel}</figcaption>
         <div class="ps__desktop-shots">
-          <img class="ps__desktop-shot ps__desktop-shot--wide" src={img('26-desktop-hero.webp')} width="1200" height="742" alt="" loading="lazy" />
+          <img class="ps__desktop-shot" src={img('26-desktop-hero.webp')} width="1200" height="742" alt="" loading="lazy" />
           <img class="ps__desktop-shot" src={img('30-desktop-services.webp')} width="1200" height="742" alt="" loading="lazy" />
           <img class="ps__desktop-shot" src={img('27-desktop-about.webp')} width="1200" height="742" alt="" loading="lazy" />
           <img class="ps__desktop-shot" src={img('28-desktop-clients.webp')} width="1200" height="742" alt="" loading="lazy" />
@@ -422,9 +422,9 @@ const jsonLd = [
           </div>
         </div>
         <div class="ps__mobile-screens">
-          <img class="ps__mobile-screen" src={img('18-mobile-screen-hero.webp')} width="390" height="844" alt="" loading="lazy" />
-          <img class="ps__mobile-screen" src={img('19-mobile-screen-services.webp')} width="390" height="844" alt="" loading="lazy" />
-          <img class="ps__mobile-screen" src={img('20-mobile-screen-trust.webp')} width="390" height="844" alt="" loading="lazy" />
+          <img class="ps__mobile-screen" src={img('18-mobile-screen-hero.webp')} width="900" height="1948" alt="" loading="lazy" />
+          <img class="ps__mobile-screen" src={img('19-mobile-screen-services.webp')} width="900" height="1948" alt="" loading="lazy" />
+          <img class="ps__mobile-screen" src={img('20-mobile-screen-trust.webp')} width="900" height="1948" alt="" loading="lazy" />
         </div>
       </div>
       <p class="ps__caption">{t.finalCaption}</p>
@@ -583,7 +583,7 @@ const jsonLd = [
 
   .ps__final-shots { margin-top: 28px; }
   .ps__final-shots figcaption { font-size: 11px; color: var(--muted); margin-bottom: 10px; display: block; }
-  .ps__desktop-shots { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .ps__desktop-shots { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 720px; margin: 0 auto; }
   .ps__desktop-shot { width: 100%; height: auto; border-radius: 12px; display: block; border: 1px solid var(--line); }
 
   .ps__final-mobile-row { margin-top: 48px; }
@@ -655,8 +655,6 @@ const jsonLd = [
     .ps__mobile-mockups { gap: 0; flex-wrap: nowrap; }
     .ps__mobile-mockup-cell--small { flex: 0 0 41.6%; }
     .ps__mobile-mockup-cell--large { flex: 0 0 58.4%; }
-    .ps__desktop-shots { grid-template-columns: 1.4fr 1fr; }
-    .ps__desktop-shot--wide { grid-column: 1 / -1; }
     .ps__ctaband { grid-template-columns: 1fr 1fr; align-items: center; padding: 48px; }
     .ps__ctaband-photo { max-width: 420px; justify-self: end; order: 2; }
     .ps__ctaband-body { order: 1; }
