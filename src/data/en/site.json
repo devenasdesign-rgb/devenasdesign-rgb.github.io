@@ -398,53 +398,33 @@
   },
   "process": {
     "sectionLabel": "[05] PROCESS",
-    "meta": "10 STEPS · NO SURPRISES",
+    "meta": "5 STAGES · NO SURPRISES",
     "heading": {
       "line1": "From first message",
       "pre": "to launch — ",
-      "marker": "10 steps"
+      "marker": "5 stages"
     },
     "activeLabel": "NOW",
     "steps": [
       {
-        "title": "Getting to know you",
-        "text": "I dig into your task, goals and wishes."
+        "title": "Intro & quote",
+        "text": "Timeline: 1 day. From you: a short brief or message."
       },
       {
-        "title": "Proposal",
-        "text": "I send options, timelines and pricing — you choose."
+        "title": "Contract & research",
+        "text": "Timeline: 2–3 days. From you: sign the contract, 50% upfront."
       },
       {
-        "title": "Agreement",
-        "text": "We put everything in writing."
+        "title": "Structure & concept",
+        "text": "Timeline: [TODO: timeline]. From you: one ~30-minute call, pick a first-screen direction."
       },
       {
-        "title": "Research",
-        "text": "I study your niche, competitors and customers."
-      },
-      {
-        "title": "Wireframe",
-        "text": "I build the structure: what goes where, and why."
-      },
-      {
-        "title": "Moodboard",
-        "text": "I set the mood: colors, fonts, references."
-      },
-      {
-        "title": "Concepts",
-        "text": "I show you first-screen options to choose from."
-      },
-      {
-        "title": "Design",
-        "text": "I design every page, including the mobile version."
-      },
-      {
-        "title": "Development",
-        "text": "I build the site on Tilda or in code, then set it up and test it."
+        "title": "Design & build",
+        "text": "Timeline: [TODO: timeline]. From you: revisions — 2 rounds per stage."
       },
       {
         "title": "Launch & support",
-        "text": "I hand over the site with a guide. 1–2 weeks of free support, and I stay in touch after that."
+        "text": "1–2 weeks of free support. From you: the remaining 50% payment."
       }
     ]
   }
