@@ -90,24 +90,7 @@
       "marker": "for me"
     },
     "subheading": "Live websites and concepts — each clearly labeled, so you see the honest picture.",
-    "filters": [
-      {
-        "key": "all",
-        "label": "ALL"
-      },
-      {
-        "key": "sites",
-        "label": "WEBSITES"
-      },
-      {
-        "key": "stores",
-        "label": "STORES"
-      },
-      {
-        "key": "concepts",
-        "label": "CONCEPTS"
-      }
-    ],
+    "conceptsLabel": "[ CONCEPTS AND EXPERIMENTS ]",
     "viewCase": "VIEW CASE →",
     "items": [
       {

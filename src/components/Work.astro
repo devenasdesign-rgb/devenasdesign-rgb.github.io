@@ -2,13 +2,14 @@
 import SectionHeader from './SectionHeader.astro';
 import type { Locale } from '../lib/i18n';
 import yourSiteTemplates from '../data/your-site.json';
-import { projects } from '../data/proof';
+import { reviews } from '../data/proof';
 import ProjectImage from './ProjectImage.astro';
 
 interface WorkItem {
   slug: string;
   name: string;
   description: string;
+  resultLine?: string;
   tags: string[];
   categories: string[];
   cover: string;
@@ -21,7 +22,7 @@ interface Props {
     sectionLabel: string;
     heading: { line1: string; pre: string; marker: string };
     subheading: string;
-    filters: { key: string; label: string }[];
+    conceptsLabel: string;
     viewCase: string;
     items: WorkItem[];
     yourSite: {
@@ -40,6 +41,9 @@ interface Props {
 }
 
 const { lang, work } = Astro.props;
+const mainItems = work.items.filter((item) => !item.categories.includes('concepts'));
+const conceptItems = work.items.filter((item) => item.categories.includes('concepts'));
+const quoteFor = (slug: string) => reviews.find((r) => r.slug === slug)?.quote[lang];
 ---
 
 <section class="work" id="work">
@@ -53,31 +57,21 @@ const { lang, work } = Astro.props;
     <p class="work__subheading">{work.subheading}</p>
   </div>
 
-  <div class="work__filters mono" data-work-filters>
-    {
-      work.filters.map((f, i) => (
-        <button type="button" class="work__filter" data-filter={f.key} aria-pressed={i === 0 ? 'true' : 'false'}>
-          {f.label}
-        </button>
-      ))
-    }
-  </div>
-
   <div class="work__list" data-work-list>
     {
-      work.items.map((item, i) => (
-        <article
-          class="work__row"
-          data-categories={item.categories.join(',')}
-        >
+      mainItems.map((item, i) => (
+        <article class="work__row" data-categories={item.categories.join(',')}>
           <span class="mono work__row-index">{String(i + 1).padStart(2, '0')}</span>
           <a class="work__row-main" href={`/${lang}/cases/${item.slug}/`}>
             <span class="work__row-name">{item.name}</span>
             <span class="work__row-desc">{item.description}</span>
+            {item.resultLine && <span class="work__row-result">{item.resultLine}</span>}
+            {quoteFor(item.slug) && <span class="work__row-quote">“{quoteFor(item.slug)}”</span>}
           </a>
           <span class="work__row-tags mono">
-            {item.tags.map((t) => (
-              <span class="work__tag">{t}</span>
+            <span class="work__tag work__tag--status">{item.tags[0]}</span>
+            {item.tags.slice(1).map((t) => (
+              <span class="work__tag work__tag--muted">{t}</span>
             ))}
           </span>
           <span class="work__row-arrow" aria-hidden="true">↗</span>
@@ -91,44 +85,76 @@ const { lang, work } = Astro.props;
         </article>
       ))
     }
+  </div>
 
-    <div class="work__row work__row--yoursite" data-yoursite hidden>
-      <div class="yours">
-        <div class="yours__panel">
-          <p class="work__yoursite-heading">{work.yourSite.heading}</p>
-          <label class="work__field mono">
-            <span>{work.yourSite.fieldLabel}</span>
-            <input type="text" maxlength="30" placeholder={work.yourSite.placeholder} data-yoursite-input />
-          </label>
-          <label class="work__field mono">
-            <span>{work.yourSite.nicheLabel}</span>
-            <select data-yoursite-niche>
-              {work.yourSite.niches.map((n) => <option value={n.key}>{n.label}</option>)}
-            </select>
-          </label>
-          <div class="work__yoursite-actions">
-            <button type="button" class="btn btn-secondary" data-yoursite-rebuild>{work.yourSite.rebuildButton}</button>
-            <button type="button" class="btn btn-primary hard-shadow-lime" data-open-brief data-yoursite-cta>{work.yourSite.ctaButton}</button>
-          </div>
+  <div class="work__concepts">
+    <p class="mono work__concepts-label">{work.conceptsLabel}</p>
+    <div class="work__list work__list--concepts">
+      {
+        conceptItems.map((item, i) => (
+          <article class="work__row" data-categories={item.categories.join(',')}>
+            <span class="mono work__row-index">{String(i + 1).padStart(2, '0')}</span>
+            <a class="work__row-main" href={`/${lang}/cases/${item.slug}/`}>
+              <span class="work__row-name">{item.name}</span>
+              <span class="work__row-desc">{item.description}</span>
+              {item.resultLine && <span class="work__row-result">{item.resultLine}</span>}
+            </a>
+            <span class="work__row-tags mono">
+              <span class="work__tag work__tag--status">{item.tags[0]}</span>
+              {item.tags.slice(1).map((t) => (
+                <span class="work__tag work__tag--muted">{t}</span>
+              ))}
+            </span>
+            <span class="work__row-arrow" aria-hidden="true">↗</span>
+            <a class="work__row-cover" href={`/${lang}/cases/${item.slug}/`} tabindex="-1" aria-hidden="true"></a>
+            <span class="work__preview" data-preview aria-hidden="true">
+              <ProjectImage src={item.cover} alt="" sizes="320px" />
+              <span class="work__preview-caption mono">
+                {item.domain ?? item.slug} — {work.viewCase}
+              </span>
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="work__row work__row--yoursite" data-yoursite>
+    <div class="yours">
+      <div class="yours__panel">
+        <p class="work__yoursite-heading">{work.yourSite.heading}</p>
+        <label class="work__field mono">
+          <span>{work.yourSite.fieldLabel}</span>
+          <input type="text" maxlength="30" placeholder={work.yourSite.placeholder} data-yoursite-input />
+        </label>
+        <label class="work__field mono">
+          <span>{work.yourSite.nicheLabel}</span>
+          <select data-yoursite-niche>
+            {work.yourSite.niches.map((n) => <option value={n.key}>{n.label}</option>)}
+          </select>
+        </label>
+        <div class="work__yoursite-actions">
+          <button type="button" class="btn btn-secondary" data-yoursite-rebuild>{work.yourSite.rebuildButton}</button>
+          <button type="button" class="btn btn-primary hard-shadow-lime" data-open-brief data-yoursite-cta>{work.yourSite.ctaButton}</button>
         </div>
+      </div>
 
-        <div class="yours__stage">
-          <span class="mono yours__label" data-yoursite-status>{work.yourSite.resultLabel}</span>
-          <div class="yours__mock" data-yoursite-mock data-accent="lime" data-state="wire" aria-live="polite">
-            <div class="yours__bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">your-site.com</span></div>
-            <div class="yours__nav">
-              <b data-mock-logo></b>
-              <nav aria-hidden="true"><span data-mock-nav="0"></span><span data-mock-nav="1"></span><span data-mock-nav="2"></span></nav>
-              <span class="yours__nav-btn" data-mock-btn-sm></span>
+      <div class="yours__stage">
+        <span class="mono yours__label" data-yoursite-status>{work.yourSite.resultLabel}</span>
+        <div class="yours__mock" data-yoursite-mock data-accent="lime" data-state="wire" aria-live="polite">
+          <div class="yours__bar" aria-hidden="true"><i></i><i></i><i></i><span class="mono">your-site.com</span></div>
+          <div class="yours__nav">
+            <b data-mock-logo></b>
+            <nav aria-hidden="true"><span data-mock-nav="0"></span><span data-mock-nav="1"></span><span data-mock-nav="2"></span></nav>
+            <span class="yours__nav-btn" data-mock-btn-sm></span>
+          </div>
+          <div class="yours__hero">
+            <div class="yours__copy">
+              <h3 class="work__yoursite-mock-name" data-yoursite-mock-name></h3>
+              <p data-yoursite-mock-tagline></p>
+              <span class="yours__btn mono" data-mock-btn></span>
             </div>
-            <div class="yours__hero">
-              <div class="yours__copy">
-                <h3 class="work__yoursite-mock-name" data-yoursite-mock-name></h3>
-                <p data-yoursite-mock-tagline></p>
-                <span class="yours__btn mono" data-mock-btn></span>
-              </div>
-              <div class="yours__img" aria-hidden="true"><span class="mono">{lang === 'ru' ? '(ОБЛОЖКА)' : '(COVER)'}</span></div>
-            </div>
+            <div class="yours__img" aria-hidden="true"><span class="mono">{lang === 'ru' ? '(ОБЛОЖКА)' : '(COVER)'}</span></div>
           </div>
         </div>
       </div>
@@ -242,10 +268,31 @@ const { lang, work } = Astro.props;
     font-size: 13px;
   }
 
+  .work__row-result {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--lime);
+    max-width: 60ch;
+  }
+
+  .work__row-quote {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 56ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .work__row-tags {
     display: flex;
     grid-column: 2;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
     font-size: 10px;
     color: var(--muted);
@@ -255,6 +302,25 @@ const { lang, work } = Astro.props;
     border: 1px solid rgba(244, 241, 234, 0.3);
     padding: 3px 8px;
     white-space: nowrap;
+  }
+
+  .work__tag--muted {
+    border: 0;
+    padding: 0;
+    color: var(--muted);
+    opacity: 0.75;
+    font-size: 9px;
+  }
+
+  .work__concepts {
+    padding-top: 40px;
+  }
+
+  .work__concepts-label {
+    padding: 0 var(--gutter);
+    margin-bottom: 12px;
+    font-size: 11px;
+    color: var(--muted);
   }
 
   .work__row-cover {
@@ -621,25 +687,6 @@ const { lang, work } = Astro.props;
 
 <script>
   import { gsap } from 'gsap';
-
-  // Filter tabs
-  const filterBar = document.querySelector<HTMLElement>('[data-work-filters]');
-  const list = document.querySelector<HTMLElement>('[data-work-list]');
-  if (filterBar && list) {
-    const rows = Array.from(list.querySelectorAll<HTMLElement>('.work__row[data-categories]'));
-    filterBar.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
-      if (!btn) return;
-      filterBar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
-      btn.setAttribute('aria-pressed', 'true');
-      const key = btn.dataset.filter;
-      rows.forEach((row) => {
-        const cats = (row.dataset.categories ?? '').split(',');
-        const show = key === 'all' || cats.includes(key ?? '');
-        row.hidden = !show;
-      });
-    });
-  }
 
   // Cursor-following preview on hover (desktop only)
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
