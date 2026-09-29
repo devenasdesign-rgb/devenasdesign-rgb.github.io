@@ -41,6 +41,15 @@ const t = ru
       tags: ['РЕАЛЬНЫЙ', 'TILDA'],
       status: 'КЛИЕНТСКИЙ ПРОЕКТ · ОПУБЛИКОВАН',
       openSite: 'ОТКРЫТЬ САЙТ ПРОЕКТА ↗',
+      heroMeta: [
+        ['СРОК', 'Около полутора месяцев в совокупности'],
+        ['МОЯ РОЛЬ', 'Логотип и фирменный стиль · карта сайта и прототипы · дизайн на Tilda'],
+      ],
+      heroStats: [
+        ['®', 'ЗАЩИЩЁН', 'Товарный знак зарегистрирован'],
+        ['↗', '1 300+', 'переходов из поиска Яндекса без рекламы'],
+        ['★', '№ 2', 'по посещаемости — страница «О компании»'],
+      ],
       counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
 
       aboutLabel: 'О ПРОЕКТЕ',
@@ -146,6 +155,15 @@ const t = ru
       tags: ['LIVE', 'TILDA'],
       status: 'CLIENT PROJECT · PUBLISHED',
       openSite: 'OPEN THE LIVE SITE ↗',
+      heroMeta: [
+        ['TIMELINE', 'About six weeks in total'],
+        ['MY ROLE', 'Logo and brand identity · sitemap and prototypes · Tilda design'],
+      ],
+      heroStats: [
+        ['®', 'PROTECTED', 'Trademark registered'],
+        ['↗', '1,300+', 'visits from Yandex search, with no ads'],
+        ['★', '#2', 'by traffic — the “About” page'],
+      ],
       counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
 
       aboutLabel: 'THE PROJECT',
@@ -286,9 +304,21 @@ const jsonLd = [
         <p class="ps__lead">{t.lead}</p>
         <div class="ps__tags mono">{t.tags.map((tag) => <span>{tag}</span>)}</div>
         <p class="ps__status mono">{t.status}</p>
+        <dl class="ps__hero-meta mono">
+          {t.heroMeta.map(([k, v]) => (
+            <div><dt>{k}</dt><dd>{v}</dd></div>
+          ))}
+        </dl>
         <a class="btn btn-primary ps__cta" href={project.url} target="_blank" rel="noopener noreferrer">{t.openSite}</a>
       </div>
       <img class="ps__hero-img" src={img('01-hero-laptop.png')} width="900" height="639" alt={t.title} loading="eager" />
+    </section>
+
+    <!-- Hero stats -->
+    <section class="ps__hero-stats">
+      {t.heroStats.map(([icon, num, label]) => (
+        <div class="ps__hero-stat"><span class="ps__hero-stat-icon" aria-hidden="true">{icon}</span><strong>{num}</strong><span>{label}</span></div>
+      ))}
     </section>
 
     <!-- About -->
@@ -526,8 +556,17 @@ const jsonLd = [
   .ps__tags { display: flex; gap: 10px; margin-bottom: 16px; }
   .ps__tags span { border: 1px solid var(--line); padding: 6px 12px; font-size: 11px; }
   .ps__status { font-size: 11px; color: var(--muted); margin-bottom: 20px; }
+  .ps__hero-meta { display: grid; gap: 14px; margin-bottom: 24px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .ps__hero-meta dt { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .ps__hero-meta dd { margin: 0; font-family: var(--font-body); font-size: 13px; color: var(--ink); line-height: 1.4; text-transform: none; letter-spacing: normal; }
   .ps__cta { display: inline-flex; }
   .ps__hero-img { width: 100%; height: auto; border-radius: 0; background: var(--surface); }
+
+  .ps__hero-stats { display: grid; gap: 16px; grid-template-columns: 1fr; padding: 0 var(--gutter) 48px; }
+  .ps__hero-stat { background: #1a1109; border: 1px solid rgba(255, 74, 28, 0.25); padding: 22px; display: grid; gap: 6px; position: relative; }
+  .ps__hero-stat-icon { position: absolute; top: 18px; right: 20px; font-size: 18px; color: var(--tomato); }
+  .ps__hero-stat strong { font: 700 clamp(26px, 3.4vw, 34px) / 1 var(--font-display); color: var(--ink); }
+  .ps__hero-stat span:last-child { font-size: 13px; color: var(--muted-strong); }
 
   .ps__about { padding: 56px var(--gutter); border-top: 1px solid var(--line); display: grid; gap: 32px; align-items: center; }
   .ps__about h2 { font: 600 clamp(26px, 4vw, 40px) / 1.15 var(--font-display); letter-spacing: -0.03em; margin-bottom: 14px; max-width: 20ch; }
@@ -670,6 +709,8 @@ const jsonLd = [
 
   @media (min-width: 900px) {
     .ps__hero { grid-template-columns: 1fr 1.1fr; align-items: end; padding-top: 56px; }
+    .ps__hero-meta { grid-template-columns: 1fr 1fr; }
+    .ps__hero-stats { grid-template-columns: repeat(3, 1fr); }
     .ps__about { grid-template-columns: 1fr auto; }
     .ps__logo-final { grid-template-columns: 1fr 1fr; }
     .ps__logo-row { grid-template-columns: 1.1fr 1fr; }
