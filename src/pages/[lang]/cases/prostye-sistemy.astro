@@ -42,13 +42,14 @@ const t = ru
       status: 'КЛИЕНТСКИЙ ПРОЕКТ · ОПУБЛИКОВАН',
       openSite: 'ОТКРЫТЬ САЙТ ПРОЕКТА ↗',
       heroMeta: [
-        ['СРОК', 'Около полутора месяцев в совокупности'],
         ['МОЯ РОЛЬ', 'Логотип и фирменный стиль · карта сайта и прототипы · дизайн на Tilda'],
       ],
       heroStats: [
-        ['®', 'ЗАЩИЩЁН', 'Товарный знак зарегистрирован'],
+        ['◷', '~1,5 МЕС', 'от логотипа до запуска сайта'],
         ['↗', '1 300+', 'переходов из поиска Яндекса без рекламы'],
         ['★', '№ 2', 'по посещаемости — страница «О компании»'],
+        ['⌂', '5', 'направлений услуг — у каждого своя страница'],
+        ['®', 'ЗАЩИЩЁН', 'Товарный знак зарегистрирован'],
       ],
       counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
 
@@ -156,13 +157,14 @@ const t = ru
       status: 'CLIENT PROJECT · PUBLISHED',
       openSite: 'OPEN THE LIVE SITE ↗',
       heroMeta: [
-        ['TIMELINE', 'About six weeks in total'],
         ['MY ROLE', 'Logo and brand identity · sitemap and prototypes · Tilda design'],
       ],
       heroStats: [
-        ['®', 'PROTECTED', 'Trademark registered'],
+        ['◷', '~6 WEEKS', 'from logo to the site going live'],
         ['↗', '1,300+', 'visits from Yandex search, with no ads'],
         ['★', '#2', 'by traffic — the “About” page'],
+        ['⌂', '5', 'service directions — each with its own page'],
+        ['®', 'PROTECTED', 'Trademark registered'],
       ],
       counter: (i: number, n: number) => `${String(i).padStart(2, '0')}/${String(n).padStart(2, '0')}`,
 
@@ -709,7 +711,6 @@ const jsonLd = [
 
   @media (min-width: 900px) {
     .ps__hero { grid-template-columns: 1fr 1.1fr; align-items: end; padding-top: 56px; }
-    .ps__hero-meta { grid-template-columns: 1fr 1fr; }
     .ps__hero-stats { grid-template-columns: repeat(3, 1fr); }
     .ps__about { grid-template-columns: 1fr auto; }
     .ps__logo-final { grid-template-columns: 1fr 1fr; }
@@ -725,5 +726,9 @@ const jsonLd = [
     .ps__ctaband-body { order: 1; }
     .ps__doubts-list li { grid-template-columns: 60px minmax(0,1fr) minmax(0,1fr); gap: 40px; }
     .ps__doubts-head { display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
+  }
+
+  @media (min-width: 1240px) {
+    .ps__hero-stats { grid-template-columns: repeat(5, 1fr); }
   }
 </style>
