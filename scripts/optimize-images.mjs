@@ -8,7 +8,7 @@ async function walk(directory) {
     if (entry.name === 'optimized') continue;
     const source = path.join(directory, entry.name);
     if (entry.isDirectory()) { await walk(source); continue; }
-    if (!/\.(png|jpe?g)$/i.test(entry.name)) continue;
+    if (!/\.(png|jpe?g|webp)$/i.test(entry.name)) continue;
     const info = await stat(source);
     before += info.size;
     for (const width of [640, 1600]) {
