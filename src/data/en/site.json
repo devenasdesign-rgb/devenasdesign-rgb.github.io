@@ -57,7 +57,7 @@
     ]
   },
   "about": {
-    "sectionLabel": "[00] ABOUT ME",
+    "sectionLabel": "[04] ABOUT ME",
     "kicker": "ECONOMIST → WEB DESIGNER",
     "photoCaption": "(PHOTO) ANASTASIA",
     "photoLink": "TILDA EXPERTS ↗",
@@ -114,6 +114,7 @@
         "slug": "prostye-sistemy",
         "name": "Prostye Sistemy",
         "description": "Engineering systems",
+        "resultLine": "Logo and website from scratch → 1,300+ organic search visits with no ads, trademark registered",
         "tags": [
           "LIVE",
           "TILDA"
@@ -128,6 +129,7 @@
         "slug": "perfectmatch",
         "name": "Perfect Match",
         "description": "HR consulting",
+        "resultLine": "[TODO: project outcome]",
         "tags": [
           "LIVE",
           "RU/EN",
@@ -143,6 +145,7 @@
         "slug": "ntguilty",
         "name": "NTGUILTY",
         "description": "Criminal defense lawyers",
+        "resultLine": "[TODO: project outcome]",
         "tags": [
           "LIVE",
           "TILDA"
@@ -157,6 +160,7 @@
         "slug": "adventure-bro",
         "name": "Adventure Bro",
         "description": "Abkhazia tours",
+        "resultLine": "[TODO: project outcome]",
         "tags": [
           "LIVE",
           "TILDA"
@@ -186,9 +190,9 @@
         "slug": "eurasia",
         "name": "EURASIA",
         "description": "Professional cosmetics store",
+        "resultLine": "A concept made for a client",
         "tags": [
-          "CLIENT",
-          "CODED CONCEPT"
+          "CONCEPT"
         ],
         "categories": [
           "stores",
@@ -201,6 +205,7 @@
         "slug": "intimate-aesthetics-center",
         "name": "Intimate Aesthetics Center",
         "description": "From a logo to a platform",
+        "resultLine": "[TODO: project outcome]",
         "tags": [
           "LIVE",
           "IN PROGRESS"
@@ -265,7 +270,7 @@
     }
   },
   "services": {
-    "sectionLabel": "[02] SERVICES & PRICING",
+    "sectionLabel": "[03] SERVICES & PRICING",
     "meta": "OPEN PRICING · QUOTE IN 1 DAY",
     "heading": {
       "pre": "Pick a ",
@@ -409,7 +414,7 @@
     ]
   },
   "process": {
-    "sectionLabel": "[03] PROCESS",
+    "sectionLabel": "[05] PROCESS",
     "meta": "10 STEPS · NO SURPRISES",
     "heading": {
       "line1": "From first message",

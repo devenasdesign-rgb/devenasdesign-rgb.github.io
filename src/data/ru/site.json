@@ -57,7 +57,7 @@
     ]
   },
   "about": {
-    "sectionLabel": "[00] ОБО МНЕ",
+    "sectionLabel": "[04] ОБО МНЕ",
     "kicker": "ЭКОНОМИСТ → ВЕБ-ДИЗАЙНЕР",
     "photoCaption": "(ФОТО) АНАСТАСИЯ",
     "photoLink": "TILDA EXPERTS ↗",
@@ -114,6 +114,7 @@
         "slug": "prostye-sistemy",
         "name": "Простые системы",
         "description": "Инженерные системы",
+        "resultLine": "Логотип и сайт с нуля → 1 300+ переходов из поиска без рекламы, товарный знак зарегистрирован",
         "tags": [
           "РЕАЛЬНЫЙ",
           "TILDA"
@@ -128,6 +129,7 @@
         "slug": "perfectmatch",
         "name": "Perfect Match",
         "description": "HR-консалтинг",
+        "resultLine": "[TODO: результат проекта]",
         "tags": [
           "РЕАЛЬНЫЙ",
           "RU/EN",
@@ -143,6 +145,7 @@
         "slug": "ntguilty",
         "name": "NTGUILTY",
         "description": "Адвокаты по уголовным делам",
+        "resultLine": "[TODO: результат проекта]",
         "tags": [
           "РЕАЛЬНЫЙ",
           "TILDA"
@@ -157,6 +160,7 @@
         "slug": "adventure-bro",
         "name": "Adventure Bro",
         "description": "Туры по Абхазии",
+        "resultLine": "[TODO: результат проекта]",
         "tags": [
           "РЕАЛЬНЫЙ",
           "TILDA"
@@ -186,9 +190,9 @@
         "slug": "eurasia",
         "name": "EURASIA",
         "description": "Магазин профкосметики",
+        "resultLine": "Концепт для клиента",
         "tags": [
-          "КЛИЕНТ",
-          "КОНЦЕПТ В КОДЕ"
+          "КОНЦЕПТ"
         ],
         "categories": [
           "stores",
@@ -201,6 +205,7 @@
         "slug": "intimate-aesthetics-center",
         "name": "Центр интимной эстетики",
         "description": "От логотипа до платформы",
+        "resultLine": "[TODO: результат проекта]",
         "tags": [
           "РЕАЛЬНЫЙ",
           "В РАБОТЕ"
@@ -265,7 +270,7 @@
     }
   },
   "services": {
-    "sectionLabel": "[02] УСЛУГИ И ЦЕНЫ",
+    "sectionLabel": "[03] УСЛУГИ И ЦЕНЫ",
     "meta": "ЦЕНЫ ОТКРЫТЫЕ · РАСЧЁТ ЗА 1 ДЕНЬ",
     "heading": {
       "pre": "Выберите ",
@@ -409,7 +414,7 @@
     ]
   },
   "process": {
-    "sectionLabel": "[03] ПРОЦЕСС",
+    "sectionLabel": "[05] ПРОЦЕСС",
     "meta": "10 ШАГОВ · БЕЗ СЮРПРИЗОВ",
     "heading": {
       "line1": "От первого сообщения",
