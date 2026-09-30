@@ -173,13 +173,13 @@
         "slug": "eurasia",
         "name": "EURASIA",
         "description": "Магазин профкосметики",
-        "resultLine": "Концепт для клиента. [TODO: EURASIA — реальный запущенный проект или концепт?]",
+        "resultLine": "Клиентский сайт 2024 года → ниже показан концепт-демо каталога в коде 2026 года",
         "tags": [
-          "КОНЦЕПТ"
+          "РЕАЛЬНЫЙ",
+          "CODE"
         ],
         "categories": [
-          "stores",
-          "concepts"
+          "stores"
         ],
         "cover": "/assets/cases/eurasia/desktop-01-home.jpg",
         "domain": null

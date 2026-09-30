@@ -173,13 +173,13 @@
         "slug": "eurasia",
         "name": "EURASIA",
         "description": "Professional cosmetics store",
-        "resultLine": "A concept made for a client. [TODO: EURASIA — a real live project or a concept?]",
+        "resultLine": "A live client website from 2024 → shown below is a 2026 coded catalog concept demo",
         "tags": [
-          "CONCEPT"
+          "LIVE",
+          "CODE"
         ],
         "categories": [
-          "stores",
-          "concepts"
+          "stores"
         ],
         "cover": "/assets/cases/eurasia/desktop-01-home.jpg",
         "domain": null
