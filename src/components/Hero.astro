@@ -46,9 +46,11 @@ const withLang = (href: string) => (href.startsWith('#') ? href : `/${lang}${hre
     </div>
 
     <div class="hero__photo-col">
-      <div class="hero__photo-frame">
-        <ProjectImage class="hero__photo" src="/assets/founder/hero-avatar.jpg" alt="Анастасия Девентейчик" sizes="(max-width: 899px) 70vw, 360px" />
-        <span class="hero__photo-tag mono">{hero.avatarSticker}</span>
+      <div class="hero__photo-polaroid">
+        <div class="hero__photo-frame">
+          <ProjectImage class="hero__photo" src="/assets/founder/hero-avatar.jpg" alt="Анастасия Девентейчик" sizes="(max-width: 899px) 70vw, 360px" />
+        </div>
+        <span class="hero__photo-caption mono">{hero.avatarSticker}</span>
       </div>
     </div>
   </div>
@@ -144,13 +146,19 @@ const withLang = (href: string) => (href.startsWith('#') ? href : `/${lang}${hre
     justify-content: center;
   }
 
-  .hero__photo-frame {
-    position: relative;
+  .hero__photo-polaroid {
     width: 100%;
     max-width: 320px;
+    background: var(--ink);
+    padding: 14px 14px 46px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--tomato);
+    transform: rotate(-2deg);
+  }
+
+  .hero__photo-frame {
     aspect-ratio: 4 / 5;
     background: var(--surface);
-    border: 1px solid var(--line);
+    overflow: hidden;
   }
 
   .hero__photo-frame :global(picture),
@@ -161,16 +169,11 @@ const withLang = (href: string) => (href.startsWith('#') ? href : `/${lang}${hre
     object-position: top center;
   }
 
-  .hero__photo-tag {
-    position: absolute;
-    left: -10px;
-    bottom: -14px;
-    background: var(--ink);
+  .hero__photo-caption {
+    display: block;
+    margin-top: 16px;
+    font-size: 12px;
     color: var(--dark);
-    padding: 8px 14px;
-    font-size: 11px;
-    box-shadow: 6px 6px 0 0 var(--tomato);
-    transform: rotate(-4deg);
   }
 
   @media (min-width: 900px) {
@@ -185,13 +188,14 @@ const withLang = (href: string) => (href.startsWith('#') ? href : `/${lang}${hre
     .hero__photo-col {
       justify-content: flex-end;
     }
-    .hero__photo-frame {
+    .hero__photo-polaroid {
       max-width: 480px;
+      padding: 18px 18px 54px;
     }
   }
 
   @media (min-width: 1400px) {
-    .hero__photo-frame {
+    .hero__photo-polaroid {
       max-width: 560px;
     }
   }
