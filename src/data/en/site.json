@@ -80,6 +80,18 @@
         "text": "Every block on the page answers a customer's question and leads to an inquiry."
       }
     ],
+    "numbers": [
+      {
+        "value": "10+",
+        "label": "PROJECTS FOR BUSINESSES AND EXPERTS",
+        "color": "lime"
+      },
+      {
+        "value": "3+",
+        "label": "YEARS FROM LOGOS TO STORES",
+        "color": "blue"
+      }
+    ],
     "trustLine": "WORKING OFFICIALLY: CONTRACT · INVOICE"
   },
   "work": {
