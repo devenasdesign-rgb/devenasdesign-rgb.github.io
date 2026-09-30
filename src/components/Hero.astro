@@ -203,14 +203,20 @@ const withLang = (href: string) => (href.startsWith('#') ? href : `/${lang}${hre
       padding-bottom: 64px;
     }
     .hero__inner {
-      grid-template-columns: 1.4fr 1fr;
+      grid-template-columns: 1.15fr 1fr;
       gap: 56px;
     }
     .hero__photo-col {
       justify-content: flex-end;
     }
     .hero__photo-frame {
-      max-width: 380px;
+      max-width: 480px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .hero__photo-frame {
+      max-width: 560px;
     }
   }
 </style>
