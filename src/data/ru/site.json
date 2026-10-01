@@ -95,7 +95,7 @@
     "trustLine": "РАБОТАЮ ОФИЦИАЛЬНО: САМОЗАНЯТАЯ · ДОГОВОР · ЧЕКИ"
   },
   "work": {
-    "sectionLabel": "[01] РАБОТЫ — 08 ПРОЕКТОВ",
+    "sectionLabel": "[01] РАБОТЫ — 06 ПРОЕКТОВ",
     "heading": {
       "line1": "Проекты, которые",
       "pre": "говорят ",
@@ -124,7 +124,7 @@
         "slug": "perfectmatch",
         "name": "Perfect Match",
         "description": "HR-консалтинг",
-        "resultLine": "[TODO: результат проекта]",
+        "resultLine": "",
         "tags": [
           "РЕАЛЬНЫЙ",
           "RU/EN",
@@ -140,7 +140,7 @@
         "slug": "ntguilty",
         "name": "NTGUILTY",
         "description": "Адвокаты по уголовным делам",
-        "resultLine": "[TODO: результат проекта]",
+        "resultLine": "",
         "tags": [
           "РЕАЛЬНЫЙ",
           "TILDA"
@@ -155,7 +155,7 @@
         "slug": "adventure-bro",
         "name": "Adventure Bro",
         "description": "Туры по Абхазии",
-        "resultLine": "[TODO: результат проекта]",
+        "resultLine": "",
         "tags": [
           "РЕАЛЬНЫЙ",
           "TILDA"
@@ -200,7 +200,7 @@
         "slug": "intimate-aesthetics-center",
         "name": "Центр интимной эстетики",
         "description": "От логотипа до платформы",
-        "resultLine": "[TODO: результат проекта]",
+        "resultLine": "",
         "tags": [
           "РЕАЛЬНЫЙ",
           "В РАБОТЕ"

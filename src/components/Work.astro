@@ -41,8 +41,12 @@ interface Props {
 }
 
 const { lang, work } = Astro.props;
-const mainItems = work.items.filter((item) => !item.categories.includes('concepts'));
-const conceptItems = work.items.filter((item) => item.categories.includes('concepts'));
+// Temporarily off the homepage grid while these two case pages get finished; the pages
+// themselves and their data stay untouched, so direct links and routing still work.
+const hiddenFromGrid = ['myaso-i-bulka', 'intimate-aesthetics-center'];
+const visibleItems = work.items.filter((item) => !hiddenFromGrid.includes(item.slug));
+const mainItems = visibleItems.filter((item) => !item.categories.includes('concepts'));
+const conceptItems = visibleItems.filter((item) => item.categories.includes('concepts'));
 const quoteFor = (slug: string) => reviews.find((r) => r.slug === slug)?.quote[lang];
 ---
 

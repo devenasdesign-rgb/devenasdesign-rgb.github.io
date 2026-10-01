@@ -95,7 +95,7 @@
     "trustLine": "WORKING OFFICIALLY: CONTRACT · INVOICE"
   },
   "work": {
-    "sectionLabel": "[01] WORK — 08 PROJECTS",
+    "sectionLabel": "[01] WORK — 06 PROJECTS",
     "heading": {
       "line1": "Projects that",
       "pre": "speak ",
@@ -124,7 +124,7 @@
         "slug": "perfectmatch",
         "name": "Perfect Match",
         "description": "HR consulting",
-        "resultLine": "[TODO: project outcome]",
+        "resultLine": "",
         "tags": [
           "LIVE",
           "RU/EN",
@@ -140,7 +140,7 @@
         "slug": "ntguilty",
         "name": "NTGUILTY",
         "description": "Criminal defense lawyers",
-        "resultLine": "[TODO: project outcome]",
+        "resultLine": "",
         "tags": [
           "LIVE",
           "TILDA"
@@ -155,7 +155,7 @@
         "slug": "adventure-bro",
         "name": "Adventure Bro",
         "description": "Abkhazia tours",
-        "resultLine": "[TODO: project outcome]",
+        "resultLine": "",
         "tags": [
           "LIVE",
           "TILDA"
@@ -200,7 +200,7 @@
         "slug": "intimate-aesthetics-center",
         "name": "Intimate Aesthetics Center",
         "description": "From a logo to a platform",
-        "resultLine": "[TODO: project outcome]",
+        "resultLine": "",
         "tags": [
           "LIVE",
           "IN PROGRESS"
