@@ -19,8 +19,8 @@ const avatar = 'file://' + path.join(pub, 'assets/avatar.jpg');
 const site = { ru: JSON.parse(readFileSync(path.join(root, 'src/data/ru/site.json'), 'utf8')), en: JSON.parse(readFileSync(path.join(root, 'src/data/en/site.json'), 'utf8')) };
 
 const copy = {
-  ru: { role: 'Веб-дизайнер Анастасия Девентейчик', slogan: ['Сайты, которые', 'работают на бизнес'], me: '← ЭТО Я', ribbon: 'Лендинги ✦ Многостраничные сайты ✦ Интернет-магазины ✦ Дизайн-макеты ✦ Лендинги ✦ Многостраничные сайты', case: '[ КЕЙС ]' },
-  en: { role: 'Web designer Anastasia Deventeichik', slogan: ['Websites that', 'work for business'], me: "← THAT'S ME", ribbon: 'Landing pages ✦ Multi-page websites ✦ Online stores ✦ Website design ✦ Landing pages ✦ Multi-page websites', case: '[ CASE STUDY ]' },
+  ru: { price: 'Лендинг от 45 000 ₽ за 14 дней<br>Многостраничный сайт от 70 000 ₽', role: 'Веб-дизайнер Анастасия Девентейчик', slogan: ['Сайты, которые', 'работают на бизнес'], me: '← ЭТО Я', ribbon: 'Лендинги ✦ Многостраничные сайты ✦ Интернет-магазины ✦ Дизайн-макеты ✦ Лендинги ✦ Многостраничные сайты', case: '[ КЕЙС ]' },
+  en: { price: 'Landing pages from $900 in 14 days<br>Multi-page sites from $1,400', role: 'Web designer Anastasia Deventeichik', slogan: ['Websites that', 'work for business'], me: "← THAT'S ME", ribbon: 'Landing pages ✦ Multi-page websites ✦ Online stores ✦ Website design ✦ Landing pages ✦ Multi-page websites', case: '[ CASE STUDY ]' },
 };
 
 const head = `<!doctype html><html><head><meta charset="utf-8">
@@ -40,15 +40,18 @@ html,body{background:#0e0e10;color:#f4f1ea;overflow:hidden;font-family:Onest,san
 </style></head><body>`;
 
 // ---------- шаблоны ----------
+// Превью ссылки повторяет первый экран главной: заголовок-ценность, цена и фото в полароиде.
+const heroPhoto = 'file://' + path.join(pub, 'assets/founder/hero-avatar.jpg');
 const ogHome = (lang) => {
   const c = copy[lang];
+  const h = site[lang].hero.heading;
   return {
     w: 1200, h: 630,
     html: `${head}<div class="lines"><i style="left:300px"></i><i style="left:600px"></i><i style="left:900px"></i></div>
-<div class="abs wm" style="left:24px;top:92px;width:1152px;font-size:196px">DEVENAS</div>
-<div class="abs card" style="left:868px;top:34px;width:214px"><img src="${avatar}"><span>${c.me}</span></div>
-<div class="abs" style="left:48px;top:322px"><div class="mono lime" style="font-size:20px;margin-bottom:18px">${c.role}</div>
-<div style="font:600 46px/1.12 Unbounded;letter-spacing:-.03em;max-width:820px">${c.slogan[0]} <span class="mark">${c.slogan[1]}</span></div></div>
+<div class="abs mono lime" style="left:48px;top:44px;font-size:20px">${c.role}</div>
+<div class="abs" style="left:48px;top:96px;width:720px;font:600 46px/1.14 Unbounded;letter-spacing:-.035em">${h.pre}<span class="mark" style="white-space:nowrap">${h.marker}</span>${h.post}</div>
+<div class="abs mono" style="left:48px;top:452px;font-size:21px;line-height:1.5;max-width:700px">${c.price}</div>
+<div class="abs card" style="left:812px;top:46px;width:318px"><img src="${heroPhoto}" style="aspect-ratio:4/5;object-position:top center"><span>${c.me}</span></div>
 <div class="abs rib" style="bottom:34px">${c.ribbon}</div></body></html>`,
   };
 };
